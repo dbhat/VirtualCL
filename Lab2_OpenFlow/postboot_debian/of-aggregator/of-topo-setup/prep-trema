@@ -1,0 +1,16 @@
+#!/bin/bash
+
+apt-get install libsqlite3-dev
+apt-get install libpcap0.8-dev
+chmod -R go+w /opt/trema-trema-f995284/tmp
+
+source /etc/profile.d/rvm.sh
+rvm use 1.8.7
+gem install bundler >> /tmp/install.log 
+gem install gli >> /tmp/install.log
+gem install rake >> /tmp/install.log
+#gem install Platform >> /tmp/install.log
+
+#/var/lib/gems/1.8/bin/bundle install --gemfile=/opt/trema-trema-f995284/Gemfile >> /tmp/install.log
+
+#/opt/trema-trema-f995284/build.rb >> /tmp/install.log

@@ -1,7 +1,0 @@
-<omlc id="switch" encoding="binary">
-  <collect url="tcp:emmy9.casa.umass.edu:3004" name="traffic">
-    <stream mp="tcp" interval="1">
-      <filter field="tcp_packet_size" operation="sum" rename="tcp_throughput" />
-    </stream>
-  </collect>
-</omlc>

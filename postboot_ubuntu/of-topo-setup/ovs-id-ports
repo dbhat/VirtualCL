@@ -1,0 +1,27 @@
+#!/usr/bin/python
+
+import sys
+import re
+
+portre = re.compile('^ (\d+)\(([a-z0-9]+)\): .*')
+
+ports = {}
+
+for l in sys.stdin:
+    m = portre.match(l)
+    if m != None:
+        ports[m.group(2)] = m.group(1)
+    
+ifs = {}
+
+f = open('/tmp/ifmap.tmp')
+
+for l in f:
+    iface, addr, rest = l.rstrip().split(' ', 2)
+    ifs[addr] = iface
+
+f.close()
+
+for pair in sys.argv[1:]:
+    ip, name = pair.split('=')
+    print "%s %s" % (name, ports[ifs[ip]])

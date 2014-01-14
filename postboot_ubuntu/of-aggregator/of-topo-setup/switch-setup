@@ -1,0 +1,11 @@
+#!/bin/bash
+
+/tmp/of-topo-setup/writeifmap3
+
+/tmp/of-topo-setup/prep-trema
+/tmp/of-topo-setup/ovs-start
+
+
+/tmp/of-topo-setup/find-interfaces 192.168.128.1 192.168.129.1 | while read iface; do
+    ovs-vsctl add-port br0 $iface < /dev/null
+done

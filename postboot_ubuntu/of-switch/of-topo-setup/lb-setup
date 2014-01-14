@@ -1,0 +1,23 @@
+#!/bin/sh
+
+mv /tmp/trema-trema-f995284/ /opt/
+ovs-vsctl del-br br0
+/tmp/of-topo-setup/prep-trema
+/tmp/of-topo-setup/ovs-start
+
+cp /usr/bin/trace-oml2 /usr/bin/trace
+cp /usr/bin/nmetrics-oml2 /usr/bin/nmetrics
+wget http://www.gpolab.bbn.com/experiment-support/OpenFlowExampleExperiment/ExoGENI/load-balancer.rb -O /root/load-balancer.rb
+
+INTERFACES="192.168.1.1 192.168.2.1 192.168.3.1"
+
+#create a file /tmp/ifmap containing eth1 192.168.1.1 mac
+/tmp/of-topo-setup/writeifmap3
+
+/tmp/of-topo-setup/find-interfaces $INTERFACES | while read iface; do
+    ovs-vsctl add-port br0 $iface < /dev/null
+done
+
+ovs-ofctl show tcp:127.0.0.1:6634 \
+    | /tmp/of-topo-setup/ovs-id-ports 192.168.1.1=outside 192.168.2.1=left 192.168.3.1=right \
+    > /tmp/portmap

@@ -1,0 +1,9 @@
+etc/openvswitch/bugtool-plugins
+usr/bin/ovs-appctl
+usr/bin/ovs-benchmark
+usr/bin/ovs-ofctl
+usr/bin/ovs-parse-leaks
+usr/bin/ovs-pki
+usr/bin/ovsdb-client
+usr/sbin/ovs-bugtool
+usr/share/openvswitch/scripts/ovs-bugtool-tc-class-show

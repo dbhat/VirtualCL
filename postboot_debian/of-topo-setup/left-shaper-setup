@@ -1,0 +1,19 @@
+#!/bin/bash
+
+/tmp/of-topo-setup/writeifmap
+
+ovs-vsctl add-br br0
+
+#ovs-vsctl set bridge br0 datapath_type=netdev
+#ovs-vsctl set-controller br0 tcp:127.0.0.1 ptcp:6634:127.0.0.1
+
+INTERFACES="192.168.4.1 192.168.2.2"
+
+/tmp/of-topo-setup/find-interfaces $INTERFACES | while read iface; do
+    ovs-vsctl add-port br0 $iface < /dev/null
+done
+#ovs-vsctl set Bridge br0 stp_enable=true
+
+echo outside `/tmp/of-topo-setup/find-interfaces 192.168.2.2` > /tmp/ifmap
+echo inside `/tmp/of-topo-setup/find-interfaces 192.168.4.1` >> /tmp/ifmap
+

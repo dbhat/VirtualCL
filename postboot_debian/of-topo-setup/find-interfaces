@@ -1,0 +1,16 @@
+#!/usr/bin/python
+
+import sys
+
+ifs = {}
+
+f = open('/tmp/ifmap.tmp')
+
+for l in f:
+    iface, addr, rest = l.rstrip().split(' ', 2)
+    ifs[addr] = iface
+
+f.close()
+
+for iface in sys.argv[1:]:
+    print ifs[iface]

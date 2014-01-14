@@ -1,6 +1,0 @@
-#!/bin/sh
-
-ovs-vsctl add-br br0
-#ovs-vsctl set bridge br0 datapath_type=netdev
-
-ovs-vsctl set-controller br0 tcp:127.0.0.1 ptcp:6634:127.0.0.1

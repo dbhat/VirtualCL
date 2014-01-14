@@ -1,0 +1,35 @@
+#!/bin/bash
+
+#wait until all interfaces are up and configured
+ethnum=$(ifconfig | grep 'Link encap:' | awk '{print $1}')
+while [[ "$ethnum" != *eth1* || "$ethnum" != *eth2* || "$ethnum" != *eth3* ]]; do
+        /usr/local/bin/neuca-netconf
+	sleep 10
+        ethnum=$(ifconfig | grep 'Link encap:' | awk '{print $1}')
+        echo $ethnum
+done
+
+
+linenum=0
+ifconfig | grep -e "Link enca" -e "inet addr" |grep -v "127.0" | grep -v "lo" | grep -v "eth0" | grep -v "addr:10." | while read line; do
+        if [ $((linenum)) -eq 0 ]
+        then
+             linenum=$((linenum+1))
+             continue
+        fi
+        if [ $((linenum%2)) -eq 0 ]
+        then
+                ip=$(echo $line | awk '{print $2}')
+        else
+                iface=$(echo $line | awk '{print $1}')
+                mac=$(echo $line | awk '{print $5}')
+        fi
+
+        if [ $((linenum % 2)) -eq 0 ]
+        then
+                ip=`expr substr $ip 6 11`
+                echo "$iface $ip $mac" >> /tmp/ifmap.tmp
+        fi
+        linenum=$((linenum+1))
+done
+

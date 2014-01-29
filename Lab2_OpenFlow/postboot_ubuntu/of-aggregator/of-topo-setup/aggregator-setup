@@ -1,7 +1,7 @@
 #!/bin/bash
 
-mv /tmp/trema-trema-f995284/ /opt/
-/tmp/of-topo-setup/prep-trema
+#mv /tmp/trema-trema-f995284/ /opt/
+#/tmp/of-topo-setup/prep-trema
 /tmp/of-topo-setup/ovs-start
 
 INTERFACES="192.168.4.2 192.168.5.2 192.168.6.1"
@@ -17,7 +17,5 @@ ovs-ofctl show tcp:127.0.0.1:6634 \
     > /tmp/portmap
 
 {
-    source /etc/profile.d/rvm.sh
-    rvm  use 1.8.7
-    /opt/trema-trema-f995284/trema run /tmp/aggregator/aggregator.rb
+    trema run /tmp/aggregator/aggregator.rb
 } > /tmp/trema-runlog 2>&1 &

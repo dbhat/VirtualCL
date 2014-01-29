@@ -2,7 +2,7 @@
 
 /tmp/of-topo-setup/writeifmap3
 
-/tmp/of-topo-setup/prep-trema
+#/tmp/of-topo-setup/prep-trema
 /tmp/of-topo-setup/ovs-start
 
 

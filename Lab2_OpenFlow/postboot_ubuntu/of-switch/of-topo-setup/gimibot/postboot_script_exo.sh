@@ -10,6 +10,3 @@ echo "---
 :environment: production
 :debug: false" > /etc/omf_rc/config.yml
 restart omf_rc
-rvm install ruby-1.8.7-p374
-rvm use 1.8.7
-gem install gli

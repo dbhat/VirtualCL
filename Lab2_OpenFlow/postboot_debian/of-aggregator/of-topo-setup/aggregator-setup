@@ -15,5 +15,5 @@ ovs-ofctl show tcp:127.0.0.1:6634 \
     > /tmp/portmap
 
 {
-    /opt/trema-trema-f995284/trema run /tmp/aggregator/aggregator.rb
+    trema run /tmp/aggregator/aggregator.rb
 } > /tmp/trema-runlog 2>&1 &

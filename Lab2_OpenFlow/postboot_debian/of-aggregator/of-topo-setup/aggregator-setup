@@ -1,19 +1,15 @@
 #!/bin/bash
-
 /tmp/of-topo-setup/ovs-start
-
-INTERFACES="$1 $2 $3"
+INTERFACES="$1 $2 $3 $4"
 #create a file /tmp/ifmap containig eth1 192.168.1.1 mac
 /tmp/of-topo-setup/writeifmap3
-
 /tmp/of-topo-setup/find-interfaces $INTERFACES | while read iface; do
     ovs-vsctl add-port br0 $iface < /dev/null
 done
-
-ovs-ofctl show tcp:127.0.0.1:6653 \
-    | /tmp/of-topo-setup/ovs-id-ports $1=left $2=right $3=inside \
+ovs-ofctl show tcp:127.0.0.1:6633 \
+    | /tmp/of-topo-setup/ovs-id-ports $1=left $2=right $3=inside $4=center\
     > /tmp/portmap
-
+source /etc/profile.d/rvm.sh
 {
     trema run /tmp/aggregator/aggregator.rb
 } > /tmp/trema-runlog 2>&1 &

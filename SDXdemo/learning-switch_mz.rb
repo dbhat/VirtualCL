@@ -31,20 +31,25 @@ class LearningSwitch < Controller
     puts "Start"
     @fdb = FDB.new
     @switches = {"GARack" => 0x06dc6c3be5666b00, "NWRack" => 0x6d66c3be5680000, "Internet2" => 0x6d60012e222636e, "SoX-SDX" => 0x13440b5031400, "StarLight" => 0x60eb69215a2f, "Sox-Rack" => 0x06d66c3be56cc500}
+
+    # Here we set the incoming ports for the SoX SDX switch. This will help with monitoring flows on this switch.
+    @i2    = 26 
+    @ornl  = 27
+    @esnet = 25
+     
   end
 
   def switch_ready dpid
-    # puts "Switch #{@switches.index(dpid)} (#{dpid.to_hex}) has signed in"
     puts "Switch #{@switches.key(dpid)} has signed in"
-    # info " datapath_id: #{ dpid.to_hex }"
     # send_message dpid, FeaturesRequest.new
+    add_periodic_timer_event(:query_stats, 10)
   end
 
   def query_stats()
     # send FlowStatsRequest to switch
     # and then receive the Flow Stats in function stats_reply
     # MZ: for now we might just want to count flows on the SoX SDX!
-    send_message(@my_switch,
+    send_message(@switches["NWRack"],
        FlowStatsRequest.new(
           :match => Match.new({:dl_type => 0x800, :nw_proto => 6}))
       )
@@ -53,7 +58,7 @@ class LearningSwitch < Controller
   def packet_in datapath_id, message
     return if message.macda.reserved?
     
-    puts "First new packet in from #{message.ipv4_saddr} on #{@switches.key(datapath_id)}"
+    # puts "First new packet in from #{message.ipv4_saddr} on #{@switches.key(datapath_id)}"
     @fdb.learn message.macsa, message.in_port
     port_no = @fdb.port_no_of( message.macda )
     if port_no
@@ -83,11 +88,14 @@ class LearningSwitch < Controller
 
     flow_count = message.stats.length
     if(flow_count != 0)
+      info "flow_count != 0"
       message.stats.each do | flow_msg |
+      # info "port: #{flow_msg.actions[0].port_number}" 
       # ***user change code from here**************
       # ***need to calculate average per flow throughput for each path***
       # ***and then save the results in @left_throughput and @right_throughput***
-      if(flow_msg.actions[0].port_number == @left)
+      # if(flow_msg.actions[0].port_number == @left)
+      if(flow_msg.actions[0].port_number == 13)
 	left_returned = 1
 	left_flow_count += 1
 	left_byte_count += flow_msg.byte_count
@@ -95,7 +103,7 @@ class LearningSwitch < Controller
         if flow_msg.duration_sec + flow_msg.duration_nsec/1000000000 != 0
           info "===left path flow #{left_flow_count.to_s} throughput: #{(flow_msg.byte_count/(flow_msg.duration_sec + flow_msg.duration_nsec/1000000000))} Bps"
         end
-        elsif (flow_msg.actions[0].port_number == @right)
+      elsif (flow_msg.actions[0].port_number == @right)
 	  right_returned = 1
 	  right_flow_count += 1
 	  right_byte_count += flow_msg.byte_count

@@ -46,10 +46,11 @@ class LearningSwitch < Controller
     # @switches = {"SLEG-1655" => , "NWIG-1750" => 0x6d66c3be5680000, "GTIG-1756" => 0x06dc6c3be5686b00, "SOXIG-1755" => 0x06db6c3be56cc500, "SOXIG-1756" => 0x06dc6c3be56cc500}
 
     # Here we set the incoming ports for the SoX SDX switch. This will help with monitoring flows on this switch.
-    @i2    = 26 
-    @ornl  = 27
-    @esnet = 25
-     
+    # @sleg-1655_slsdx = ?? 
+    @nwig-1750_slsdx   = 24
+    @gtig-1756_soxsdx  = 24
+    @soxig-1755_soxsdx = 24
+    @soxig-1756_soxsdx = 24
   end
 
   def switch_ready dpid
@@ -108,7 +109,7 @@ class LearningSwitch < Controller
       # ***need to calculate average per flow throughput for each path***
       # ***and then save the results in @left_throughput and @right_throughput***
       # if(flow_msg.actions[0].port_number == @left)
-      if(flow_msg.actions[0].port_number == 13)
+      if(flow_msg.actions[0].port_number == @nwig-1750_slsdx)
 	left_returned = 1
 	left_flow_count += 1
 	left_byte_count += flow_msg.byte_count

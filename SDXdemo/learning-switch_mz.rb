@@ -17,6 +17,17 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
 
+# Switches we're dealing with in this SDX demo
+# Name			dpid				Type		Controller
+# NWIG-1750		06:d6:6c:3b:e5:68:00:00		Learning	143.215.216.196:443
+# SLEG-1655						Learning	143.215.216.196:443
+# GTIG-1756		06:dc:6c:3b:e5:68:6b:00		Learning        143.215.216.196:443
+# SOXIG-1755		06:db:6c:3b:e5:6c:c5:00		Learning        143.215.216.196:443
+# SOXIG-1756		06:dc:6c:3b:e5:6c:c5:00		Learning        143.215.216.196:443
+# SLSDX			00:00:60:eb:69:21:5a:2f		Load-balance    143.215.218.24:443
+# SOXSDX		00:01:34:40:b5:03:14:00		Load-balance	143.215.218.24:443
+
+
 
 require "fdb"
 
@@ -30,7 +41,9 @@ class LearningSwitch < Controller
   def start
     puts "Start"
     @fdb = FDB.new
-    @switches = {"GARack" => 0x06dc6c3be5666b00, "NWRack" => 0x6d66c3be5680000, "Internet2" => 0x6d60012e222636e, "SoX-SDX" => 0x13440b5031400, "StarLight" => 0x60eb69215a2f, "Sox-Rack" => 0x06d66c3be56cc500}
+    @switches = {"GARack" => 0x06dc6c3be5666b00, "NWIG-1750" => 0x6d66c3be5680000, "Internet2" => 0x6d60012e222636e, "SOXSDX" => 0x13440b5031400, "SLSDX" => 0x60eb69215a2f, "Sox-Rack" => 0x06d66c3be56cc500}
+    # If all the switches are correctly up and running we should have the following set as learning switches:
+    # @switches = {"SLEG-1655" => , "NWIG-1750" => 0x6d66c3be5680000, "GTIG-1756" => 0x06dc6c3be5686b00, "SOXIG-1755" => 0x06db6c3be56cc500, "SOXIG-1756" => 0x06dc6c3be56cc500}
 
     # Here we set the incoming ports for the SoX SDX switch. This will help with monitoring flows on this switch.
     @i2    = 26 
@@ -101,7 +114,8 @@ class LearningSwitch < Controller
 	left_byte_count += flow_msg.byte_count
 	left_packet_count += flow_msg.packet_count
         if flow_msg.duration_sec + flow_msg.duration_nsec/1000000000 != 0
-          info "===left path flow #{left_flow_count.to_s} throughput: #{(flow_msg.byte_count/(flow_msg.duration_sec + flow_msg.duration_nsec/1000000000))} Bps"
+          # info "===left path flow #{left_flow_count.to_s} throughput: #{(flow_msg.byte_count/(flow_msg.duration_sec + flow_msg.duration_nsec/1000000000))} Bps"
+          info "OFPort#{flow_msg.actions[0].port_number.to_s} #{left_flow_count.to_s} #{left_byte_count} #{left_packet_count} #{(flow_msg.byte_count/(flow_msg.duration_sec + flow_msg.duration_nsec/1000000000))} Bps"
         end
       elsif (flow_msg.actions[0].port_number == @right)
 	  right_returned = 1

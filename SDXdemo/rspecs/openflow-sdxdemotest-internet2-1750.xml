@@ -1,0 +1,39 @@
+<?xml version="1.0" ?>
+<!-- Resources at AM:
+	URN: unspecified_AM_URN
+	URL: https://foam.net.internet2.edu:3626/foam/gapi/1
+ -->
+
+<rspec xmlns="http://www.geni.net/resources/rspec/3"
+       xmlns:xs="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:openflow="http://www.geni.net/resources/rspec/ext/openflow/3"
+       xs:schemaLocation="http://www.geni.net/resources/rspec/3
+           http://www.geni.net/resources/rspec/3/request.xsd
+           http://www.geni.net/resources/rspec/ext/openflow/3
+           http://www.geni.net/resources/rspec/ext/openflow/3/of-resv.xsd"
+       type="request">
+
+  <openflow:sliver description="OpenFlow resources at Internet 2 for SDX GEC19">
+		   
+
+    <openflow:controller url="tcp:143.215.216.196:443" type="primary" />
+
+    <openflow:group name="atla-1750">
+      <openflow:datapath component_id="urn:publicid:IDN+openflow:foam:foam.net.internet2.edu+datapath+06:d6:00:12:e2:22:63:6e" component_manager_id="urn:publicid:IDN+openflow:foam:foam.net.internet2.edu+authority+am" dpid="06:d6:00:12:e2:22:63:6e">
+        <openflow:port name="4" num="4"/>
+        <openflow:port name="23" num="23"/>
+      </openflow:datapath>
+    </openflow:group>
+
+
+    <openflow:match>
+      <openflow:use-group name="atla-1750" />
+      <openflow:packet>
+        <openflow:dl_type value="0x800,0x806"/>
+        <openflow:nw_dst value="192.168.10.0/24"/>
+        <openflow:nw_src value="192.168.10.0/24"/>
+      </openflow:packet>
+    </openflow:match>
+
+  </openflow:sliver>
+</rspec>

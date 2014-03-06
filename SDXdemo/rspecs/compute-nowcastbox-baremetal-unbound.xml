@@ -1,0 +1,17 @@
+<rspec type="request" generated_by="Flack" generated="2014-03-04T15:48:22Z" xsi:schemaLocation="http://www.geni.net/resources/rspec/3 http://www.geni.net/resources/rspec/3/request.xsd " xmlns:flack="http://www.protogeni.net/resources/rspec/ext/flack/1" xmlns:client="http://www.protogeni.net/resources/rspec/ext/client/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.geni.net/resources/rspec/3">
+  <node client_id="nowcast-box" exclusive="true">
+    <emulab:routable_control_ip xmlns:emulab="http://www.protogeni.net/resources/rspec/ext/emulab/1"/>
+    <sliver_type name="raw-pc">
+      <disk_image name="https://www.instageni.nysernet.org/image_metadata.php?uuid=a2b20a93-9e86-11e3-b58f-000000000000"/>
+    </sliver_type>
+    <interface client_id="nowcast-box:if0">
+    </interface>
+    <interface client_id="nowcast-box:if1">
+    </interface>
+  </node>
+  <link client_id="Lan-0">
+    <vlan:link_shared_vlan name="mesoscale-openflow" xmlns:vlan="http://www.geni.net/resources/rspec/ext/shared-vlan/1"/>
+    <interface_ref client_id="nowcast-box:if0"/>
+    <link_type name="lan"/>
+  </link>
+  </rspec>

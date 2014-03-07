@@ -7,7 +7,8 @@
 
 
 class Dumper < Controller
-  #add_timer_event :change_flows, 30, :periodic
+  # add_timer_event :change_flows, 30, :periodic
+  add_timer_event :query_stats, 10, :periodic
 
   def start
 	puts "Start"
@@ -41,16 +42,20 @@ class Dumper < Controller
 
   def switch_ready(dpid)
     	puts "Switch #{@switches.key(dpid)} has signed in"
+        if @switches.key(dpid) == "SLSDX"
+          puts "SLSDX switch"
+          @slsdx = dpid
+        end
    	# send_message dpid, FeaturesRequest.new
    	# add_periodic_timer_event(:query_stats, 10)
   end
 
   def query_stats()
      puts "Querying stats"
-     send_message(@switch1,
-		FlowStatsRequest.new())
-		    #:match => Match.new({dl_type => 0x800, nw_proto => 6}))
-                    #)
+     send_message(@slsdx,
+		  FlowStatsRequest.new(
+		    :match => Match.new({:dl_type => 0x800}))
+                 )
   end
 
   def switch_disconnected(dpid)
@@ -65,7 +70,21 @@ class Dumper < Controller
 	end
   end
 
+  def stats_reply (dpid, message)
+	puts "[stats_reply]---------------------------------"
+        flow_count = message.stats.length
+    	if(flow_count != 0)
+      		info "flow_count != 0"
+      		message.stats.each do | flow_msg |
+      		if(flow_msg.actions[0].port_number == @slsdx_i2)
+          		info "OFPort#{flow_msg.actions[0].port_number.to_s} #{(flow_msg.byte_count/(flow_msg.duration_sec + flow_msg.duration_nsec/1000000000))} Bps"
+		end
+                end
+        end
+  end
+
   def packet_in (dpid, message)
+    # send_message(dpid, FlowStatsRequest.new( :match => Match.new({:dl_type => 0x800, :nw_proto => 6})))
     #return if @switches.key(dpid).nil? or @ports[dpid].nil?
     # p}uts "Packet entered"
     # puts "First new packet in from #{message.ipv4_saddr} on #{@switches.key(dpid)}"

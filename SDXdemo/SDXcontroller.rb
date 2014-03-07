@@ -73,6 +73,8 @@ class Dumper < Controller
       # puts "1. First new packet in from #{message.ipv4_saddr} on #{@switches.key(dpid)}"
       if message.ipv4_saddr.to_s == "192.168.10.1"
         puts "2. First new packet in from #{message.ipv4_saddr} on #{@switches.key(dpid)} should be 192.168.10.1"
+        flow_mod dpid, message, 52
+        packet_out dpid, message, 52
       end 
       if message.ipv4_saddr.to_s == "192.168.10.2"
         puts "2. First new packet in from #{message.ipv4_saddr} on #{@switches.key(dpid)} should be 192.168.10.2"

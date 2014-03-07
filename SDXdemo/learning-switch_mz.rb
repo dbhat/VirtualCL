@@ -36,16 +36,16 @@ require "fdb"
 #
 class LearningSwitch < Controller
   add_timer_event :age_fdb, 600, :periodic
-  add_timer_event :query_stats, 10, :periodic
+  # add_timer_event :query_stats, 10, :periodic
 
 
 
   def start
     puts "Start"
     @fdb = FDB.new
-    @switches = {"GARack" => 0x06dc6c3be5666b00, "NWIG-1750" => 0x6d66c3be5680000, "Internet2" => 0x6d60012e222636e, "SOXSDX" => 0x13440b5031400, "SLSDX" => 0x60eb69215a2f, "Sox-Rack" => 0x06d66c3be56cc500}
+    # @switches = {"GARack" => 0x06dc6c3be5666b00, "NWIG-1750" => 0x6d66c3be5680000, "Internet2" => 0x6d60012e222636e, "SOXSDX" => 0x13440b5031400, "SLSDX" => 0x60eb69215a2f, "Sox-Rack" => 0x06d66c3be56cc500}
     # If all the switches are correctly up and running we should have the following set as learning switches:
-    # @switches = {"SLEG-1655" => , "NWIG-1750" => 0x6d66c3be5680000, "GTIG-1756" => 0x06dc6c3be5686b00, "SOXIG-1755" => 0x06db6c3be56cc500, "SOXIG-1756" => 0x06dc6c3be56cc500}
+    @switches = {"SLEG-1655" => 0x0001749975e3c000, "NWIG-1750" => 0x6d66c3be5680000, "GTIG-1756" => 0x06dc6c3be5686b00, "SOXIG-1755" => 0x06db6c3be56cc500, "SOXIG-1756" => 0x06dc6c3be56cc500, "Internet2" => 0x6d60012e222636e, "SOXSDX" => 0x13440b5031400}
 
     # Here we set the incoming ports for the SoX SDX switch. This will help with monitoring flows on this switch.
     # @sleg1655_slsdx = ?? 
@@ -74,7 +74,7 @@ class LearningSwitch < Controller
   def packet_in datapath_id, message
     return if message.macda.reserved?
     
-    puts "First new packet in from #{message.ipv4_saddr} on #{@switches.key(datapath_id)}"
+    puts "First new packet in from #{message.ipv4_saddr} on #{@switches.key(datapath_id)} Vlan ID: #{message.vlan_vid}"
     @fdb.learn message.macsa, message.in_port
     port_no = @fdb.port_no_of( message.macda )
     if port_no

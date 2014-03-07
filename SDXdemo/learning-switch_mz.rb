@@ -36,6 +36,8 @@ require "fdb"
 #
 class LearningSwitch < Controller
   add_timer_event :age_fdb, 600, :periodic
+  add_timer_event :query_stats, 10, :periodic
+
 
 
   def start
@@ -46,33 +48,33 @@ class LearningSwitch < Controller
     # @switches = {"SLEG-1655" => , "NWIG-1750" => 0x6d66c3be5680000, "GTIG-1756" => 0x06dc6c3be5686b00, "SOXIG-1755" => 0x06db6c3be56cc500, "SOXIG-1756" => 0x06dc6c3be56cc500}
 
     # Here we set the incoming ports for the SoX SDX switch. This will help with monitoring flows on this switch.
-    # @sleg-1655_slsdx = ?? 
-    @nwig-1750_slsdx   = 24
-    @gtig-1756_soxsdx  = 24
-    @soxig-1755_soxsdx = 24
-    @soxig-1756_soxsdx = 24
+    # @sleg1655_slsdx = ?? 
+    @nwig1750_slsdx   = 24
+    @gtig1756_soxsdx  = 24
+    @soxig1755_soxsdx = 24
+    @soxig1756_soxsdx = 24
   end
 
   def switch_ready dpid
     puts "Switch #{@switches.key(dpid)} has signed in"
     # send_message dpid, FeaturesRequest.new
-    add_periodic_timer_event(:query_stats, 10)
+    # add_periodic_timer_event(:query_stats, 10)
   end
 
   def query_stats()
     # send FlowStatsRequest to switch
     # and then receive the Flow Stats in function stats_reply
     # MZ: for now we might just want to count flows on the SoX SDX!
-    send_message(@switches["NWRack"],
+    send_message(@switches["NWIG-1750"],
        FlowStatsRequest.new(
-          :match => Match.new({:dl_type => 0x800, :nw_proto => 6}))
+          :match => Match.new({:dl_type => 0x800, :nw_proto => 1}))
       )
   end
 
   def packet_in datapath_id, message
     return if message.macda.reserved?
     
-    # puts "First new packet in from #{message.ipv4_saddr} on #{@switches.key(datapath_id)}"
+    puts "First new packet in from #{message.ipv4_saddr} on #{@switches.key(datapath_id)}"
     @fdb.learn message.macsa, message.in_port
     port_no = @fdb.port_no_of( message.macda )
     if port_no
@@ -109,7 +111,7 @@ class LearningSwitch < Controller
       # ***need to calculate average per flow throughput for each path***
       # ***and then save the results in @left_throughput and @right_throughput***
       # if(flow_msg.actions[0].port_number == @left)
-      if(flow_msg.actions[0].port_number == @nwig-1750_slsdx)
+      if(flow_msg.actions[0].port_number == @nwig1750_slsdx)
 	left_returned = 1
 	left_flow_count += 1
 	left_byte_count += flow_msg.byte_count

@@ -91,9 +91,17 @@ class Dumper < Controller
     if @switches.key(dpid) == "SLSDX"
       # puts "1. First new packet in from #{message.ipv4_saddr} on #{@switches.key(dpid)}"
       if message.ipv4_saddr.to_s == "192.168.10.1"
-        puts "2. First new packet in from #{message.ipv4_saddr} on #{@switches.key(dpid)} should be 192.168.10.1"
-        flow_mod dpid, message, 52
-        packet_out dpid, message, 52
+        puts "2. First new packet to #{message.ipv4_daddr} on #{@switches.key(dpid)} should be 192.168.10.101"
+        if message.ipv4_daddr.to_s == "192.168.10.101"
+          puts "Vlan ID: #{message.vlan_vid} in_port: #{message.in_port}"
+          flow_mod dpid, message, 50
+          packet_out dpid, message, 50
+        else
+          puts "2. First new packet in from #{message.ipv4_saddr} on #{@switches.key(dpid)} should be 192.168.10.1"
+          puts "Vlan ID: #{message.vlan_vid}"
+          flow_mod dpid, message, 52
+          packet_out dpid, message, 52
+        end
       end 
       if message.ipv4_saddr.to_s == "192.168.10.2"
         puts "2. First new packet in from #{message.ipv4_saddr} on #{@switches.key(dpid)} should be 192.168.10.2"
@@ -104,6 +112,21 @@ class Dumper < Controller
       if message.ipv4_saddr.to_s == "192.168.10.4"
         puts "2. First new packet in from #{message.ipv4_saddr} on #{@switches.key(dpid)} should be 192.168.10.4"
       end 
+     
+      if message.ipv4_saddr.to_s == "192.168.10.101"
+        puts "2. First new packet to #{message.ipv4_daddr} on #{@switches.key(dpid)} should be 192.168.10.1"
+        if message.ipv4_daddr.to_s == "192.168.10.1"
+          puts "Vlan ID: #{message.vlan_vid} in_port: #{message.in_port}"
+          flow_mod dpid, message, 1
+          packet_out dpid, message, 1
+        else
+          puts "2. First new packet in from #{message.ipv4_saddr} on #{@switches.key(dpid)} should be 192.168.10.1"
+          puts "Vlan ID: #{message.vlan_vid}"
+          flow_mod dpid, message, 52
+          packet_out dpid, message, 52
+        end
+      end 
+     
     end
     if @switches.key(dpid) == "SOXSDX"
       # puts "1. First new packet in from #{message.ipv4_daddr} on #{@switches.key(dpid)}"
@@ -126,16 +149,19 @@ class Dumper < Controller
     send_flow_mod_add(
 	dpid,
 	:match => Match.from( message ),
-	:actions => ActionOutput.new( :port => port_no),
+	# :actions => ActionOutput.new( :port => port_no),
+	:actions => [ActionOutput.new( :port => port_no), ActionSetVlanVid.new(1750)],
 	:idle_timeout => 2
     )
+    # ActionSetVlanVid.new( vlan_id )
   end
 
   def packet_out dpid, message, port_no
     send_packet_out(
 	dpid,
 	:packet_in => message,
-	:actions => ActionOutput.new( :port => port_no)
+	# :actions => ActionOutput.new( :port => port_no)
+	:actions => [ActionOutput.new( :port => port_no), ActionSetVlanVid.new(1750)],
 	)
   end
 end

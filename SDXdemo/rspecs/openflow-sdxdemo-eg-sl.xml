@@ -25,7 +25,7 @@ AM:         	URL: https://sl-hn.exogeni.net:3626/foam/gapi/2
 
     <openflow:match>
 
-      <openflow:use-group name="sl-eg-1756" />
+      <openflow:use-group name="sl-eg-1655" />
       <openflow:packet>
         <openflow:dl_vlan value="1655"/>
       </openflow:packet>

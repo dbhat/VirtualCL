@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+AM:         	URL: https://sl-hn.exogeni.net:3626/foam/gapi/2
+
+
+-->
+<rspec xmlns="http://www.geni.net/resources/rspec/3"
+       xmlns:xs="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:openflow="http://www.geni.net/resources/rspec/ext/openflow/3"
+       xs:schemaLocation="http://www.geni.net/resources/rspec/3
+           http://www.geni.net/resources/rspec/3/request.xsd
+           http://www.geni.net/resources/rspec/ext/openflow/3
+           http://www.geni.net/resources/rspec/ext/openflow/3/of-resv.xsd"
+       type="request">
+
+  <openflow:sliver description="GEC19 SDX DEMO ">
+    <openflow:controller url="tcp:143.215.216.196:443" type="primary" />
+
+    <openflow:group name="sl-eg-1655">
+     <openflow:datapath
+     component_id="urn:publicid:IDN+openflow:foam:sl-hn.exogeni.net+datapath+00:01:74:99:75:e3:c0:00"
+     component_manager_id="urn:publicid:IDN+openflow:foam:sl-hn.exogeni.net+authority+am"
+     dpid="00:01:74:99:75:e3:c0:00"/>
+    </openflow:group>
+
+    <openflow:match>
+
+      <openflow:use-group name="sl-eg-1756" />
+      <openflow:packet>
+        <openflow:dl_vlan value="1655"/>
+      </openflow:packet>
+
+    </openflow:match>
+
+  </openflow:sliver>
+
+</rspec>
+

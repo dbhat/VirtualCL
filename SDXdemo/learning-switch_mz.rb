@@ -45,7 +45,7 @@ class LearningSwitch < Controller
     @fdb = FDB.new
     # @switches = {"GARack" => 0x06dc6c3be5666b00, "NWIG-1750" => 0x6d66c3be5680000, "Internet2" => 0x6d60012e222636e, "SOXSDX" => 0x13440b5031400, "SLSDX" => 0x60eb69215a2f, "Sox-Rack" => 0x06d66c3be56cc500}
     # If all the switches are correctly up and running we should have the following set as learning switches:
-    @switches = {"SLEG-1655" => 0x0001749975e3c000, "NWIG-1750" => 0x6d66c3be5680000, "GTIG-1756" => 0x06dc6c3be5686b00, "SOXIG-1755" => 0x06db6c3be56cc500, "SOXIG-1756" => 0x06dc6c3be56cc500, "Internet2" => 0x6d60012e222636e, "SOXSDX" => 0x13440b5031400}
+    @switches = {"SLEG-1655" => 0x0001749975e3c000, "NWIG-1750" => 0x6d66c3be5680000, "GTIG-1756" => 0x06dc6c3be5666b00, "SOXIG-1755" => 0x06db6c3be56cc500, "SOXIG-1756" => 0x06dc6c3be56cc500, "Internet2" => 0x6d60012e222636e, "SOXSDX" => 0x13440b5031400}
 
     # Here we set the incoming ports for the SoX SDX switch. This will help with monitoring flows on this switch.
     # @sleg1655_slsdx = ?? 

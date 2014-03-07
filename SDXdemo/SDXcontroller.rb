@@ -72,7 +72,31 @@ class Dumper < Controller
     if @switches.key(dpid) == "SLSDX"
       # puts "1. First new packet in from #{message.ipv4_saddr} on #{@switches.key(dpid)}"
       if message.ipv4_saddr.to_s == "192.168.10.1"
-        puts "2. First new packet in from #{message.ipv4_saddr} on #{@switches.key(dpid)}"
+        puts "2. First new packet in from #{message.ipv4_saddr} on #{@switches.key(dpid)} should be 192.168.10.1"
+      end 
+      if message.ipv4_saddr.to_s == "192.168.10.2"
+        puts "2. First new packet in from #{message.ipv4_saddr} on #{@switches.key(dpid)} should be 192.168.10.2"
+      end 
+      if message.ipv4_saddr.to_s == "192.168.10.3"
+        puts "2. First new packet in from #{message.ipv4_saddr} on #{@switches.key(dpid)} should be 192.168.10.3"
+      end 
+      if message.ipv4_saddr.to_s == "192.168.10.4"
+        puts "2. First new packet in from #{message.ipv4_saddr} on #{@switches.key(dpid)} should be 192.168.10.4"
+      end 
+    end
+    if @switches.key(dpid) == "SOXSDX"
+      # puts "1. First new packet in from #{message.ipv4_daddr} on #{@switches.key(dpid)}"
+      if message.ipv4_daddr.to_s == "192.168.10.1"
+        puts "2. First new packet out to #{message.ipv4_daddr} on #{@switches.key(dpid)} should be 192.168.10.1"
+      end 
+      if message.ipv4_daddr.to_s == "192.168.10.2"
+        puts "2. First new packet out to #{message.ipv4_daddr} on #{@switches.key(dpid)} should be 192.168.10.2"
+      end 
+      if message.ipv4_daddr.to_s == "192.168.10.3"
+        puts "2. First new packet out to #{message.ipv4_daddr} on #{@switches.key(dpid)} should be 192.168.10.3"
+      end 
+      if message.ipv4_daddr.to_s == "192.168.10.4"
+        puts "2. First new packet out to #{message.ipv4_daddr} on #{@switches.key(dpid)} should be 192.168.10.4"
       end 
     end
   end

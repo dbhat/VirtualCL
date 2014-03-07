@@ -15,27 +15,34 @@
 
   <openflow:sliver description="OpenFlow resources at SoX for SDX demo">
 
-    <openflow:controller url="tcp:143.215.216.196:443" type="primary" />
+    <openflow:controller url="tcp:143.215.218.24:443" type="primary" />
 
-    <openflow:group name="SoX-1750">
+    <openflow:group name="SoX-SDXDemo">
       <openflow:datapath component_id="urn:publicid:IDN+openflow:foam:foam.sox.net+datapath+00:01:34:40:b5:03:14:00" component_manager_id="urn:publicid:IDN+openflow:foam:foam.sox.net+authority+am">
         <openflow:port num="17"/> <!-- to I2 -->
         <!-- <openflow:port name="18" num="18"/> --> <!-- to other SoX siwtches -->
+        <openflow:port num="25"/> <!-- to 1651 ESNet-->
+        <openflow:port num="26"/> <!-- to 1649 I2 -->
+        <openflow:port num="27"/> <!-- to 1650 ORNL -->
         <openflow:port num="52"/> <!-- to SoX rack -->
-        <openflow:port num="53"/> <!-- to Clemson -->
         <openflow:port num="63"/> <!-- to SoX test point -->
-        <openflow:port num="64"/> <!-- to GT -->
       </openflow:datapath>
     </openflow:group>
 
     <!-- To Internet2 ATLA, Gatech IG, and SoX 10.17.55.0/24 test point --> 
     <openflow:match>
-      <openflow:use-group name="SoX-1750" />
+      <openflow:use-group name="SoX-SDXDemo" />
       <openflow:packet>
         <openflow:dl_vlan value="1750"/>
         <openflow:dl_type value="0x800,0x806"/>
         <openflow:nw_dst value="192.168.10.0/24"/>
         <openflow:nw_src value="192.168.10.0/24"/>
+      </openflow:packet>
+    </openflow:match>
+    <openflow:match>
+      <openflow:use-group name="SoX-SDXDemo" />
+      <openflow:packet>
+        <openflow:dl_vlan value="1649, 1650, 1651, 1755"/>
       </openflow:packet>
     </openflow:match>
 

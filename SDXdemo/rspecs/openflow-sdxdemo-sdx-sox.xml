@@ -1,0 +1,43 @@
+<?xml version="1.0" ?>
+<!-- Resources at AM:
+	URN: unspecified_AM_URN
+	URL: https://foam.sox.net:3626/foam/gapi/1
+ -->
+
+<rspec xmlns="http://www.geni.net/resources/rspec/3"
+       xmlns:xs="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:openflow="http://www.geni.net/resources/rspec/ext/openflow/3"
+       xs:schemaLocation="http://www.geni.net/resources/rspec/3
+           http://www.geni.net/resources/rspec/3/request.xsd
+           http://www.geni.net/resources/rspec/ext/openflow/3
+           http://www.geni.net/resources/rspec/ext/openflow/3/of-resv.xsd"
+       type="request">
+
+  <openflow:sliver description="OpenFlow resources at SoX for SDX demo">
+
+    <openflow:controller url="tcp:143.215.216.196:443" type="primary" />
+
+    <openflow:group name="SoX-1750">
+      <openflow:datapath component_id="urn:publicid:IDN+openflow:foam:foam.sox.net+datapath+00:01:34:40:b5:03:14:00" component_manager_id="urn:publicid:IDN+openflow:foam:foam.sox.net+authority+am">
+        <openflow:port num="17"/> <!-- to I2 -->
+        <!-- <openflow:port name="18" num="18"/> --> <!-- to other SoX siwtches -->
+        <openflow:port num="52"/> <!-- to SoX rack -->
+        <openflow:port num="53"/> <!-- to Clemson -->
+        <openflow:port num="63"/> <!-- to SoX test point -->
+        <openflow:port num="64"/> <!-- to GT -->
+      </openflow:datapath>
+    </openflow:group>
+
+    <!-- To Internet2 ATLA, Gatech IG, and SoX 10.17.55.0/24 test point --> 
+    <openflow:match>
+      <openflow:use-group name="SoX-1750" />
+      <openflow:packet>
+        <openflow:dl_vlan value="1750"/>
+        <openflow:dl_type value="0x800,0x806"/>
+        <openflow:nw_dst value="192.168.10.0/24"/>
+        <openflow:nw_src value="192.168.10.0/24"/>
+      </openflow:packet>
+    </openflow:match>
+
+  </openflow:sliver>
+</rspec>

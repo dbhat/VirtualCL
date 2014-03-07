@@ -1,0 +1,60 @@
+nriga@pella:~/sdxdemo$ omni.py createsliver sdxdemo -a
+https://foam-oess-stage.grnoc.iu.edu:3626/foam/gapi/2
+oess-gpo2chic-via-atla.rspec 
+14:19:58 INFO     omni: Loading agg_nick_cache file
+'/home/nriga/.gcf/agg_nick_cache'
+14:19:58 INFO     omni: Loading config file /home/nriga/.gcf/omni_config
+14:19:58 INFO     omni: Setting option useSliceMembers based on omni_config
+setting
+14:19:58 INFO     omni: Using control framework portal
+14:19:58 INFO     omni: Member Authority is https://ch.geni.net/MA (from config)
+14:19:58 INFO     omni: Slice Authority is https://ch.geni.net/SA (from config)
+14:19:58 INFO     omni: Slice
+urn:publicid:IDN+ch.geni.net:SDXGEC19+slice+sdxdemo expires on 2014-03-28
+23:59:59 UTC
+14:19:58 INFO     omni: Creating sliver(s) from rspec file
+oess-gpo2chic-via-atla.rspec for slice
+urn:publicid:IDN+ch.geni.net:SDXGEC19+slice+sdxdemo
+14:20:00 INFO     omni: Got return from CreateSliver for slice sdxdemo at
+https://foam-oess-stage.grnoc.iu.edu:3626/foam/gapi/2:
+14:20:00 INFO     omni: <!-- Reserved resources for:
+  Slice: sdxdemo
+  at AM:
+  URN: unspecified_AM_URN
+  URL: https://foam-oess-stage.grnoc.iu.edu:3626/foam/gapi/2
+ -->
+14:20:00 INFO     omni: <rspec  xmlns="http://www.geni.net/resources/rspec/3"
+      xmlns:xs="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:oess="http://bssoftworks.com/geni/ext/circuit/1"
+      xs:schemaLocation="http://www.geni.net/rspec/3/manifest.xsd
+          http://www.geni.net/resources/rspec/3/manifest.xsd
+          http://bssoftworks.com/geni/ext/circuit/1
+          http://geni.bssoftworks.com/rspec/ext/circuit/1/request.xsd"
+      type="manifest">
+
+<oess:circuit>
+  <oess:description>AL2S SDX GEC19 Demo </oess:description>
+  <oess:bandwidth mbps="1000" />
+  <oess:primaryPath>
+    <oess:link
+urn="urn:publicid:IDN+oess:foam:nddi+link+I2-ATLA-CHIC-100GE-07740" />
+  </oess:primaryPath>
+  <oess:endpoints>
+    <oess:interface
+    urn="urn:publicid:IDN+oess:foam:nddi+sdn-sw.atla.net.internet2.edu+e5/2"
+vlan="1649" />
+    <oess:interface
+    urn="urn:publicid:IDN+oess:foam:nddi+sdn-sw.star.net.internet2.edu+e5/2"
+vlan="1709" />
+  </oess:endpoints>
+</oess:circuit>
+
+</rspec>
+
+14:20:01 INFO     omni:  ------------------------------------------------------
+14:20:01 INFO     omni:  Completed createsliver:
+Args: createsliver sdxdemo oess-gpo2chic-via-atla.rspec
+
+  Result Summary: Got Reserved resources RSpec from
+foam-oess-stage-grnoc-iu-edu-3626-foam-gapi-2 
+14:20:01 INFO     omni:  ======================================================

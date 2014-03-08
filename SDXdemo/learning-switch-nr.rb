@@ -76,7 +76,7 @@ class LearningSwitch < Controller
     
     puts "First new packet in from #{message.ipv4_saddr} on #{@switches.key(datapath_id)} Vlan ID: #{message.vlan_vid}"
     @fdb.learn datapath_id+message.macsa, message.in_port
-    port_no = @fdb.port_no_of( datapath_id+message.macda )
+    port_no = @fdb.port_no_of( datapath_id.to_s +message.macda.to_s )
     if port_no
       puts "Found port #{port_no}"
       flow_mod datapath_id, message, port_no

@@ -75,12 +75,14 @@ class LearningSwitch < Controller
     return if message.macda.reserved?
     
     puts "First new packet in from #{message.ipv4_saddr} on #{@switches.key(datapath_id)} Vlan ID: #{message.vlan_vid}"
-    @fdb.learn message.macsa, message.in_port
-    port_no = @fdb.port_no_of( message.macda )
+    @fdb.learn datapath_id+message.macsa, message.in_port
+    port_no = @fdb.port_no_of( datapath_id+message.macda )
     if port_no
+      puts "Found port #{port_no}"
       flow_mod datapath_id, message, port_no
       packet_out datapath_id, message, port_no
     else
+      puts "Flood found port "
       flood datapath_id, message
     end
   end

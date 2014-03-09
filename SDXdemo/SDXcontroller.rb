@@ -78,6 +78,12 @@ class Dumper < Controller
 	puts "[stats_reply]---------------------------------"
       	message.stats.each do | flow_msg |
       		if(flow_msg.actions[0].port_number == @sl_nwig1750)
+                        p "Port 1====================================="
+                        p flow_msg.match.to_s
+			p flow_msg.actions.to_s
+		end
+      		if(flow_msg.actions[0].port_number == @sl_sleg1655)
+                        p "Port 50====================================="
                         p flow_msg.match.to_s
 			p flow_msg.actions.to_s
 		end
@@ -121,43 +127,41 @@ class Dumper < Controller
     #return if @switches.key(dpid).nil? or @ports[dpid].nil?
     # puts "First new packet in from #{message.ipv4_saddr} on #{@switches.key(dpid)}"
     if @switches.key(dpid) == "SLSDX"
-      # puts "1. First new packet in from #{message.ipv4_saddr} on #{@switches.key(dpid)}"
+      # puts "SLSDX: 1. First new packet in from #{message.ipv4_saddr} on #{@switches.key(dpid)}"
       if message.ipv4_saddr.to_s == "192.168.10.1"
-        puts "2. First new packet to #{message.ipv4_daddr} on #{@switches.key(dpid)} should be 192.168.10.101"
         if message.ipv4_daddr.to_s == "192.168.10.101"
+          puts "SLSDX: 2. First new packet to #{message.ipv4_daddr} on #{@switches.key(dpid)} should be 192.168.10.101"
           puts "Vlan ID: #{message.vlan_vid} in_port: #{message.in_port}"
-          flow_mod dpid, message, 50
-          packet_out dpid, message, 50
+          flow_mod dpid, message, @sl_sleg1655, 1655
+          packet_out dpid, message, @sl_sleg1655, 1655
         else
-          puts "2. First new packet in from #{message.ipv4_saddr} on #{@switches.key(dpid)} should be 192.168.10.1"
+          puts "SLSDX: 2. First new packet in from #{message.ipv4_saddr} on #{@switches.key(dpid)} should be 192.168.10.1"
           puts "Vlan ID: #{message.vlan_vid}"
-          flow_mod dpid, message, 52 
-          packet_out dpid, message, 52
+          flow_mod dpid, message, @sox_soxig1755, 1750 
+          packet_out dpid, message, @sox_soxig1755, 1750
         end
       end 
       if message.ipv4_saddr.to_s == "192.168.10.2"
-        puts "2. First new packet in from #{message.ipv4_saddr} on #{@switches.key(dpid)} should be 192.168.10.2"
+        puts "SLSDX: 2. First new packet in from #{message.ipv4_saddr} on #{@switches.key(dpid)} should be 192.168.10.2"
       end 
       if message.ipv4_saddr.to_s == "192.168.10.3"
-        puts "2. First new packet in from #{message.ipv4_saddr} on #{@switches.key(dpid)} should be 192.168.10.3"
+        puts "SLSDX: 2. First new packet in from #{message.ipv4_saddr} on #{@switches.key(dpid)} should be 192.168.10.3"
       end 
       if message.ipv4_saddr.to_s == "192.168.10.4"
-        puts "2. First new packet in from #{message.ipv4_saddr} on #{@switches.key(dpid)} should be 192.168.10.4"
+        puts "SLSDX: 2. First new packet in from #{message.ipv4_saddr} on #{@switches.key(dpid)} should be 192.168.10.4"
       end 
      
       if message.ipv4_saddr.to_s == "192.168.10.101"
-        puts "2. First new packet to #{message.ipv4_daddr} on #{@switches.key(dpid)} should be 192.168.10.1"
+        puts "SLSDX: 2. First new packet to #{message.ipv4_daddr} on #{@switches.key(dpid)} should be 192.168.10.1"
         if message.ipv4_daddr.to_s == "192.168.10.1"
           puts "Vlan ID: #{message.vlan_vid} in_port: #{message.in_port}"
-          # flow_mod dpid, message, @sl_nwig1750.to_i
-          flow_mod dpid, message, 1
-          # packet_out dpid, message, @sl_nwig1750.to_i
-          packet_out dpid, message, 1
+          flow_mod dpid, message, @sl_nwig1750, 1750 
+          packet_out dpid, message, @sl_nwig1750, 1750
         else
-          puts "2. First new packet in from #{message.ipv4_saddr} on #{@switches.key(dpid)} should be 192.168.10.1"
+          puts "SLSDX: 2. First new packet in from #{message.ipv4_saddr} on #{@switches.key(dpid)} should be 192.168.10.1"
           puts "Vlan ID: #{message.vlan_vid}"
-          flow_mod dpid, message, 52
-          packet_out dpid, message, 52
+          flow_mod dpid, message, @sox_soxig1755, 1755
+          packet_out dpid, message, @sox_soxig1755, 1755
         end
       end 
      
@@ -184,23 +188,24 @@ class Dumper < Controller
     end
   end
 
-  def flow_mod dpid, message, port_no
+  def flow_mod dpid, message, port_no, vlan_id
     send_flow_mod_add(
 	dpid,
 	:match => Match.from( message ),
 	# :actions => ActionOutput.new( :port => port_no),
-	:actions => [ActionOutput.new( :port => port_no), ActionSetVlanVid.new(1655)],
+	# :actions => [ActionOutput.new( :port => port_no), ActionSetVlanVid.new(1655)],
+	:actions => [ActionOutput.new(port_no), ActionSetVlanVid.new(vlan_id)],
 	:idle_timeout => 2
     )
     # ActionSetVlanVid.new( vlan_id )
   end
 
-  def packet_out dpid, message, port_no
+  def packet_out dpid, message, port_no, vlan_id
     send_packet_out(
 	dpid,
 	:packet_in => message,
 	# :actions => ActionOutput.new( :port => port_no),
-	:actions => [ActionOutput.new( :port => port_no), ActionSetVlanVid.new(1655)],
+	:actions => [ActionOutput.new(port_no), ActionSetVlanVid.new(vlan_id)],
 	)
   end
 end

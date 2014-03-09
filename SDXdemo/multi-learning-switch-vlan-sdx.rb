@@ -38,6 +38,12 @@ class MultiLearningSwitch < Controller
     end
 
     @switches = {"SLSDX" => 0x000060eb69215a2f, "SOXSDX" => 0x00013440b5031400}
+
+    @radars_nw = ["192.168.10.1", "192.168.10.2", "192.168.10.3", "192.168.10.4"]
+    @radars_sl = ["192.168.10.101", "192.168.10.102", "192.168.10.103", "192.168.10.104"]
+    @nowcastbox = ["192.168.10.10"]
+
+    @path = "I2"  # Options are I2, ORNL, or ESNET are the other two options
   end
 
   def switch_ready dpid
@@ -59,6 +65,7 @@ class MultiLearningSwitch < Controller
     fdb.learn message.macsa, message.in_port
     port_no = fdb.port_no_of( message.macda )
     vlan_id = get_vlan_id  message, datapath_id, port_no 
+    port_no, vlan_id = get_out_port datapath_id, message
     if port_no
       puts "#{@switches.key(datapath_id)}: #{message.macda} lives at #{port_no}"
       flow_mod datapath_id, message, port_no, vlan_id
@@ -80,6 +87,55 @@ class MultiLearningSwitch < Controller
   ##############################################################################
   private
   ##############################################################################
+
+
+  def get_out_port datapath_id, message
+    srcip = get_src_ip message
+    dstip = get_dst_ip message 
+    if srcip and dstip
+      if radar? srcip and nowcast? dstip
+        puts "From Radar to nowcast"
+        puts @switches.key(datapath_id)
+        if @switches.key(datapath_id) == "SLSDX"
+           if @path == "I2"
+             puts "52, 1709"
+             return 52, 1709
+           elsif @path == "ORNL"
+             puts "4, 1650"
+             return 4, 1650
+           else
+             puts "4, 1651"
+             return 4, 1651
+           end 
+        end
+        if @switches.key(datapath_id) == "SOXSDX"
+           puts "52, 1755"
+           return 52, 1755
+        end
+      end
+      if nowcast? srcip and radar? dstip
+        puts "From nowcast to radar"
+        puts @switches.key(datapath_id)
+        if @switches.key(datapath_id) == "SLSDX"
+           puts "50, 1655"
+           return 50, 1655
+        end
+        if @switches.key(datapath_id) == "SOXSDX"
+           if @path == "I2"
+             puts "26, untagged "
+             return 26
+           elsif @path == "ORNL"
+             puts "27, 1650"
+             return 27, 1650
+           else
+             puts "25, 1651"
+             return 25, 1651
+           end 
+        end
+ 
+      end
+    end
+  end
 
   def get_vlan_id message, datapath_id, port_no
     if message.vlan_vid == 1655
@@ -124,8 +180,43 @@ class MultiLearningSwitch < Controller
   def flood datapath_id, message, vlan_id
     packet_out datapath_id, message, OFPP_FLOOD, vlan_id
   end
-end
 
+  def get_src_ip message
+    ipsrc = ""
+    if message.arp?
+      ipsrc = message.arp_spa
+    else
+      if message.ipv4?
+        ipsrc = message.ipv4_saddr
+      end
+    end
+  end
+
+  def get_dst_ip message
+    ipsrc = ""
+    if message.arp?
+      ipsrc = message.arp_tpa
+    else
+      if message.ipv4?
+        ipsrc = message.ipv4_daddr
+      end
+    end
+  end
+  
+  def radar? ipaddr
+    if @radars_nw.include? ipaddr.to_s or @radars_sl.include? ipaddr.to_s 
+      return true
+    end
+    return false
+  end
+
+  def nowcast? ipaddr
+    if @nowcastbox.include? ipaddr.to_s
+      return true
+    end
+    return false
+  end
+end
 
 ### Local variables:
 ### mode: Ruby

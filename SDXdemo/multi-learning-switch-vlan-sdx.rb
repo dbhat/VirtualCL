@@ -20,9 +20,7 @@
 
 $LOAD_PATH << File.join( File.dirname( __FILE__ ), "../learning_switch/" )
 
-
 require "fdb"
-
 
 #
 # A OpenFlow controller class that emulates multiple layer-2 switches.
@@ -78,7 +76,7 @@ class MultiLearningSwitch < Controller
     end
     fdb.learn message.macsa, message.in_port
     port_no = fdb.port_no_of( message.macda )
-    vlan_id = get_vlan_id  message, datapath_id, port_no 
+    vlan_id = get_vlan_id  message, datapath_id, port_no  # MZ: do we really need that line? vlan_id gets overwritten in the next line!
     port_no, vlan_id = get_out_port datapath_id, message
     if port_no
       puts "#{@switches.key(datapath_id)}: #{message.macda} lives at #{port_no}"
@@ -140,6 +138,29 @@ class MultiLearningSwitch < Controller
   private
   ##############################################################################
 
+  # This should be a function that determines what path a packet should take 
+  # depending its source and dest IP address.
+  #
+  # def get_path hostip
+  # if (radar[0]? hostip || radar[1]? hostip) and nowcast? dstip
+  #   send out ESNET  
+  # elsif (radar[0]? srcip || radar[1]? srcip) and nowcast? dstip
+  #   send out I2
+  # end
+
+  def get_path hostip, datapath_id
+    a = 0
+    case a
+    when 0
+      if @switches.key(datapath_id) == "SLSDX"
+        return "ESNET"
+      elsif @switches.key(datapath_id) == "SOXSDX"
+        return  "I2"
+      end
+    else
+      puts "WARNING: Case not defined!!"
+    end
+  end
 
   def get_out_port datapath_id, message
     srcip = get_src_ip message
@@ -149,10 +170,12 @@ class MultiLearningSwitch < Controller
         puts "From Radar to nowcast"
         puts @switches.key(datapath_id)
         if @switches.key(datapath_id) == "SLSDX"
-           if @path == "I2"
+           sdx_path = get_path srcip, datapath_id
+	   puts "SLSDX path #{sdx_path}"
+           if sdx_path == "I2"
              puts "52, 1709"
              return 52, 1709
-           elsif @path == "ORNL"
+           elsif sdx_path == "ORNL"
              puts "4, 1650"
              return 4, 1650
            else
@@ -173,10 +196,12 @@ class MultiLearningSwitch < Controller
            return 50, 1655
         end
         if @switches.key(datapath_id) == "SOXSDX"
-           if @path == "I2"
+           sdx_path = get_path dstip, datapath_id
+	   puts "SOXSDX path #{sdx_path}"
+           if sdx_path == "I2"
              puts "26, untagged "
              return 26
-           elsif @path == "ORNL"
+           elsif sdx_path == "ORNL"
              puts "27, 1650"
              return 27, 1650
            else
@@ -184,7 +209,6 @@ class MultiLearningSwitch < Controller
              return 25, 1651
            end 
         end
- 
       end
     end
   end
@@ -227,7 +251,6 @@ class MultiLearningSwitch < Controller
       :actions => actions.push(ActionOutput.new( :port => port_no ))
     )
   end
-
 
   def flood datapath_id, message, vlan_id
     packet_out datapath_id, message, OFPP_FLOOD, vlan_id

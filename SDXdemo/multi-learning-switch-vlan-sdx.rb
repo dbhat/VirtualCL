@@ -43,13 +43,27 @@ class MultiLearningSwitch < Controller
     @radars_sl = ["192.168.10.101", "192.168.10.102", "192.168.10.103", "192.168.10.104"]
     @nowcastbox = ["192.168.10.10"]
 
-    @path = "I2"  # Options are I2, ORNL, or ESNET are the other two options
+    @path = "ESNET"  # Options are I2, ORNL, or ESNET are the other two options
+
+    # Here we set the incoming ports for the SoX SDX switch. This will help with monitoring flows on this switch.
+    @soxsdx_i2      = 26 
+    @soxsdx_ornl    = 27
+    @soxsdx_esnet   = 25
+
+    # Here we set the incoming ports for the SL SDX switch.
+    @slsdx_i2       = 52 
+    @sl_ornl        = 4
+    @sl_esnet       = 4
   end
 
   def switch_ready dpid
     puts "Switch #{@switches.key(dpid)} - #{dpid.to_s(16)} has signed in"
     # send_message dpid, FeaturesRequest.new
-    # add_periodic_timer_event(:query_stats, 10)
+    if @switches.key(dpid) == "SLSDX"
+      puts "SLSDX switch"
+      add_timer_event :query_stats, 10, :periodic
+      @slsdx = dpid
+    end
   end
 
   def packet_in datapath_id, message
@@ -76,13 +90,51 @@ class MultiLearningSwitch < Controller
     end
   end
 
-
   def age_fdbs
     @fdbs.each_value do | each |
       each.age
     end
   end
 
+  def query_stats
+    puts "Querying stats--------------------------------"
+    send_message(@slsdx,
+      FlowStatsRequest.new(:match => Match.new({:dl_type => 0x800})))
+  end
+
+  def stats_reply (dpid, message)
+    puts "[stats_reply]---------------------------------"
+    left_returned = 0
+    right_returned = 0
+    left_byte_count = 0
+    left_packet_count = 0
+    left_flow_count = 0
+    right_byte_count = 0
+    right_packet_count = 0
+    right_flow_count = 0
+    
+    flow_count = message.stats.length
+    if(flow_count != 0)
+      message.stats.each do | flow_msg |
+        # WARNING: This only works for the EXACT case of two actions. If we add more than two actions the flow monitoring
+        # will break.
+        if(flow_msg.actions.length == 2 && (flow_msg.actions[1].port_number == @slsdx_i2 ||
+                                            flow_msg.actions[1].port_number == @sl_ornl || 
+                                            flow_msg.actions[1].port_number == @sl_esnet)) 
+          left_returned = 1
+	  left_flow_count += 1
+	  left_byte_count += flow_msg.byte_count
+	  left_packet_count += flow_msg.packet_count
+	  if flow_msg.duration_sec + flow_msg.duration_nsec/1000000000 != 0
+            info "OFPort#{flow_msg.actions[1].port_number.to_s} VLan_ID#{flow_msg.actions[0].vlan_id} #{(flow_msg.byte_count/(flow_msg.duration_sec + flow_msg.duration_nsec/1000000000))} Bps"
+	    # file = File.open("/tmp/flowstats.out", "a")
+            # file.puts "OFPort#{flow_msg.actions[0].port_number.to_s} #{left_flow_count.to_s} #{left_byte_count} #{left_packet_count} #{(flow_msg.byte_count/(flow_msg.duration_sec + flow_msg.duration_nsec/1000000000))} Bps"
+	    # file.close
+          end
+        end
+      end
+    end
+  end
 
   ##############################################################################
   private

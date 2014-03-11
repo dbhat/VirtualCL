@@ -27,6 +27,7 @@ require "fdb"
 #
 class MultiLearningSwitch < Controller
   add_timer_event :age_fdbs, 5, :periodic
+  add_timer_event :query_stats, 10, :periodic
 
 
   def start
@@ -59,7 +60,6 @@ class MultiLearningSwitch < Controller
     # send_message dpid, FeaturesRequest.new
     if @switches.key(dpid) == "SLSDX"
       puts "SLSDX switch"
-      add_timer_event :query_stats, 10, :periodic
       @slsdx = dpid
     end
   end
@@ -95,9 +95,11 @@ class MultiLearningSwitch < Controller
   end
 
   def query_stats
-    puts "Querying stats--------------------------------"
-    send_message(@slsdx,
-      FlowStatsRequest.new(:match => Match.new({:dl_type => 0x800})))
+    if @slsdx != nil
+      puts "Querying stats--------------------------------"
+      send_message(@slsdx,
+        FlowStatsRequest.new(:match => Match.new({:dl_type => 0x800})))
+    end
   end
 
   def stats_reply (dpid, message)
@@ -149,14 +151,53 @@ class MultiLearningSwitch < Controller
   # end
 
   def get_path hostip, datapath_id
-    a = 0
+    a = 10
     case a
-    when 0
+    when 1  # All traffic goes via I2
+      if @switches.key(datapath_id) == "SLSDX"
+        return "I2"
+      elsif @switches.key(datapath_id) == "SOXSDX"
+        return  "I2"
+      end
+
+    when 2 # All traffic via ORNL
+      if @switches.key(datapath_id) == "SLSDX"
+        return "ORNL"
+      elsif @switches.key(datapath_id) == "SOXSDX"
+        return  "ORNL"
+      end
+
+    when 3 # All traffic via ORNL
+      if @switches.key(datapath_id) == "SLSDX"
+        return "ESNET"
+      elsif @switches.key(datapath_id) == "SOXSDX"
+        return  "ESNET"
+      end
+
+    when 10 # Radars 1 and 2 via ESNET, radars 3 and 4 via I2
+      if @switches.key(datapath_id) == "SLSDX"
+          if @radars_sl[0] == hostip.to_s || @radars_sl[1] == hostip.to_s
+            return "ESNET"
+          elsif @radars_sl[2] ==  hostip.to_s || @radars_sl[3] == hostip.to_s
+            return "I2"
+          end
+      elsif @switches.key(datapath_id) == "SOXSDX"
+          # puts "#{@radars_sl[0]}, #{hostip}"
+          if @radars_sl[0] == hostip.to_s || @radars_sl[1] == hostip.to_s
+            # puts "get_path ESNET"
+            return "ESNET"
+          elsif @radars_sl[2] == hostip.to_s || @radars_sl[3] == hostip.to_s
+            return "I2"
+          end 
+      end
+
+    when 1000 # To SOXSDL via ESNET, back via I2
       if @switches.key(datapath_id) == "SLSDX"
         return "ESNET"
       elsif @switches.key(datapath_id) == "SOXSDX"
         return  "I2"
       end
+
     else
       puts "WARNING: Case not defined!!"
     end
@@ -167,45 +208,45 @@ class MultiLearningSwitch < Controller
     dstip = get_dst_ip message 
     if srcip and dstip
       if radar? srcip and nowcast? dstip
-        puts "From Radar to nowcast"
-        puts @switches.key(datapath_id)
+        # puts "From Radar to nowcast"
+        # puts @switches.key(datapath_id)
         if @switches.key(datapath_id) == "SLSDX"
            sdx_path = get_path srcip, datapath_id
-	   puts "SLSDX path #{sdx_path}"
+	   # puts "SLSDX path #{sdx_path}"
            if sdx_path == "I2"
-             puts "52, 1709"
+             # puts "52, 1709"
              return 52, 1709
            elsif sdx_path == "ORNL"
-             puts "4, 1650"
+             # puts "4, 1650"
              return 4, 1650
            else
-             puts "4, 1651"
+             # puts "4, 1651"
              return 4, 1651
            end 
         end
         if @switches.key(datapath_id) == "SOXSDX"
-           puts "52, 1755"
+           # puts "52, 1755"
            return 52, 1755
         end
       end
       if nowcast? srcip and radar? dstip
-        puts "From nowcast to radar"
-        puts @switches.key(datapath_id)
+        # puts "From nowcast to radar"
+        # puts @switches.key(datapath_id)
         if @switches.key(datapath_id) == "SLSDX"
-           puts "50, 1655"
+           # puts "50, 1655"
            return 50, 1655
         end
         if @switches.key(datapath_id) == "SOXSDX"
            sdx_path = get_path dstip, datapath_id
-	   puts "SOXSDX path #{sdx_path}"
+	   # puts "SOXSDX path #{sdx_path}"
            if sdx_path == "I2"
-             puts "26, untagged "
+             # puts "26, untagged "
              return 26
            elsif sdx_path == "ORNL"
-             puts "27, 1650"
+             # puts "27, 1650"
              return 27, 1650
            else
-             puts "25, 1651"
+             # puts "25, 1651"
              return 25, 1651
            end 
         end

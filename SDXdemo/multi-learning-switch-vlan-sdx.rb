@@ -20,29 +20,23 @@
 
 $LOAD_PATH << File.join( File.dirname( __FILE__ ), "../learning_switch/" )
 
-require "fdb"
 
 #
 # A OpenFlow controller class that emulates multiple layer-2 switches.
 #
 class MultiLearningSwitch < Controller
-  add_timer_event :age_fdbs, 5, :periodic
-  add_timer_event :query_stats, 10, :periodic
 
 
   def start
+    @stats_period = 10
+    add_timer_event :query_stats, @stats_period, :periodic
     puts "Start"
-    @fdbs = Hash.new do | hash, datapath_id |
-      hash[ datapath_id ] = FDB.new
-    end
 
     @switches = {"SLSDX" => 0x000060eb69215a2f, "SOXSDX" => 0x00013440b5031400}
 
     @radars_nw = ["192.168.10.1", "192.168.10.2", "192.168.10.3", "192.168.10.4"]
     @radars_sl = ["192.168.10.101", "192.168.10.102", "192.168.10.103", "192.168.10.104"]
     @nowcastbox = ["192.168.10.10"]
-
-    @path = "ESNET"  # Options are I2, ORNL, or ESNET are the other two options
 
     # Here we set the incoming ports for the SoX SDX switch. This will help with monitoring flows on this switch.
     @soxsdx_i2      = 26 
@@ -56,12 +50,15 @@ class MultiLearningSwitch < Controller
   end
 
   def switch_ready dpid
-    puts "Switch #{@switches.key(dpid)} - #{dpid.to_s(16)} has signed in"
-    # send_message dpid, FeaturesRequest.new
     if @switches.key(dpid) == "SLSDX"
       puts "SLSDX switch"
       @slsdx = dpid
     end
+    if @switches.key(dpid) == "SOXSDX"
+      puts "SOXSDX switch"
+      @soxsdx = dpid
+    end
+
   end
 
   def packet_in datapath_id, message
@@ -69,16 +66,12 @@ class MultiLearningSwitch < Controller
     if message.lldp? or message.eth_type==50 or message.eth_type==0x86dd
       return
     end
-    fdb = @fdbs[ datapath_id ]
-    port_no = fdb.port_no_of( message.macsa )
-    if !port_no
-      puts "#{@switches.key(datapath_id)}: Learned #{message.macsa} at #{message.in_port}"
+    print_message datapath_id, message
+    if message.tcp? or message.udp?
+      puts "This is message is tcp or udp"
     end
-    fdb.learn message.macsa, message.in_port
-    port_no = fdb.port_no_of( message.macda )
-    vlan_id = get_vlan_id  message, datapath_id, port_no  # MZ: do we really need that line? vlan_id gets overwritten in the next line!
     port_no, vlan_id = get_out_port datapath_id, message
-    if port_no
+    if port_no 
       puts "#{@switches.key(datapath_id)}: #{message.macda} lives at #{port_no}"
       flow_mod datapath_id, message, port_no, vlan_id
       packet_out datapath_id, message, port_no, vlan_id
@@ -88,53 +81,76 @@ class MultiLearningSwitch < Controller
     end
   end
 
-  def age_fdbs
-    @fdbs.each_value do | each |
-      each.age
-    end
-  end
-
   def query_stats
     if @slsdx != nil
       puts "Querying stats--------------------------------"
       send_message(@slsdx,
         FlowStatsRequest.new(:match => Match.new({:dl_type => 0x800})))
+      send_message(@slsdx, PortStatsRequest.new)
     end
+    #if @soxsdx != nil
+    #  puts "Querying stats--------------------------------"
+    #  send_message(@soxsdx,
+    #    FlowStatsRequest.new(:match=>Match.new()))
+    #end
+
   end
 
   def stats_reply (dpid, message)
-    puts "[stats_reply]---------------------------------"
-    left_returned = 0
-    right_returned = 0
-    left_byte_count = 0
-    left_packet_count = 0
-    left_flow_count = 0
-    right_byte_count = 0
-    right_packet_count = 0
-    right_flow_count = 0
+    puts "Received Stats"
+    if message.type == StatsReply::OFPST_FLOW
+       process_flow_stats dpid, message
+    end
+    if message.type == StatsReply::OFPST_PORT
+       process_port_stats dpid, message
+    end
+  end
+  
+  def process_port_stats (dpid, message)
+    puts "NOT IMPLEMENTED"
+  end
+
+  def process_flow_stats (dpid, message)
+    puts "[flow stats_reply #{@switches.key(dpid)}]---------------------------------"
+    if not defined? @prev_byte_count
+      @prev_byte_count = {"i2" => 0, "esnet" => 0, "ornl" => 0}
+    end
     
-    flow_count = message.stats.length
-    if(flow_count != 0)
+    byte_count = {"i2" => 0, "esnet" => 0, "ornl" => 0}
+    packet_count = {"i2" => 0, "esnet" => 0, "ornl" => 0}
+    flow_count = {"i2" => 0, "esnet" => 0, "ornl" => 0}
+    throughput = {"i2" => 0, "esnet" => 0, "ornl" => 0}
+    inst_throughput = {"i2" => 0, "esnet" => 0, "ornl" => 0}
+
+    total_flow_count = message.stats.length
+    if(total_flow_count != 0)
       message.stats.each do | flow_msg |
         # WARNING: This only works for the EXACT case of two actions. If we add more than two actions the flow monitoring
         # will break.
-        if(flow_msg.actions.length == 2 && (flow_msg.actions[1].port_number == @slsdx_i2 ||
-                                            flow_msg.actions[1].port_number == @sl_ornl || 
-                                            flow_msg.actions[1].port_number == @sl_esnet)) 
-          left_returned = 1
-	  left_flow_count += 1
-	  left_byte_count += flow_msg.byte_count
-	  left_packet_count += flow_msg.packet_count
-	  if flow_msg.duration_sec + flow_msg.duration_nsec/1000000000 != 0
-            info "OFPort#{flow_msg.actions[1].port_number.to_s} VLan_ID#{flow_msg.actions[0].vlan_id} #{(flow_msg.byte_count/(flow_msg.duration_sec + flow_msg.duration_nsec/1000000000))} Bps"
-	    # file = File.open("/tmp/flowstats.out", "a")
-            # file.puts "OFPort#{flow_msg.actions[0].port_number.to_s} #{left_flow_count.to_s} #{left_byte_count} #{left_packet_count} #{(flow_msg.byte_count/(flow_msg.duration_sec + flow_msg.duration_nsec/1000000000))} Bps"
-	    # file.close
+        if flow_msg.actions.length == 2 
+          path = get_stats_path dpid, flow_msg.actions[1].port_number, flow_msg.actions[0].vlan_id
+          if path != "NOPATH"
+	    flow_count[path] = flow_count[path] + 1
+	    byte_count[path] += flow_msg.byte_count
+	    packet_count[path] += flow_msg.packet_count
+            if flow_msg.duration_sec + flow_msg.duration_nsec/1000000000 != 0
+              throughput[path] += flow_msg.byte_count/(flow_msg.duration_sec + flow_msg.duration_nsec/1000000000)
+            end
           end
         end
       end
+       
+      ['i2', 'ornl', 'esnet'].each do | path |
+        inst_throughput[path] = (byte_count[path] - @prev_byte_count[path])/@stats_period
+        info "#{path} #{throughput[path]}-#{inst_throughput[path]} Bps"
+	    file = File.open("/tmp/flowstats.out", "a")
+            file.puts "#{path} #{flow_count[path].to_s} #{byte_count[path]} #{packet_count[path]} #{throughput[path]} Bps #{inst_throughput[path]} Bps"
+	    file.close
+      end
     end
+    @prev_byte_count = byte_count
   end
+
 
   ##############################################################################
   private
@@ -151,7 +167,7 @@ class MultiLearningSwitch < Controller
   # end
 
   def get_path hostip, datapath_id
-    a = 10
+    a = 2
     case a
     when 1  # All traffic goes via I2
       if @switches.key(datapath_id) == "SLSDX"
@@ -208,8 +224,8 @@ class MultiLearningSwitch < Controller
     dstip = get_dst_ip message 
     if srcip and dstip
       if radar? srcip and nowcast? dstip
-        # puts "From Radar to nowcast"
-        # puts @switches.key(datapath_id)
+        puts "From Radar to nowcast"
+        puts @switches.key(datapath_id)
         if @switches.key(datapath_id) == "SLSDX"
            sdx_path = get_path srcip, datapath_id
 	   # puts "SLSDX path #{sdx_path}"
@@ -230,11 +246,12 @@ class MultiLearningSwitch < Controller
         end
       end
       if nowcast? srcip and radar? dstip
-        # puts "From nowcast to radar"
-        # puts @switches.key(datapath_id)
+        puts "From nowcast to radar"
+        puts @switches.key(datapath_id)
         if @switches.key(datapath_id) == "SLSDX"
            # puts "50, 1655"
-           return 50, 1655
+           return 1, 1750
+           #return 50, 1655
         end
         if @switches.key(datapath_id) == "SOXSDX"
            sdx_path = get_path dstip, datapath_id
@@ -244,10 +261,16 @@ class MultiLearningSwitch < Controller
              return 26
            elsif sdx_path == "ORNL"
              # puts "27, 1650"
-             return 27, 1650
+             # return 27, 1650
+             #return 27
+             # XXX ALL REVERSE TRAFFIC THROUGH I2 SINCE THE OTHERS ARE NOT WORKING
+             return 26
            else
              # puts "25, 1651"
-             return 25, 1651
+             # return 25, 1651
+             # XXX ALL REVERSE TRAFFIC THROUGH I2 SINCE THE OTHERS ARE NOT WORKING
+             #return 25
+             return 26
            end 
         end
       end
@@ -279,13 +302,15 @@ class MultiLearningSwitch < Controller
     send_flow_mod_add(
       datapath_id,
       :match => ExactMatch.from( message ),
-      :actions => actions.push(ActionOutput.new( :port => port_no ))
+      :actions => actions.push(ActionOutput.new( :port => port_no )),
+      :idle_timeout => 10
     )
   end
 
 
   def packet_out datapath_id, message, port_no, vlan_id
     actions = make_vlan_action message, vlan_id
+    # puts ExactMatch.from( message )
     send_packet_out(
       datapath_id,
       :packet_in => message,
@@ -332,10 +357,46 @@ class MultiLearningSwitch < Controller
     end
     return false
   end
+  
+  def print_message datapath_id, message
+    str = "#{@switches.key(datapath_id)}:#{message.in_port} "
+    str+="macsrc=#{message.macsa}, macaddr=#{message.macda},"
+    if message.vtag?
+      str+="vlanid=#{message.vlan_vid}, vlanpcp=#{message.vlan_prio},"
+    end
+    if message.arp?
+      str+="arpsrc=#{message.arp_spa}, arpdst=#{message.arp_tpa},"
+    end
+    if message.ipv4?
+      str+="ipsrc=#{message.ipv4_saddr}, ipdst=#{message.ipv4_daddr},"
+    end
+    if message.tcp?
+      str+="tcpsp=#{message.tcp_src_port}, tcpdp=#{message.tcp_dst_port},"
+    end
+    if message.udp?
+      str+="tcpsp=#{message.udp_src_port}, tcpdp=#{message.udp_dst_port},"
+    end
+    puts str
+  end
+      
+  def get_stats_path dpid, port_no, vlan_id
+     if @switches.key(dpid) == "SLSDX"
+        if vlan_id == 1709 
+           return 'i2'
+        end
+        if vlan_id == 1650
+           return 'ornl'
+        end
+        if vlan_id == 1651
+           return 'esnet'
+        end
+     end  
+     return "NOPATH"
+  end
 end
 
 ### Local variables:
 ### mode: Ruby
 ### coding: utf-8
 ### indent-tabs-mode: nil
-### End:
+## End:

@@ -167,7 +167,7 @@ class MultiLearningSwitch < Controller
   # end
 
   def get_path hostip, datapath_id
-    a = 2
+    a = 3
     case a
     when 1  # All traffic goes via I2
       if @switches.key(datapath_id) == "SLSDX"
@@ -258,19 +258,19 @@ class MultiLearningSwitch < Controller
 	   # puts "SOXSDX path #{sdx_path}"
            if sdx_path == "I2"
              # puts "26, untagged "
-             return 26
+             return 26, 1649
            elsif sdx_path == "ORNL"
              # puts "27, 1650"
-             # return 27, 1650
-             #return 27
+             return 27, 1650
+             # return 27
              # XXX ALL REVERSE TRAFFIC THROUGH I2 SINCE THE OTHERS ARE NOT WORKING
-             return 26
+             #return 26
            else
              # puts "25, 1651"
-             # return 25, 1651
+             return 25, 1651
              # XXX ALL REVERSE TRAFFIC THROUGH I2 SINCE THE OTHERS ARE NOT WORKING
              #return 25
-             return 26
+             #return 26
            end 
         end
       end

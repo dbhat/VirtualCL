@@ -1,6 +1,0 @@
-#!/bin/sh
-
-HOME=/users/geniuser
-KEYFILE=$HOME/.ssh/ssetup
-
-ssh -oStrictHostKeyChecking=no -i $KEYFILE -t -t geniuser@localhost sudo "$@"

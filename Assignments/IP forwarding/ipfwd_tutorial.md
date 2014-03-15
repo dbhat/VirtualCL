@@ -6,10 +6,13 @@ that will allow a user to:
 * Establish static route using route command and enable IP forwarding
 * Verify the correctness of static routing and IP forwarding 
 
+
 ## Verification of Topology 
 
 After establishing the slice on which the experiment will be executed, the has to be verified for correctness. In this [tutorial] (http://emmy9.casa.umass.edu/GEC15-GIMI-Tutorial/videos/) , we use an OMF experiment script that executes pings between neighbouring nodes.
 This tutorial uses a [three-node topology] (http://groups.geni.net/geni/wiki/GENIEducation/SampleAssignments/IPRouting/Procedure).
+[![ScreenShot](http://img.youtube.com/vi/T-D1KVIuvjA/0.jpg)](http://youtu.be/vt5fpE0bzSY)
+
 
 The same experiment script can also be found in LabWiki. To run the experiment perform the following steps:
 
@@ -21,7 +24,7 @@ The same experiment script can also be found in LabWiki. To run the experiment p
 
 ## Set up Routing and IP forwarding in Experiment Topology
 
-In this step static routing is set up using route command and IP forwarding is enabled. 
+In this step static routing is set up using route command and IP forwarding is enabled.
 
 The same experiment script can also be found in LabWiki. To run the experiment perform the following steps:
 

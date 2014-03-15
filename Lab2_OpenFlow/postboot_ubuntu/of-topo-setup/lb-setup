@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#$PWD/prep-trema
+$PWD/prep-trema
 $PWD/ovs-start
 
 INTERFACES="192.168.1.1 192.168.2.1 192.168.3.1"

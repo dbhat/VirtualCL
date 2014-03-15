@@ -1,6 +1,6 @@
-defProperty('source1', "NodeA-sample4", "ID of a resource")
-defProperty('source2', "NodeB-sample4", "ID of a resource")
-defProperty('source3', "NodeC-sample4", "ID of a resource")
+defProperty('source1', "nodea-sample4", "ID of a resource")
+defProperty('source2', "nodeb-sample4", "ID of a resource")
+defProperty('source3', "nodec-sample4", "ID of a resource")
 #defProperty('graph', true, "Display graph or not")
 
 

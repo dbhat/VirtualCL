@@ -9,9 +9,9 @@ defGroup('Node3', "nodec-sample10")
 #defGroup('NeucaServices', "NodeA-sample4","NodeB-sample4","NodeC-sample4")
 
 
-onEvent(:ALL_UP_AND_INSTALLED) do |event|
+onEvent(:ALL_UP) do |event|
   after 1 do
-  allGroups.startApplications
+  #allGroups.startApplications
   info 'Changing routing setup'
   
  # group('NeucaServices').exec("/usr/sbin/service neuca stop")
@@ -29,7 +29,7 @@ onEvent(:ALL_UP_AND_INSTALLED) do |event|
 
   after 10 do
   info 'Stopping applications'
-  allGroups.stopApplications
+  #allGroups.stopApplications
   end
   after 12 do
   Experiment.done

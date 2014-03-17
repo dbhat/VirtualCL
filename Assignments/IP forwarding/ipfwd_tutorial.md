@@ -1,4 +1,12 @@
-title: "IPV4 Routing Tutorial"
+# Static Routing Assignment
+
+In this assignmemt studenst will learn about the fundamentals of IP routing by 
+setting up static routing in a 3-node topology.
+
+## Preparation
+
+In 
+
 
 In this tutorial we describe a series of experiment 
 that will allow a user to:

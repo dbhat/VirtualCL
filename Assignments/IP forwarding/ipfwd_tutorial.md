@@ -1,15 +1,33 @@
 # Static Routing Assignment
 
-In this assignment students will learn about the fundamentals of IP routing by 
-setting up static routing in a 3-node topology.
+In this assignmment you will learn about the fundamentals of IP routing by 
+setting up static routing in a 3-node topology. The Ping and Route applications will both be explored with the LabWiki scripts.
 
-## Preparation
+Overall we will do the following with three parts:
 
-In this [tutorial](http://groups.geni.net/geni/wiki/GENIEducation/SampleAssignments/IPRouting/Procedure) we describe a series of experiment 
-that will allow a user to:
-* Verify that a slice has been set up correct
-* Establish static route using route command and enable IP forwarding
-* Verify the correctness of static routing and IP forwarding 
+*  Verify that a slice has been set up correct
+*  Establish static route using route command and enable IP forwarding
+*  Verify the correctness of static routing and IP forwarding
+   
+    
+
+## Preparation for Routing Assignment
+
+Before starting this assignment you should have read and understood chapter 4 in *Computer Networking: A Top Down Approach by Kurose-Ross*
+
+For additional understanding check out the chapter 4 exercises at [http://wps.pearsoned.com/ecs_kurose_compnetw_6/216/55463/14198700.cw/index.html](http://wps.pearsoned.com/ecs_kurose_compnetw_6/216/55463/14198700.cw/index.html).
+ 
+Also you should understand the topology you will be utilizing for this tutorial. It can be found [here] (http://groups.geni.net/geni/wiki/GENIEducation/SampleAssignments/IPRouting/Procedure).
+
+## Preparation for utilizing Geni Environment
+
+Make sure that before starting you have setup the correct topology and have the proper setup of SSH keys. The following videos will walk you through these steps.
+
+- Part 1: [Understanding the Geni Portal](http://www.youtube.com/watch?v=H61s9sRP8Qk)
++ Part 2: [Setting up your SSH Keys](http://www.youtube.com/watch?v=3gssCqOvR-Q)
++ Part 3: [Reserving Resources](http://www.youtube.com/watch?v=1tFhi5ypCgg)
+
+
 
 
 ## Verification of Topology 

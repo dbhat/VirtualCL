@@ -1,14 +1,11 @@
 # Static Routing Assignment
 
-In this assignmemt studenst will learn about the fundamentals of IP routing by 
+In this assignment students will learn about the fundamentals of IP routing by 
 setting up static routing in a 3-node topology.
 
 ## Preparation
 
-In 
-
-
-In this tutorial we describe a series of experiment 
+In this [tutorial](http://groups.geni.net/geni/wiki/GENIEducation/SampleAssignments/IPRouting/Procedure) we describe a series of experiment 
 that will allow a user to:
 * Verify that a slice has been set up correct
 * Establish static route using route command and enable IP forwarding
@@ -17,10 +14,9 @@ that will allow a user to:
 
 ## Verification of Topology 
 
-After establishing the slice on which the experiment will be executed, the has to be verified for correctness. In this [tutorial] (http://emmy9.casa.umass.edu/GEC15-GIMI-Tutorial/videos/) , we use an OMF experiment script that executes pings between neighbouring nodes.
-This tutorial uses a [three-node topology] (http://groups.geni.net/geni/wiki/GENIEducation/SampleAssignments/IPRouting/Procedure).
-[![ScreenShot](http://img.youtube.com/vi/T-D1KVIuvjA/0.jpg)](http://youtu.be/vt5fpE0bzSY)
-
+After establishing the slice on which the experiment will be executed, the has to be verified for correctness. In this tutorial, we use an OMF experiment script that executes pings between neighbouring nodes.
+This tutorial uses a [three-node topology] (https://raw.github.com/dbhat/VirtualCL/master/Assignments/IP%20forwarding/routetopology.png).
+[![ScreenShot](https://raw.github.com/dbhat/VirtualCL/master/Assignments/IP%20forwarding/routetopology_video.png)](http://youtu.be/vt5fpE0bzSY)
 
 The same experiment script can also be found in LabWiki. To run the experiment perform the following steps:
 

@@ -34,7 +34,7 @@ Make sure that before starting you have setup the correct topology and have the 
 
 After establishing the slice on which the experiment will be executed, the has to be verified for correctness. In this tutorial, we use an OMF experiment script that executes pings between neighbouring nodes.
 This tutorial uses a [three-node topology] (https://raw.github.com/dbhat/VirtualCL/master/Assignments/IP%20forwarding/routetopology.png).
-[![ScreenShot](https://raw.github.com/dbhat/VirtualCL/master/Assignments/IP%20forwarding/routetopology_video.png)](http://youtu.be/vt5fpE0bzSY)
+[![ScreenShot](https://raw.github.com/dbhat/VirtualCL/master/Assignments/IP%20forwarding/routetopology_video.png)](http://www.youtube.com/watch?v=Cjm2OIh9tyo)
 
 The same experiment script can also be found in LabWiki. To run the experiment perform the following steps:
 

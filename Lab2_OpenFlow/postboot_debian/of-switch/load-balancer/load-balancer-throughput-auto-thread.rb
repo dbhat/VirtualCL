@@ -4,7 +4,7 @@ class LoadBalancer < Controller
     @@UNKNOWN_PRIO = 5
     @@TUPLE_PRIO = 10
 
-    @@TIMEOUT = 300
+    @@TIMEOUT = 30
 
     def start
         info "OpenFlow Load Balancer Controller Started!"
@@ -45,6 +45,9 @@ class LoadBalancer < Controller
             $stderr.puts "Missing port in /tmp/portmap, require left, right, outside"
             exit 1
         end
+
+        # Erase the contents of the stat file
+        File.open('/tmp/flowstats.out', 'w') {|file| file.truncate(0); file.close() }
     end
 
     def switch_ready(datapath_id)

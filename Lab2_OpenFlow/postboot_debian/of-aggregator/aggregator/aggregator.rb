@@ -140,8 +140,10 @@ class Aggregator < Controller
         send_flow_mod_add(datapath_id, forward)
         send_flow_mod_add(datapath_id, reverse)
 
-        send_packet_out(datapath_id, :packet_in => message,
-                        :actions => ActionOutput.new(otherport))
+        if message.total_len > 63
+          send_packet_out(datapath_id, :packet_in => message,
+               :actions => ActionOutput.new(otherport))
+        end
         
         @flows[flow] = direction == :in ? inport : otherport
     end

@@ -107,8 +107,10 @@ class LoadBalancer < Controller
                           :actions => ActionOutput.new(path),
                           :idle_timeout => @@TIMEOUT)
 
-        send_packet_out(datapath_id, :packet_in => message,
+        if message.total_len > 63
+           send_packet_out(datapath_id, :packet_in => message,
                         :actions => ActionOutput.new(path))
+        end
     end
 
     def stats_reply (datapath_id, message)

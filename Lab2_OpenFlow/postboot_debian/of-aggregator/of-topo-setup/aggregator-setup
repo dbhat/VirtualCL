@@ -10,6 +10,4 @@ ovs-ofctl show tcp:127.0.0.1:6633 \
     | /tmp/of-topo-setup/ovs-id-ports $1=left $2=right $3=inside\
     > /tmp/portmap
 source /etc/profile.d/rvm.sh
-{
-    trema run /tmp/aggregator/aggregator.rb
-} > /tmp/trema-runlog 2>&1 &
+trema run /tmp/aggregator/aggregator.rb  > /tmp/trema-runlog 2>&1 &

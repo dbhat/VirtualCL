@@ -100,37 +100,37 @@
 <link client_id="left-aggregator">
     <interface_ref client_id="aggregator:left" />
     <interface_ref client_id="left:aggregator" />
-    <property source_id="left:aggregator" dest_id="aggregator:left" capacity="100000"/>
-    <property source_id="aggregator:left" dest_id="left:aggregator" capacity="100000"/>
+    <property source_id="left:aggregator" dest_id="aggregator:left" capacity="10000000"/>
+    <property source_id="aggregator:left" dest_id="left:aggregator" capacity="10000000"/>
 </link>
 <link client_id="right-aggregator">
     <interface_ref client_id="aggregator:right" />
     <interface_ref client_id="right:aggregator" />
-    <property source_id="right:aggregator" dest_id="aggregator:right" capacity="100000"/>
-    <property source_id="aggregator:right" dest_id="right:aggregator" capacity="100000"/>
+    <property source_id="right:aggregator" dest_id="aggregator:right" capacity="10000000"/>
+    <property source_id="aggregator:right" dest_id="right:aggregator" capacity="10000000"/>
 </link>
 <link client_id="aggregator-inside">
     <interface_ref client_id="aggregator:inside" />
     <interface_ref client_id="inside:aggregator" />
-    <property source_id="inside:aggregator" dest_id="aggregator:inside" capacity="100000"/>
-    <property source_id="aggregator:inside" dest_id="inside:aggregator" capacity="100000"/>
+    <property source_id="inside:aggregator" dest_id="aggregator:inside" capacity="20000000"/>
+    <property source_id="aggregator:inside" dest_id="inside:aggregator" capacity="20000000"/>
 </link>
 <link client_id="outside-switch">
     <interface_ref client_id="outside:switch" />
     <interface_ref client_id="switch:outside" />
-    <property source_id="outside:switch" dest_id="switch:outside" capacity="100000"/>
-    <property source_id="switch:outside" dest_id="outside:switch" capacity="100000"/>
+    <property source_id="outside:switch" dest_id="switch:outside" capacity="20000000"/>
+    <property source_id="switch:outside" dest_id="outside:switch" capacity="20000000"/>
 </link>
 <link client_id="switch-left">
     <interface_ref client_id="left:switch" />
     <interface_ref client_id="switch:left" />
-    <property source_id="left:switch" dest_id="switch:left" capacity="100000"/>
-    <property source_id="switch:left" dest_id="left:switch" capacity="100000"/>
+    <property source_id="left:switch" dest_id="switch:left" capacity="10000000"/>
+    <property source_id="switch:left" dest_id="left:switch" capacity="10000000"/>
 </link>
 <link client_id="switch-right">
     <interface_ref client_id="right:switch" />
     <interface_ref client_id="switch:right" />
-    <property source_id="right:switch" dest_id="switch:right" capacity="100000"/>
-    <property source_id="switch:right" dest_id="right:switch" capacity="100000"/>
+    <property source_id="right:switch" dest_id="switch:right" capacity="10000000"/>
+    <property source_id="switch:right" dest_id="right:switch" capacity="10000000"/>
 </link>
 </rspec>

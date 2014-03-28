@@ -121,8 +121,8 @@ class LoadBalancer < Controller
     right_packet_count = 0
     right_flow_count = 0
     #average per-flow throughput is calculated by sum_throughput/num_flows for each path
-    left_throughput = 0
-    right_throughput = 0
+    left_total_throughput = 0
+    right_total_throughput = 0
 
     flow_count = message.stats.length
     if(flow_count != 0)
@@ -135,28 +135,42 @@ class LoadBalancer < Controller
             left_flow_count += 1
             left_byte_count += flow_msg.byte_count
             left_packet_count += flow_msg.packet_count
-            left_throughput += flow_msg.byte_count/flow_msg.duration_sec
+            if flow_msg.duration_sec + flow_msg.duration_nsec/1000000000 != 0
+              left_total_throughput += (flow_msg.byte_count/(flow_msg.duration_sec + flow_msg.duration_nsec/1000000000))
+              info "===left path flow #{left_flow_count.to_s} throughput: #{left_total_throughput} Bps"
+            end
         elsif (flow_msg.actions[0].port_number == @right && flow_msg.duration_sec != 0)
             right_returned = 1
             right_flow_count += 1
             right_byte_count += flow_msg.byte_count
             right_packet_count += flow_msg.packet_count
-            right_throughput += flow_msg.byte_count/flow_msg.duration_sec
+            if flow_msg.duration_sec + flow_msg.duration_nsec/1000000000 != 0
+              right_total_throughput += (flow_msg.byte_count/(flow_msg.duration_sec + flow_msg.duration_nsec/1000000000))
+              info "+++right path flow #{right_flow_count.to_s} throughput: #{right_total_throughput} Bps"
+            end
         end
       end
     end
+    file = File.open("/tmp/flowstats.out", "a")
     if (left_returned == 1) 
         @left_flow = left_flow_count
         @left_packet = left_packet_count
         @left_byte = left_byte_count
-        @left_tp = left_throughput/left_flow_count
+        if left_flow_count !=0
+          @left_tp = left_total_throughput/left_flow_count
+        	file.puts "left #{@left_flow} #{@left_byte} #{@left_packet} #{left_total_throughput} Bps #{left_total_throughput/left_flow_count} Bps"
+        end
     end
     if (right_returned == 1) 
         @right_flow = right_flow_count
         @right_packet = right_packet_count
         @right_byte = right_byte_count
-        @right_tp = right_throughput/right_flow_count
+        if left_flow_count !=0 
+          @right_tp = right_total_throughput/right_flow_count
+        	file.puts "right #{@right_flow} #{@right_byte} #{@right_packet} #{right_total_throughput} Bps #{right_total_throughput/right_flow_count} Bps"
+        end 
     end
+    file.close
   end
   
   def decide_path()

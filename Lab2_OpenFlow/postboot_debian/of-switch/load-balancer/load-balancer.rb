@@ -154,14 +154,19 @@ class LoadBalancer < Controller
         @left_flow = left_flow_count
         @left_packet = left_packet_count
         @left_byte = left_byte_count
-        file.puts "left #{@left_flow} #{@left_byte} #{@left_packet} #{left_total_throughput} Bps"
+        if left_flow_count !=0
+        	file.puts "left #{@left_flow} #{@left_byte} #{@left_packet} #{left_total_throughput} Bps #{left_total_throughput/left_flow_count} Bps"
+        end
     end
     if (right_returned == 1)
         @right_flow = right_flow_count
         @right_packet = right_packet_count
         @right_byte = right_byte_count
-        file.puts "right #{@right_flow} #{@right_byte} #{@right_packet} #{right_total_throughput} Bps"
-    end
+        if left_flow_count !=0 
+        	file.puts "right #{@right_flow} #{@right_byte} #{@right_packet} #{right_total_throughput} Bps #{right_total_throughput/right_flow_count} Bps"
+    
+        end
+     end
     file.close
   end
 

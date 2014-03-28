@@ -2,7 +2,7 @@
 
 /tmp/of-topo-setup/ovs-start
 
-wget http://www.gpolab.bbn.com/experiment-support/OpenFlowExampleExperiment/ExoGENI/load-balancer.rb -O /root/load-balancer.rb
+ln -s /tmp/load-balancer/load-balancer.rb /root/load-balancer.rb 
 
 INTERFACES="$1 $2 $3"
 

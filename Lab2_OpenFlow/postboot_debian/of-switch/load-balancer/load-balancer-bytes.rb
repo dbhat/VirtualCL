@@ -4,7 +4,7 @@ class LoadBalancer < Controller
     @@UNKNOWN_PRIO = 5
     @@TUPLE_PRIO = 10
 
-    @@TIMEOUT = 300
+    @@TIMEOUT = 30
 
     def start
         info "OpenFlow Load Balancer Conltroller Started!"
@@ -44,6 +44,9 @@ class LoadBalancer < Controller
             $stderr.puts "Missing port in /tmp/portmap, require left, right, outside"
             exit 1
         end
+
+        # Erase the contents of the stat file
+        File.open('/tmp/flowstats.out', 'w') {|file| file.truncate(0); file.close() }
     end
 
     def switch_ready(datapath_id)
@@ -96,8 +99,10 @@ class LoadBalancer < Controller
                           :actions => ActionOutput.new(path),
                           :idle_timeout => @@TIMEOUT)
 
-        send_packet_out(datapath_id, :packet_in => message,
+        if message.total_len > 63
+           send_packet_out(datapath_id, :packet_in => message,
                         :actions => ActionOutput.new(path))
+        end        
     end
 
     def stats_reply (datapath_id, message)

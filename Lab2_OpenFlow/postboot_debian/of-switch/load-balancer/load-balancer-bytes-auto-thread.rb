@@ -4,7 +4,7 @@ class LoadBalancer < Controller
     @@UNKNOWN_PRIO = 5
     @@TUPLE_PRIO = 10
 
-    @@TIMEOUT = 300
+    @@TIMEOUT = 30
 
     def start
         info "OpenFlow Load Balancer Conltroller Started!"
@@ -12,15 +12,15 @@ class LoadBalancer < Controller
         @right = nil
         @outside = nil
 
-	@got_stats = 0
-	@left_flow = 0
-	@left_packet = 0
-	@left_byte = 0
-	@right_flow = 0
-	@right_packet = 0
-	@right_byte = 0
+        @got_stats = 0
+        @left_flow = 0
+        @left_packet = 0
+        @left_byte = 0
+        @right_flow = 0
+        @right_packet = 0
+        @right_byte = 0
 
-	@initNum = 2
+        @initNum = 2
 
         @last = :left
 
@@ -44,6 +44,9 @@ class LoadBalancer < Controller
             $stderr.puts "Missing port in /tmp/portmap, require left, right, outside"
             exit 1
         end
+
+        # Erase the contents of the stat file
+        File.open('/tmp/flowstats.out', 'w') {|file| file.truncate(0); file.close() }
     end
 
     def switch_ready(datapath_id)
@@ -87,15 +90,15 @@ class LoadBalancer < Controller
         # Throw out anything we don't recognize
         return if not message.ipv4? or not message.tcp?
 
-	# send FlowStatsRequest to switch
-	# and then receive the Flow Stats in function stats_reply
+        # send FlowStatsRequest to switch
+        # and then receive the Flow Stats in function stats_reply
 
-	send_message(datapath_id,
+        send_message(datapath_id,
             FlowStatsRequest.new(
                 :match => Match.new({:dl_type => 0x800, :nw_proto => 6}))
             )
-	
-        path = decide_path()	
+        
+        path = decide_path()        
         send_flow_mod_add(datapath_id, :priority => @@TUPLE_PRIO,
                          :match => Match.new(:dl_type => 0x0800,
                                              :nw_proto => 6,
@@ -107,60 +110,68 @@ class LoadBalancer < Controller
                           :actions => ActionOutput.new(path),
                           :idle_timeout => @@TIMEOUT)
 
-        send_packet_out(datapath_id, :packet_in => message,
+        if message.total_len > 63
+           send_packet_out(datapath_id, :packet_in => message,
                         :actions => ActionOutput.new(path))
+        end
     end
 
     def stats_reply (datapath_id, message)
-	info "[stats_reply]-------------------------------------------"
+        info "[stats_reply]-------------------------------------------"
         #info "transaction_id: #{ message.transaction_id.to_hex }"
-	#info "type: #{ message.type.to_hex }"
-	#info "flags: #{ message.flags.to_hex }"
-	#message.stats.each { | each | info each.to_s }
-	left_returned = 0
-	right_returned = 0
-	left_byte_count = 0
-	left_packet_count = 0
-	left_flow_count = 0
-	right_byte_count = 0
-	right_packet_count = 0
-	right_flow_count = 0
+        #info "type: #{ message.type.to_hex }"
+        #info "flags: #{ message.flags.to_hex }"
+        #message.stats.each { | each | info each.to_s }
+        left_returned = 0
+        right_returned = 0
+        left_byte_count = 0
+        left_packet_count = 0
+        left_flow_count = 0
+        right_byte_count = 0
+        right_packet_count = 0
+        right_flow_count = 0
 
-	flow_count = message.stats.length
+        flow_count = message.stats.length
         if(flow_count != 0)
             message.stats.each do | flow_msg |
                 #info "packet count is "+flow_msg.packet_count.to_s
                 #info "byte count is "+flow_msg.byte_count.to_s
-		#info "port number is "+flow_msg.actions[0].port.to_s
-		if(flow_msg.actions[0].port_number == @left)
-			left_returned = 1
-			left_flow_count += 1
-			left_byte_count += flow_msg.byte_count
-			left_packet_count += flow_msg.packet_count
-		elsif (flow_msg.actions[0].port_number == @right)
-			right_returned = 1
-			right_flow_count += 1
-			right_byte_count += flow_msg.byte_count
-			right_packet_count += flow_msg.packet_count
-		end
+                #info "port number is "+flow_msg.actions[0].port.to_s
+                if(flow_msg.actions[0].port_number == @left)
+                        left_returned = 1
+                        left_flow_count += 1
+                        left_byte_count += flow_msg.byte_count
+                        left_packet_count += flow_msg.packet_count
+                elsif (flow_msg.actions[0].port_number == @right)
+                        right_returned = 1
+                        right_flow_count += 1
+                        right_byte_count += flow_msg.byte_count
+                        right_packet_count += flow_msg.packet_count
+                end
             end
         end
-	if (left_returned == 1) 
-		@left_flow = left_flow_count
-		@left_packet = left_packet_count
-		@left_byte = left_byte_count
-	end
-	if (right_returned == 1) 
-	        @right_flow = right_flow_count
-        	@right_packet = right_packet_count
-                @right_byte = right_byte_count
+
+	      file = File.open("/tmp/flowstats.out", "a")
+        if (left_returned == 1) 
+          @left_flow = left_flow_count
+          @left_packet = left_packet_count
+          @left_byte = left_byte_count
+          file.puts "left #{@left_flow} #{@left_byte} #{@left_packet}"
         end
+        if (right_returned == 1) 
+          @right_flow = right_flow_count
+          @right_packet = right_packet_count
+          @right_byte = right_byte_count
+          file.puts "right #{@right_flow} #{@right_byte} #{@right_packet}"
+        end
+	      file.close
     end
+
     def decide_path()
-	# ***user change code from here**************
-	# ***Question: try change the code to make path decision based on***
-	# ***Average per-flow throughput***
-	# ***Note: you also need to change `stats_reply` to calculate average throughput***
+        # ***user change code from here**************
+        # ***Question: try change the code to make path decision based on***
+        # ***Average per-flow throughput***
+        # ***Note: you also need to change `stats_reply` to calculate average throughput***
 
         # we got the flow/packet/byte info from stats_reply handler
         info "left path: flow "+ @left_flow.to_s+", packets "+@left_packet.to_s+", bytes "+ @left_byte.to_s

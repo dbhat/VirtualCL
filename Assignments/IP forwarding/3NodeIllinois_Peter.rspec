@@ -1,0 +1,98 @@
+<rspec type="request" generated_by="Flack" generated="2014-03-16T22:30:16Z" xsi:schemaLocation="http://www.geni.net/resources/rspec/3 http://www.geni.net/resources/rspec/3/request.xsd " xmlns:flack="http://www.protogeni.net/resources/rspec/ext/flack/1" xmlns:client="http://www.protogeni.net/resources/rspec/ext/client/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.geni.net/resources/rspec/3">
+  <node client_id="NodeA" component_manager_id="urn:publicid:IDN+instageni.illinois.edu+authority+cm" exclusive="false">
+    <vnode name="pcvm3-5" xmlns="http://www.protogeni.net/resources/rspec/ext/emulab/1"/>
+    <sliver_type name="emulab-xen">
+      <disk_image url="https://www.utahddc.geniracks.net/image_metadata.php?uuid=8ca11bd9-abb5-11e3-b858-000000000000"/>
+    </sliver_type>
+    <services>
+      <execute command="sudo cp /gimibot_new/gimibot.sh /gimibot_new/postboot_script.sh /; chmod +x /gimibot.sh; chmod +x /postboot_script.sh; sudo sh /postboot_script.sh" shell="sh"/>
+      <install install_path="/" url="http://emmy9.casa.umass.edu/GEC-19/gimibot_omf6_new.tar.gz"/>
+    </services>
+    <interface client_id="VM:if0">
+      <ip address="192.168.1.10" netmask="255.255.255.0" type="ipv4"/>
+      <flack:interface_info addressBound="false" bound="false"/>
+    </interface>
+    <interface client_id="VM:if1">
+      <ip address="192.168.3.10" netmask="255.255.255.0" type="ipv4"/>
+      <flack:interface_info addressBound="false" bound="false"/>
+    </interface>
+    <flack:node_info x="311" y="104" unbound="true"/>
+  </node>
+  <node client_id="NodeB" component_manager_id="urn:publicid:IDN+instageni.illinois.edu+authority+cm" exclusive="false">
+    <vnode name="pcvm3-7" xmlns="http://www.protogeni.net/resources/rspec/ext/emulab/1"/>
+    <sliver_type name="emulab-xen">
+      <disk_image url="https://www.utahddc.geniracks.net/image_metadata.php?uuid=8ca11bd9-abb5-11e3-b858-000000000000"/>
+    </sliver_type>
+    <services>
+      <execute command="sudo cp /gimibot_new/gimibot.sh /gimibot_new/postboot_script.sh /; chmod +x /gimibot.sh; chmod +x /postboot_script.sh; sudo sh /postboot_script.sh" shell="sh"/>
+      <install install_path="/" url="http://emmy9.casa.umass.edu/GEC-19/gimibot_omf6_new.tar.gz"/>
+    </services>
+    <interface client_id="VM-0:if0">
+      <ip address="192.168.1.11" netmask="255.255.255.0" type="ipv4"/>
+      <flack:interface_info addressBound="false" bound="false"/>
+    </interface>
+    <interface client_id="VM-0:if1">
+      <ip address="192.168.2.11" netmask="255.255.255.0" type="ipv4"/>
+      <flack:interface_info addressBound="false" bound="false"/>
+    </interface>
+    <flack:node_info x="46" y="240" unbound="true"/>
+  </node>
+  <node client_id="NodeC" component_manager_id="urn:publicid:IDN+instageni.illinois.edu+authority+cm" exclusive="false">
+    <vnode name="pcvm3-8" xmlns="http://www.protogeni.net/resources/rspec/ext/emulab/1"/>
+    <sliver_type name="emulab-xen">
+      <disk_image name="https://www.utahddc.geniracks.net/image_metadata.php?uuid=8ca11bd9-abb5-11e3-b858-000000000000"/>
+    </sliver_type>
+    <services>
+      <execute command="sudo cp /gimibot_new/gimibot.sh /gimibot_new/postboot_script.sh /; chmod +x /gimibot.sh; chmod +x /postboot_script.sh; sudo sh /postboot_script.sh" shell="sh"/>
+      <install install_path="/" url="http://emmy9.casa.umass.edu/GEC-19/gimibot_omf6_new.tar.gz"/>
+    </services>
+    <interface client_id="VM-1:if0">
+      <ip address="192.168.2.12" netmask="255.255.255.0" type="ipv4"/>
+      <flack:interface_info addressBound="false" bound="false"/>
+    </interface>
+    <interface client_id="VM-1:if1">
+      <ip address="192.168.3.12" netmask="255.255.255.0" type="ipv4"/>
+      <flack:interface_info addressBound="false" bound="false"/>
+    </interface>
+    <flack:node_info x="555" y="245" unbound="true"/>
+  </node>
+  <link client_id="link0">
+    <flack:link_info x="-1" y="-1" unboundVlantag="true" xmlns="http://www.protogeni.net/resources/rspec/ext/flack/1"/>
+    <flack:link_info x="-1" y="-1" unboundVlantag="true" xmlns="http://www.protogeni.net/resources/rspec/ext/flack/1"/>
+    <flack:link_info x="-1" y="-1" unboundVlantag="true" xmlns="http://www.protogeni.net/resources/rspec/ext/flack/1"/>
+    <flack:link_info x="-1" y="-1" unboundVlantag="true" xmlns="http://www.protogeni.net/resources/rspec/ext/flack/1"/>
+    <flack:link_info x="-1" y="-1" unboundVlantag="true" xmlns="http://www.protogeni.net/resources/rspec/ext/flack/1"/>
+    <component_manager name="urn:publicid:IDN+instageni.illinois.edu+authority+cm"/>
+    <interface_ref client_id="VM-0:if0"/>
+    <interface_ref client_id="VM:if0"/>
+    <property source_id="VM-0:if0" dest_id="VM:if0" capacity="100000"/>
+    <property source_id="VM:if0" dest_id="VM-0:if0" capacity="100000"/>
+    <flack:link_info x="-1" y="-1" unboundVlantag="true"/>
+  </link>
+  <link client_id="link1">
+    <flack:link_info x="-1" y="-1" unboundVlantag="true" xmlns="http://www.protogeni.net/resources/rspec/ext/flack/1"/>
+    <flack:link_info x="-1" y="-1" unboundVlantag="true" xmlns="http://www.protogeni.net/resources/rspec/ext/flack/1"/>
+    <flack:link_info x="-1" y="-1" unboundVlantag="true" xmlns="http://www.protogeni.net/resources/rspec/ext/flack/1"/>
+    <flack:link_info x="-1" y="-1" unboundVlantag="true" xmlns="http://www.protogeni.net/resources/rspec/ext/flack/1"/>
+    <flack:link_info x="-1" y="-1" unboundVlantag="true" xmlns="http://www.protogeni.net/resources/rspec/ext/flack/1"/>
+    <component_manager name="urn:publicid:IDN+instageni.illinois.edu+authority+cm"/>
+    <interface_ref client_id="VM-0:if1"/>
+    <interface_ref client_id="VM-1:if0"/>
+    <property source_id="VM-0:if1" dest_id="VM-1:if0" capacity="100000"/>
+    <property source_id="VM-1:if0" dest_id="VM-0:if1" capacity="100000"/>
+    <flack:link_info x="-1" y="-1" unboundVlantag="true"/>
+  </link>
+  <link client_id="link2">
+    <flack:link_info x="-1" y="-1" unboundVlantag="true" xmlns="http://www.protogeni.net/resources/rspec/ext/flack/1"/>
+    <flack:link_info x="-1" y="-1" unboundVlantag="true" xmlns="http://www.protogeni.net/resources/rspec/ext/flack/1"/>
+    <flack:link_info x="-1" y="-1" unboundVlantag="true" xmlns="http://www.protogeni.net/resources/rspec/ext/flack/1"/>
+    <flack:link_info x="-1" y="-1" unboundVlantag="true" xmlns="http://www.protogeni.net/resources/rspec/ext/flack/1"/>
+    <flack:link_info x="-1" y="-1" unboundVlantag="true" xmlns="http://www.protogeni.net/resources/rspec/ext/flack/1"/>
+    <component_manager name="urn:publicid:IDN+instageni.illinois.edu+authority+cm"/>
+    <interface_ref client_id="VM:if1"/>
+    <interface_ref client_id="VM-1:if1"/>
+    <property source_id="VM:if1" dest_id="VM-1:if1" capacity="100000"/>
+    <property source_id="VM-1:if1" dest_id="VM:if1" capacity="100000"/>
+    <flack:link_info x="-1" y="-1" unboundVlantag="true"/>
+  </link>
+</rspec>

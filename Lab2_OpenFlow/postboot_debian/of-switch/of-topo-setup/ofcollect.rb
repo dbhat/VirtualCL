@@ -39,7 +39,7 @@ end
 def start()
                 log = MyFile.new("#{@addr}")
                 log.interval = @if_num
-                log.backward(10)
+                log.backward(3)
                 puts "#{@if_num}"
                 log.tail { |line| print line
                 processOutput(line)

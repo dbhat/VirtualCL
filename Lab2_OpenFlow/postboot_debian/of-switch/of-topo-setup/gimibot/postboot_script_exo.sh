@@ -1,5 +1,4 @@
 #!/bin/bash
-
 host=$1
 slice=`ruby -e "print '$2'[/[^+]*$/]"`
 echo $host > /etc/hostname

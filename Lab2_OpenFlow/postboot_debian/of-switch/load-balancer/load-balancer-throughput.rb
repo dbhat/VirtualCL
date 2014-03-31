@@ -136,7 +136,7 @@ class LoadBalancer < Controller
             left_byte_count += flow_msg.byte_count
             left_packet_count += flow_msg.packet_count
             if flow_msg.duration_sec + flow_msg.duration_nsec/1000000000 != 0
-              left_total_throughput += (flow_msg.byte_count/(flow_msg.duration_sec + flow_msg.duration_nsec/1000000000))
+              left_total_throughput += (flow_msg.byte_count*8/(flow_msg.duration_sec + flow_msg.duration_nsec/1000000000))
               info "===left path flow #{left_flow_count.to_s} throughput: #{left_total_throughput} Bps"
             end
         elsif (flow_msg.actions[0].port_number == @right && flow_msg.duration_sec != 0)
@@ -145,7 +145,7 @@ class LoadBalancer < Controller
             right_byte_count += flow_msg.byte_count
             right_packet_count += flow_msg.packet_count
             if flow_msg.duration_sec + flow_msg.duration_nsec/1000000000 != 0
-              right_total_throughput += (flow_msg.byte_count/(flow_msg.duration_sec + flow_msg.duration_nsec/1000000000))
+              right_total_throughput += (flow_msg.byte_count*8/(flow_msg.duration_sec + flow_msg.duration_nsec/1000000000))
               info "+++right path flow #{right_flow_count.to_s} throughput: #{right_total_throughput} Bps"
             end
         end

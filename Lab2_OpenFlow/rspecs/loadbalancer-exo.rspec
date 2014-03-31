@@ -46,7 +46,7 @@
     </sliver_type>
     <services>
         <install url="http://emmy9.casa.umass.edu/GEC-19/gimibot_omf6_new.tar.gz" install_path="/" />
-        <execute shell="bash" command=" cp /gimibot_new/postboot_script_exo.sh /; chmod +x /postboot_script_exo.sh; /postboot_script_exo.sh $self.Name() $sliceName" />
+        <execute shell="bash" command=" cp /gimibot_new/postboot_script_exo.sh /; /postboot_script_exo.sh $self.Name() $sliceName" />
     </services>
     <interface client_id="inside:aggregator">
         <ip netmask="255.255.255.0" type="ipv4" address="10.10.10.2" />
@@ -76,7 +76,7 @@
     </sliver_type>
     <services>
         <install url="http://emmy9.casa.umass.edu/GEC-19/gimibot_omf6_new.tar.gz" install_path="/" />
-        <execute shell="bash" command=" cp /gimibot_new/postboot_script_exo.sh /; chmod +x /postboot_script_exo.sh; /postboot_script_exo.sh $self.Name() $sliceName" />
+        <execute shell="bash" command=" cp /gimibot_new/postboot_script_exo.sh /; /postboot_script_exo.sh $self.Name() $sliceName" />
     </services>
     <interface client_id="outside:switch">
         <ip netmask="255.255.255.0" type="ipv4" address="10.10.10.1" />

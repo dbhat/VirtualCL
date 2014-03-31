@@ -1,5 +1,5 @@
 class LoadBalancer < Controller
-  @@IDLETIMEOUT = 30
+  @@IDLETIMEOUT = 12
 
   def start
     info "OpenFlow Load Balancer Conltroller Started!"
@@ -116,10 +116,12 @@ class LoadBalancer < Controller
     left_packet_count = 0
     left_flow_count = 0
     left_total_throughput = 0
+    left_avg_throughput = 0
     right_byte_count = 0
     right_packet_count = 0
     right_flow_count = 0
     right_total_throughput = 0
+    right_avg_throughput = 0
     
 
     flow_count = message.stats.length
@@ -134,7 +136,7 @@ class LoadBalancer < Controller
             left_byte_count += flow_msg.byte_count
             left_packet_count += flow_msg.packet_count
             if flow_msg.duration_sec + flow_msg.duration_nsec/1000000000 != 0
-              left_total_throughput += (flow_msg.byte_count*8/(flow_msg.duration_sec + flow_msg.duration_nsec/1000000000))
+              left_total_throughput += ((flow_msg.byte_count*8)/(flow_msg.duration_sec + flow_msg.duration_nsec/1000000000))
               info "===left path flow #{left_flow_count.to_s} throughput: #{left_total_throughput} Bps"
             end
         elsif (flow_msg.actions[0].port_number == @right)
@@ -143,7 +145,7 @@ class LoadBalancer < Controller
             right_byte_count += flow_msg.byte_count
             right_packet_count += flow_msg.packet_count
             if flow_msg.duration_sec + flow_msg.duration_nsec/1000000000 != 0
-              right_total_throughput += (flow_msg.byte_count*8/(flow_msg.duration_sec + flow_msg.duration_nsec/1000000000))
+              right_total_throughput += ((flow_msg.byte_count*8)/(flow_msg.duration_sec + flow_msg.duration_nsec/1000000000))
               info "+++right path flow #{right_flow_count.to_s} throughput: #{right_total_throughput} Bps"
             end
         end
@@ -155,18 +157,19 @@ class LoadBalancer < Controller
         @left_packet = left_packet_count
         @left_byte = left_byte_count
         if left_flow_count !=0
-        	file.puts "left #{@left_flow} #{@left_byte} #{@left_packet} #{left_total_throughput} Bps #{left_total_throughput/left_flow_count} Bps"
+          left_avg_throughput = left_total_throughput/left_flow_count
         end
     end
+    file.puts "left #{@left_flow} #{@left_byte} #{@left_packet} #{left_total_throughput} Bps #{left_avg_throughput} Bps"
     if (right_returned == 1)
         @right_flow = right_flow_count
         @right_packet = right_packet_count
         @right_byte = right_byte_count
         if right_flow_count !=0 
-        	file.puts "right #{@right_flow} #{@right_byte} #{@right_packet} #{right_total_throughput} Bps #{right_total_throughput/right_flow_count} Bps"
-    
+          right_avg_throughput = right_total_throughput/left_flow_count
         end
      end
+     file.puts "right #{@right_flow} #{@right_byte} #{@right_packet} #{right_total_throughput} Bps #{right_avg_throughput} Bps"
     file.close
   end
 

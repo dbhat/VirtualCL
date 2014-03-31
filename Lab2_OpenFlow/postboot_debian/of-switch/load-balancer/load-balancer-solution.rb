@@ -1,5 +1,5 @@
 class LoadBalancer < Controller
-  @@IDLETIMEOUT = 30
+  @@IDLETIMEOUT = 12
 
   def start
     info "OpenFlow Load Balancer Conltroller Started!"
@@ -119,7 +119,9 @@ class LoadBalancer < Controller
     right_packet_count = 0
     right_flow_count = 0
     left_total_throughput = 0
+    left_avg_throughput = 0
     right_total_throughput = 0
+    right_avg_throughput = 0
 
     flow_count = message.stats.length
     if(flow_count != 0)
@@ -155,18 +157,20 @@ class LoadBalancer < Controller
         @left_byte = left_byte_count
         if left_flow_count !=0
           @left_throughput = left_total_throughput/left_flow_count
-        	file.puts "left #{@left_flow} #{@left_byte} #{@left_packet} #{left_total_throughput} Bps #{left_total_throughput/left_flow_count} Bps"
+          left_avg_throughput = left_total_throughput/left_flow_count
         end
     end
+    file.puts "left #{@left_flow} #{@left_byte} #{@left_packet} #{left_total_throughput} Bps #{left_avg_throughput} Bps"
     if (right_returned == 1) 
         @right_flow = right_flow_count
         @right_packet = right_packet_count
         @right_byte = right_byte_count
         if left_flow_count !=0 
           @right_throughput = right_total_throughput/right_flow_count
-        	file.puts "right #{@right_flow} #{@right_byte} #{@right_packet} #{right_total_throughput} Bps #{right_total_throughput/right_flow_count} Bps"
+          right_avg_throughput = right_total_throughput/left_flow_count
         end 
     end
+    file.puts "right #{@right_flow} #{@right_byte} #{@right_packet} #{right_total_throughput} Bps #{right_avg_throughput} Bps"
     file.close
   end
 

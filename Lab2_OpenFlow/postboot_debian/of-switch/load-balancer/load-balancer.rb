@@ -166,7 +166,7 @@ class LoadBalancer < Controller
         @right_packet = right_packet_count
         @right_byte = right_byte_count
         if right_flow_count !=0 
-          right_avg_throughput = right_total_throughput/left_flow_count
+          right_avg_throughput = right_total_throughput/right_flow_count
         end
      end
      file.puts "right #{@right_flow} #{@right_byte} #{@right_packet} #{right_total_throughput} Bps #{right_avg_throughput} Bps"

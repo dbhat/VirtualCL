@@ -1,7 +1,7 @@
 <rspec type="request" generated_by="Flack" generated="2014-03-14T23:26:25Z" xsi:schemaLocation="http://www.geni.net/resources/rspec/3 http://www.geni.net/resources/rspec/3/request.xsd " xmlns:flack="http://www.protogeni.net/resources/rspec/ext/flack/1" xmlns:client="http://www.protogeni.net/resources/rspec/ext/client/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.geni.net/resources/rspec/3">
   <node client_id="NodeA" exclusive="false">
     <sliver_type name="emulab-xen">
-      <disk_image name="https://www.utahddc.geniracks.net/image_metadata.php?uuid=8ca11bd9-abb5-11e3-b858-000000000000"/>
+      <disk_image name="https://www.utahddc.geniracks.net/image_metadata.php?uuid=7ebadd26-c4d7-11e3-b859-000000000000"/>
     </sliver_type>
     <services>
       <execute command="sudo cp /gimibot_new/gimibot.sh /gimibot_new/postboot_script.sh /; chmod +x /gimibot.sh; chmod +x /postboot_script.sh; sudo sh /postboot_script.sh" shell="sh"/>
@@ -16,7 +16,7 @@
   </node>
   <node client_id="NodeB" exclusive="false">
     <sliver_type name="emulab-xen">
-      <disk_image name="https://www.utahddc.geniracks.net/image_metadata.php?uuid=8ca11bd9-abb5-11e3-b858-000000000000"/>
+      <disk_image name="https://www.utahddc.geniracks.net/image_metadata.php?uuid=7ebadd26-c4d7-11e3-b859-000000000000"/>
     </sliver_type>
     <services>
       <execute command="sudo cp /gimibot_new/gimibot.sh /gimibot_new/postboot_script.sh /; chmod +x /gimibot.sh; chmod +x /postboot_script.sh; sudo sh /postboot_script.sh" shell="sh"/>
@@ -31,7 +31,7 @@
   </node>
   <node client_id="NodeC" exclusive="false">
     <sliver_type name="emulab-xen">
-      <disk_image name="https://www.utahddc.geniracks.net/image_metadata.php?uuid=8ca11bd9-abb5-11e3-b858-000000000000"/>
+      <disk_image name="https://www.utahddc.geniracks.net/image_metadata.php?uuid=7ebadd26-c4d7-11e3-b859-000000000000"/>
     </sliver_type>
     <services>
       <execute command="sudo cp /gimibot_new/gimibot.sh /gimibot_new/postboot_script.sh /; chmod +x /gimibot.sh; chmod +x /postboot_script.sh; sudo sh /postboot_script.sh" shell="sh"/>

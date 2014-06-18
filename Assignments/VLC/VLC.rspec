@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rspec xmlns="http://www.geni.net/resources/rspec/3"
+       xmlns:s="http://www.protogeni.net/resources/rspec/ext/shared-vlan/1"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.geni.net/resources/rspec/3
+                           http://www.geni.net/resources/rspec/3/request.xsd
+                           http://www.protogeni.net/resources/rspec/ext/shared-vlan/1
+                           http://www.protogeni.net/resources/rspec/ext/shared-vlan/1/request.xsd"
+       type="request">
+<node client_id="right" exclusive="false">
+    <sliver_type name="XOMedium">
+        <disk_image name="http://emmy9.casa.umass.edu/Disk_Images/ExoGENI/exogeni-umass-ovs-omf6-1.0.3.xml" version="599fa5292da788f7f4dc2725f8d72c2cbd1237c7" />
+    </sliver_type>
+    <services>
+        <install url="http://emmy9.casa.umass.edu/GEC-19/of-topo-setup-exo.tar.gz" install_path="/tmp" />
+        <execute shell="bash" command="sudo cp /tmp/of-topo-setup/gimibot/postboot_script_exo.sh / ; /postboot_script_exo.sh $self.Name() $sliceName;  /tmp/of-topo-setup/shaper-setup $right.IP(&quot;right-aggregator&quot;) $right.IP(&quot;switch-right&quot;)" />
+    </services>
+    <interface client_id="right:switch">
+        <ip netmask="255.255.255.0" type="ipv4" address="192.168.3.2" />
+    </interface>
+    <interface client_id="right:aggregator">
+        <ip netmask="255.255.255.0" type="ipv4" address="192.168.5.1" />
+    </interface>
+</node>
+<node client_id="aggregator" exclusive="false">
+    <sliver_type name="XOMedium">
+        <disk_image name="http://emmy9.casa.umass.edu/Disk_Images/ExoGENI/exogeni-umass-ovs-omf6-trema-1.0.xml" version="98492fb83568e754165df7cd3e71f05901bedc41" />
+    </sliver_type>
+    <services>
+        <install url="http://emmy9.casa.umass.edu/GEC-19/of-aggregator-exo.tar.gz" install_path="/tmp" />
+        <execute shell="bash" command=" sudo cp /tmp/of-topo-setup/gimibot/postboot_script_exo.sh / ; /postboot_script_exo.sh $self.Name() $sliceName;  /tmp/of-topo-setup/aggregator-setup $aggregator.IP(&quot;left-aggregator&quot;) $aggregator.IP(&quot;right-aggregator&quot;) $aggregator.IP(&quot;aggregator-inside&quot;)" />
+    </services>
+    <interface client_id="aggregator:right">
+        <ip netmask="255.255.255.0" type="ipv4" address="192.168.5.2" />
+    </interface>
+    <interface client_id="aggregator:left">
+        <ip netmask="255.255.255.0" type="ipv4" address="192.168.4.2" />
+    </interface>
+    <interface client_id="aggregator:inside">
+        <ip netmask="255.255.255.0" type="ipv4" address="192.168.6.1" />
+    </interface>
+</node>
+<node client_id="inside" exclusive="false">
+    <sliver_type name="XOLarge">
+        <disk_image name="http://emmy9.casa.umass.edu/Disk_Images/ExoGENI/Ubuntu1204/ubuntu1204gimi_omf6_new.xml" version="b493a7bf320e03c6fb2a43d6823cc05bb1e02bd9" />
+    </sliver_type>
+    <services>
+        <install url="http://emmy9.casa.umass.edu/GEC-19/gimibot_omf6_new.tar.gz" install_path="/" />
+        <execute shell="bash" command=" cp /gimibot_new/postboot_script_exo.sh /; chmod +x /postboot_script_exo.sh; sh /postboot_script_exo.sh $self.Name() $sliceName" />
+    </services>
+    <interface client_id="inside:aggregator">
+        <ip netmask="255.255.255.0" type="ipv4" address="10.10.10.2" />
+    </interface>
+</node>
+
+<node client_id="switch" exclusive="false">
+    <sliver_type name="XOMedium">
+        <disk_image name="http://emmy9.casa.umass.edu/Disk_Images/ExoGENI/exogeni-umass-ovs-omf6-trema-1.0.xml" version="98492fb83568e754165df7cd3e71f05901bedc41" />
+    </sliver_type>
+    <services>
+        <install url="http://emmy9.casa.umass.edu/Eswer/of-switch-test-exo.tar.gz" install_path="/tmp" />
+        <execute shell="bash" command=" sudo cp /tmp/of-topo-setup/gimibot/postboot_script_exo.sh / ; /postboot_script_exo.sh $self.Name() $sliceName;  /tmp/of-topo-setup/lb-setup $switch.IP(&quot;outside-switch&quot;) $switch.IP(&quot;switch-left&quot;) $switch.IP(&quot;switch-right&quot;)" />
+    </services>
+    <interface client_id="switch:outside">
+        <ip netmask="255.255.255.0" type="ipv4" address="192.168.1.1" />
+    </interface>
+    <interface client_id="switch:right">
+        <ip netmask="255.255.255.0" type="ipv4" address="192.168.3.1" />
+    </interface>
+    <interface client_id="switch:left">
+        <ip netmask="255.255.255.0" type="ipv4" address="192.168.2.1" />
+    </interface>
+</node>
+<node client_id="outside" exclusive="false">
+    <sliver_type name="XOLarge">
+        <disk_image name="http://emmy9.casa.umass.edu/Disk_Images/ExoGENI/exogeni-umass-ovs-omf6-1.0.3.xml" version="599fa5292da788f7f4dc2725f8d72c2cbd1237c7" />
+    </sliver_type>
+    <services>
+        <install url="http://emmy9.casa.umass.edu/GEC-19/gimibot_omf6_new.tar.gz" install_path="/" />
+        <execute shell="bash" command=" cp /gimibot_new/postboot_script_exo.sh /; /postboot_script_exo.sh $self.Name() $sliceName" />
+    </services>
+    <interface client_id="outside:switch">
+        <ip netmask="255.255.255.0" type="ipv4" address="10.10.10.1" />
+    </interface>
+</node>
+<node client_id="left" exclusive="false">
+    <sliver_type name="XOMedium">
+        <disk_image name="http://emmy9.casa.umass.edu/Disk_Images/ExoGENI/exogeni-umass-ovs-omf6-1.0.3.xml" version="599fa5292da788f7f4dc2725f8d72c2cbd1237c7" />
+    </sliver_type>
+    <services>
+        <install url="http://emmy9.casa.umass.edu/GEC-19/of-topo-setup-exo.tar.gz" install_path="/tmp" />
+        <execute shell="bash" command=" sudo cp /tmp/of-topo-setup/gimibot/postboot_script_exo.sh / ; /postboot_script_exo.sh $self.Name() $sliceName;  sudo /tmp/of-topo-setup/shaper-setup $left.IP(&quot;left-aggregator&quot;) $left.IP(&quot;switch-left&quot;)" />
+    </services>
+    <interface client_id="left:switch">
+        <ip netmask="255.255.255.0" type="ipv4" address="192.168.2.2" />
+    </interface>
+    <interface client_id="left:aggregator">
+        <ip netmask="255.255.255.0" type="ipv4" address="192.168.4.1" />
+    </interface>
+</node>
+<link client_id="left-aggregator">
+    <interface_ref client_id="aggregator:left" />
+    <interface_ref client_id="left:aggregator" />
+    <property source_id="left:aggregator" dest_id="aggregator:left" capacity="10000000"/>
+    <property source_id="aggregator:left" dest_id="left:aggregator" capacity="10000000"/>
+</link>
+<link client_id="right-aggregator">
+    <interface_ref client_id="aggregator:right" />
+    <interface_ref client_id="right:aggregator" />
+    <property source_id="right:aggregator" dest_id="aggregator:right" capacity="10000000"/>
+    <property source_id="aggregator:right" dest_id="right:aggregator" capacity="10000000"/>
+</link>
+<link client_id="aggregator-inside">
+    <interface_ref client_id="aggregator:inside" />
+    <interface_ref client_id="inside:aggregator" />
+    <property source_id="inside:aggregator" dest_id="aggregator:inside" capacity="20000000"/>
+    <property source_id="aggregator:inside" dest_id="inside:aggregator" capacity="20000000"/>
+</link>
+<link client_id="outside-switch">
+    <interface_ref client_id="outside:switch" />
+    <interface_ref client_id="switch:outside" />
+    <property source_id="outside:switch" dest_id="switch:outside" capacity="20000000"/>
+    <property source_id="switch:outside" dest_id="outside:switch" capacity="20000000"/>
+</link>
+<link client_id="switch-left">
+    <interface_ref client_id="left:switch" />
+    <interface_ref client_id="switch:left" />
+    <property source_id="left:switch" dest_id="switch:left" capacity="10000000"/>
+    <property source_id="switch:left" dest_id="left:switch" capacity="10000000"/>
+</link>
+<link client_id="switch-right">
+    <interface_ref client_id="right:switch" />
+    <interface_ref client_id="switch:right" />
+    <property source_id="right:switch" dest_id="switch:right" capacity="10000000"/>
+    <property source_id="switch:right" dest_id="right:switch" capacity="10000000"/>
+</link>
+</rspec>

@@ -1,6 +1,6 @@
 # Learning switch Assignment
 
-In this assignmment you will learn about to implement the learning switch capability that is used by Ethernet switches by using a software-based OpenFlow switch. The functionality of the learning switch will both be explored with the LabWiki script.
+In this assignmment you will learn about to implement the learning switch capability that is used by Ethernet switches by using a software-based OpenFlow switch. The functionality of the learning switch will be explored with the LabWiki script.
 
 Overall we will do the following:
 

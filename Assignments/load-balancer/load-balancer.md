@@ -33,10 +33,10 @@ You will implement a load-balancing OpenFlow controller capable of collecting fl
 
 The topology is shown in the [figure](http://groups.geni.net/geni/attachment/wiki/GEC17Agenda/AdvancedOpenFlow/Procedure/OpenFlowLBExo.png), The topology consists of six nodes: inside and outside are regular nodes, left and right are regular switches, aggregator and switch are OpenFlow switches
 
-*Inside and Outside Nodes: These nodes can be any ExoGENI Virtual Nodes.
-*Switch: This node is a Linux host running Open vSwitch. Your Load Balancing OpenFlow Controller will be running on this node as well. This is the main node that you will be working on.
-*Traffic Shaping Nodes (Left and Right): These are Linux hosts with two network interfaces. You can configure netem on the two traffic shaping nodes to have differing characteristics; the specific values don’t matter, as long as they are reasonable. Use several different delay/loss combinations as you test your load balancer.
-*Aggregator: This node is a Linux host running Open vSwitch with a switch controller that will cause TCP connections to “follow” the decisions made by your OpenFlow controller on the Switch node. You will not need to change anything on this node, you only need to implement the OpenFlow controller on node "Switch".
+* Inside and Outside Nodes: These nodes can be any ExoGENI Virtual Nodes.
+* Switch: This node is a Linux host running Open vSwitch. Your Load Balancing OpenFlow Controller will be running on this node as well. This is the main node that you will be working on.
+* Traffic Shaping Nodes (Left and Right): These are Linux hosts with two network interfaces. You can configure netem on the two traffic shaping nodes to have differing characteristics; the specific values don’t matter, as long as they are reasonable. Use several different delay/loss combinations as you test your load balancer.
+* Aggregator: This node is a Linux host running Open vSwitch with a switch controller that will cause TCP connections to “follow” the decisions made by your OpenFlow controller on the Switch node. You will not need to change anything on this node, you only need to implement the OpenFlow controller on node "Switch".
 
 ## Implementation of OpenFlow controller
 

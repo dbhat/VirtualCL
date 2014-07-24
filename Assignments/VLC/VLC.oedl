@@ -1,0 +1,99 @@
+defApplication('vlc') do |app|
+
+   app.binary_path = "/usr/local/bin/vlc" 
+#   app.path = "/home/cong/work/vlc-2.1.0-git/bin/vlc-static"
+   #app.version(2, 1, 0)
+   #app.shortDescription = "VLC" 
+   app.description = "VLC multimedia player and streamer" 
+
+   app.defProperty("input", "Stream input (e.g. file or network address)", "", 
+                   {:type => :string, :dynamic => false})
+#   app.defProperty("sout", "Stream output", "--sout", 
+#                   {:type => :string, :dynamic => false}) 
+   app.defProperty("intf", "Main interface module", "--intf",
+                   {:type => :string, :dynamic => false})
+#   app.defProperty("extraintf", "Extra interface module(s). Use --extraintf omlstats to enable OML", "--extraintf",
+#                   {:type => :string, :dynamic => false})
+ #  app.defProperty("mtu", "Specifies the MTU of the network interface", "--mtu",
+#                   {:type => :string, :dynamic => false})
+#   app.defProperty("quiet", " Deactivates all console messages", "--quiet",
+#                   {:type => :boolean, :dynamic => false})
+ #  app.defProperty("play-and-exit", "Exit VLC after playing all the items in the input stream list", "--play-and-exit",
+ #                  {:type => :boolean, :dynamic => false})
+
+   app.defMeasurement('dashRateAdaptation') do |mp|
+     mp.defMetric('chosenRate_bps',:int)
+     mp.defMetric('empiricalRate_bps',:int)
+     mp.defMetric('decisionRate_bps',:int)
+     mp.defMetric('buffer_percent',:int)
+   end
+
+   app.defMeasurement('dashDlSession') do |mp|
+     mp.defMetric('chunkCount',:int)
+     mp.defMetric('readSession_B',:int)
+     mp.defMetric('readChunk_B',:int)
+     mp.defMetric('timeSession_s',:float)
+     mp.defMetric('timeChunk_s',:float)
+   end
+end
+
+defProperty('theOne','inside-VLC','ID sender node')
+
+#defProperty('packetsize', 128, "Packet size (byte) from the sender node")
+#defProperty('bitrate', 2048, "Bitrate (bit/s) from the sender node")
+#defProperty('runtime', 40, "Time in second for the experiment is to run")
+defProperty('duration', 100, "Duration of experiment")
+
+defGroup('Sender',property.theOne) do |node|
+  node.addApplication("vlc") do |app|
+#    app.setProperty('quiet', true)
+#    app.setProperty('play-and-exit', false)
+    #app.setProperty('intf', 'dummy')
+#    app.setProperty('extraintf', 'omlstats')
+    app.setProperty('input', 'http://10.10.10.1/www-itec.uni-klu.ac.at/ftp/datasets/mmsys12/BigBuckBunny/bunny_2s_480p_only/bunny_Desktop.mpd')
+#    app.setProperty('mtu', '1200')
+    app.measure('dashDlSession', :samples =>1)
+    app.measure('dashRateAdaptation', :samples =>1)
+  end
+end
+
+
+onEvent(:ALL_UP_AND_INSTALLED) do |event|
+    info "starting"
+  after 2 do
+    allGroups.startApplications
+    info "All applications started..."
+    end
+  after 100 do
+    allGroups.stopApplications
+    info "All applications stopped." 
+    Experiment.done
+  end
+end
+
+defGraph 'DashRate1' do |g|
+  g.ms('dashRateAdaptation').select {[:oml_seq, :decisionRate_bps]}
+  g.caption "Decision Rate."
+  g.type 'line_chart3'
+  g.mapping :x_axis => :oml_seq, :y_axis => :decisionRate_bps
+  g.xaxis :legend => 'time [s]'
+  g.yaxis :legend => 'Decision Rate', :ticks => {:format => 's'}
+end
+
+defGraph 'DashRate2' do |g|
+  g.ms('dashRateAdaptation').select {[:oml_seq, :empiricalRate_bps]}
+  g.caption "Empirical Rate"
+  g.type 'line_chart3'
+  g.mapping :x_axis => :oml_seq, :y_axis => :empiricalRate_bps
+  g.xaxis :legend => 'time [s]'
+  g.yaxis :legend => 'Empirical Rate', :ticks => {:format => 's'}
+end
+
+defGraph 'DashRate3' do |g|
+  g.ms('dashRateAdaptation').select {[:oml_seq, :buffer_percent]}
+  g.caption "VLC Buffer Percentage"
+  g.type 'line_chart3'
+  g.mapping :x_axis => :oml_seq, :y_axis => :buffer_percent
+  g.xaxis :legend => 'time [s]'
+  g.yaxis :legend => 'Buffer Percentage [%] ', :ticks => {:format => 's'}
+end

@@ -14,6 +14,6 @@ INTERFACES="$1 $2 $3"
     ovs-vsctl add-port br0 $iface < /dev/null
 done
 
-ovs-ofctl show tcp:127.0.0.1:6633 \
+sudo ovs-ofctl show br0\
     | /tmp/of-topo-setup/ovs-id-ports $1=outside $2=left $3=right \
     > /tmp/portmap

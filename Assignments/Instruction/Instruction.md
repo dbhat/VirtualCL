@@ -103,3 +103,53 @@ Make sure that before starting you have setup the correct topology and have the 
 + Part 2: [Setting up your SSH Keys](http://www.youtube.com/watch?v=3gssCqOvR-Q)
 + Part 3: [Reserving Resources](http://www.youtube.com/watch?v=1tFhi5ypCgg)
 
+Step 1: Get Ready:
+
+The first thing we need to do is login to the portal.
+Go to [the GENI Experimenter Portal](portal.geni.net) press the Use GENI button
+and from the Drop Down menu select your institution. If you got an account through the GENI Identity Provider, please select GENI Project Office. 
+Tip: Start typing the name of your institution and see the list become smaller.
+You will be transferred to the Login Page of your institution. Fill in your username and password.
+
+Step 2: Launch your experiment:
+
+* At the portal home page press the create slice from your project. 
+Tip: If you are not a member of any project and you don't know how to procede, email us
+* Name your slice something like xxxhello (where xxx are your initials)
+* When the slice page loads up, press the Slice Jacks (beta) button.
+* Once the Jacks window loads, click the Add Resources button placed at the top left part of the screen. 
+NOTE: If you get a warning about not having uploaded ssh keys just follow the instructions on providing an ssh key before you proceed.
+* In the Choose RSpec section, choose the Hello GENI choice, which should contain: [http://www.gpolab.bbn.com/exp/HelloGENI/hellogeni.rspec.](http://www.gpolab.bbn.com/exp/HelloGENI/hellogeni.rspec)
+* You will need to choose an aggregate where you want this topology to be instantiated. Click on the Site 0 box and a panel on the left side of the canvas will appear.
+* Click on the Reserve Resources button on them bottom left part of the screen.
+* Wait while your resources are being reserved. This will take several minutes so be patient. The nodes will turn green to signify that your resources are ready.
+
+
+Step 3: View Results:
+
+For this example experiment we used the install script facility to automatically install the necessary software and kick-off the experiment. In this very simple setup, we have installed and launched a web server as well as an iperf server, on the server host. On the client, we have started some processes to test both of these services. To view the results of this experiment:
+
+* [Follow these instructions](http://groups.geni.net/geni/wiki/HowTo/LoginToNodes) and log in to the server node. Get the control interface IP address by typing ifconfig. This IP address should be accessible from the internet. In a web browser, type the IP address found from ifconfig.
+* Click the Web Server Statistics link to look at statistics. Refresh the page a couple of times to see how the statistics change as the client requests documents.
+* Click the Logs from the iperf Server link to see the statistics from the iperf transfers.
+
+Optional Step 4: Manually generate traffic:
+
+While conducting experiments in GENI, you will often want to run commands directly on the nodes. In this optional step, you will log in to a node and issue commands directly to it.
+
+* Follow these instructions and log in to the client node
+* When you have successfully logged in, run this command:
+iperf -c server -P 2 
+This task shouldn't take more than 30 seconds. Change the number after the ` -P ` argument and watch how the performance is affected while you change the number of parallel TCP connections.
+* Scroll all the way down the server iperf log, and look at the logs for your transfers
+
+
+Step 5: Cleanup experiment:
+
+After you are done with your experiment, you should always release your resources so that other experimenters can use the resources. In order to cleanup your slice :
+*Press the Delete button in the bottom of your Jacks canvas.
+
+Wait and after a few moments all the resources will have been released and you will have an empty canvas again. Notice that your slice is still there. There is no way to delete a slice, it will be removed automatically after its expiration date, but remember that a slice is just an empty container so it doesn't take up any resources.
+
+
+

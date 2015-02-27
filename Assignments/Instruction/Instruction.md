@@ -92,3 +92,14 @@ Figure e.
 Once the experiment is finished, you can see all the logs and check where it has failed. If the experiment has run successfully, you would see a graph being plotted. You can drag and drop the graph into 'Plan' column to get a better look. You will also have an option to dump the state to IRODS. You can retrieve the logs from IRODS later. See Figure f.
  
 Figure f.
+
+#GENI portal
+
+## Preparation for utilizing the GENI environment
+
+Make sure that before starting you have setup the correct topology and have the proper setup of SSH keys. The following videos will walk you through these steps.
+
+- Part 1: [Understanding the GENI Portal](http://www.youtube.com/watch?v=H61s9sRP8Qk)
++ Part 2: [Setting up your SSH Keys](http://www.youtube.com/watch?v=3gssCqOvR-Q)
++ Part 3: [Reserving Resources](http://www.youtube.com/watch?v=1tFhi5ypCgg)
+

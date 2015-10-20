@@ -1,5 +1,5 @@
 # Fucntions of each file in the tool
-This document explains the function of each files in the tool.
+This document explains the function of each file in the tool.
 
 ##index.html
 

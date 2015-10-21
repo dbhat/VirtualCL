@@ -51,7 +51,7 @@ A 5-node topology [figure](http://groups.geni.net/geni/raw-attachment/wiki/GEC20
  In this case, the IP.OF.CONTROLLER would be 127.0.0.1
 >ovs-ofctl show test 	
 
-* Download the scripts from www. The script "datacenter.rb" is used to implement the data-center functionality. The controller makes use of a simple database implementation. 	The name of the script is “fdb.rb”. This is where the node-mapping information is populated on flooding to all the nodes. The controller assumes that eth1 and eth2 are servers and others are clients.
+* Download the scripts from emmy9.casa.umass.edu/datacenter.rb and emmy9.casa.umass.edu/fdb.rb. The script "datacenter.rb" is used to implement the data-center functionality. The controller makes use of a simple database implementation. 	The name of the script is “fdb.rb”. This is where the node-mapping information is populated on flooding to all the nodes. The controller assumes that eth1 and eth2 are servers and others are clients.
 
  * The next step is installing Apache server on Servers(eth1 and eth2) using the commands:
 >sudo apt-get install apache2
@@ -74,7 +74,7 @@ A 5-node topology [figure](http://groups.geni.net/geni/raw-attachment/wiki/GEC20
 * Add the following entry in the file:
 >192.168.1.15    example.com
 
- By doing this, a domain name is assigned to the alais ip for the servers. 
+ By doing this, a domain name is assigned to the alais ip for the servers. Download the sample file from emmy9.casa.umass.edu/FCC_3-26-2013.pptx on the server nodes at the location /var/www. Later, download requests for this file will be sent from the clients through oedl scripts.
 
 ## Verification of data-center functionality
 

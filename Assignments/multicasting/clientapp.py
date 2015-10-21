@@ -9,7 +9,7 @@ except socket.error:
      
 print 'Socket Created'
  
-port = 80;
+port = 8888;
 remote_ip = "192.168.1.1"
   
 #Connect to remote server

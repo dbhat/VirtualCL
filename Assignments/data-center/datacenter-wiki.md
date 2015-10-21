@@ -70,8 +70,8 @@ A 5-node topology [figure](http://groups.geni.net/geni/raw-attachment/wiki/GEC20
 
 ## Verification of data-center functionality
 
- * You can start the controller with the following command: 
- * 
+ * You can start the controller with the following command:
+ 
 >trema run datacenter.rb
  * After you have started the controller switch over to LabWiki. Download the script "datacenter.oedl" from emmy9.casa.umass.edu/datacenter.oedl. Make appropriate changes according to the server and client mappings and run the experiments on labwiki. From the graph, you can see if there was data transfer between all servers and clients. In the oedl script, an event is written which will trigger only when there is data transfer between all the servers and clients. This event will cause self-pinging in the switch node. If the assignment works successfully, it can be seen in the graph
 

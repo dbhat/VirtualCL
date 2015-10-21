@@ -6,14 +6,6 @@ This course module gives an intuition behind how the client requests are shared 
 *  Overall, students will learn any-casting, how the packet destination is modified for routing, different algorithms for load balancing
 *  Assignments will be run through LabWiki and students can visualize the working through graphs and debug using the logs.
 
-## Preparation for Routing Assignment
-
-To learn about learning-switch, check out this link: [https://www.opennetworking.org/images/stories/downloads/sdn-resources/white-papers/wp-sdn-newnorm.pdf](https://www.opennetworking.org/images/stories/downloads/sdn-resources/white-papers/wp-sdn-newnorm.pdf).
-
-To learn about the trema controller, check out this link:[http://trema.github.io/trema/](http://trema.github.io/trema/).
- 
-Also you should understand the topology you will be utilizing for this tutorial. It can be found [here] (http://emmy9.casa.umass.edu/Eswer/learning-switch/topology.png).
-
 ## Preparation for utilizing Geni Environment
 
 Make sure that before starting you have setup the correct topology and have the proper setup of SSH keys. The following videos will walk you through these steps.
@@ -22,7 +14,7 @@ Make sure that before starting you have setup the correct topology and have the 
 + Part 2: [Setting up your SSH Keys](http://www.youtube.com/watch?v=3gssCqOvR-Q)
 + Part 3: [Reserving Resources](http://server.casa.umass.edu/~zink/ECE374/recordings/assign1_topo_setip.mp4)
 
-In the case of this assignment the only thing that is different is the name of the RSpec you have to choose. So instead of using “ECE3743Node” (as shown around 1:50 minutes into the video) you now have to use RSpec titled “learning-switch” 
+In the case of this assignment the only thing that is different is the name of the RSpec you have to choose. So instead of using “ECE3743Node” (as shown around 1:50 minutes into the video) you now have to use RSpec titled “IG-learning-switch” 
 
 
 ## Working

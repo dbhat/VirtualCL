@@ -1,0 +1,168 @@
+defProperty('source1', "switch", "ID of a resource")
+defProperty('server1', "nodea", "ID of a resource")
+defProperty('server2', "nodeb", "ID of a resource")
+defProperty('client1', "nodec", "ID of a resource")
+defProperty('client2', "noded", "ID of a resource")
+
+defProperty('sinkaddr11', '192.168.1.6', "Ping destination address")
+peak_list = []
+
+defApplication('trace') do |app|
+  app.description = 'Packet capture'
+  app.binary_path = "/usr/bin/trace-oml2"
+  app.defProperty('filter', 'Filter expression BPFEXP', '-f', {:type => :string, :mnemonic => 'f'})
+  app.defProperty('interface', 'Interface to trace', '-i',{:type => :string, :mnemonic => 'i', :default => '"eth0"'})
+
+app.defMeasurement("tcp") do |m|
+    m.defMetric('tcp_seq',    :uint64, ' internal packet ID to link MPs')
+    m.defMetric('tcp_tos',   :uint32, ' Type of Service')
+    m.defMetric('tcp_len',   :uint32, ' Total Length')
+    m.defMetric('tcp_id',    :int32,  ' Identification')
+    m.defMetric('tcp_off',   :uint32, ' IP Fragment offset (and flags)')
+    m.defMetric('tcp_ttl',   :uint32, ' Time to Live')
+    m.defMetric('tcp_proto', :uint32, ' Protocol')
+    m.defMetric('tcp_sum',   :uint32, ' Checksum')
+    m.defMetric('tcp_src',   :string, ' Source Address')
+    m.defMetric('tcp_dst',   :string, ' Destination Address')
+    m.defMetric('tcp_sizeofpacket', :uint32, ' Size of the Packet')
+    m.defMetric('tcp_ts',    :double, ' timestamp of the measurement')
+  end
+
+end
+
+defApplication('ping') do |app|
+  app.description = 'Simple Definition for the ping-oml2 application'
+  # Define the path to the binary executable for this application
+  app.binary_path = '/usr/local/bin/ping-oml2'
+  # Define the configurable parameters for this application
+  # For example if target is set to foo.com and count is set to 2, then the 
+  # application will be started with the command line:
+  # /usr/bin/ping-oml2 -a foo.com -c 2
+  app.defProperty('target', 'Address to ping', '-a', {:type => :string})
+  app.defProperty('count', 'Number of times to ping', '-c', {:type => :integer})
+  # Define the OML2 measurement point that this application provides.
+  # Here we have only one measurement point (MP) named 'ping'. Each measurement
+  # sample from this MP will be composed of a 4-tuples (addr,ttl,rtt,rtt_unit)
+  app.defMeasurement('ping') do |m|
+    m.defMetric('remote',:string)
+    m.defMetric('ttl',:uint32)
+    m.defMetric('rtt',:double)
+    m.defMetric('rtt_unit',:string)
+  end
+end
+
+defApplication('Client1Req1') do |app|
+  app.description = "send the first request from client1 to the server"
+  app.binary_path = "wget http://example.com/FCC_3-26-2013.pptx"
+end
+defApplication('Client2Req1') do |app|
+  app.description = "send the first request from client2 to the server"
+  app.binary_path = "wget http://example.com/FCC_3-26-2013.pptx"
+end
+defApplication('Client2Req2') do |app|
+  app.description = "send the second request from client2 to the server"
+  app.binary_path = "wget http://example.com/FCC_3-26-2013.pptx"
+end
+defApplication('Client1Req2') do |app|
+  app.description = "send the second request from client1 to the server"
+  app.binary_path = "wget http://example.com/FCC_3-26-2013.pptx"
+end
+
+
+defGroup('Clienttrace', property.client1) do |node|
+  node.addApplication("trace") do |app|
+    app.setProperty('interface', 'eth1')
+    app.setProperty('filter', 'tcp port 80')
+    app.measure('ip', :samples => 1)
+  end
+end
+
+defGroup('Request1', property.client1) do |node|
+   node.addApplication("Client1Req1") do |app|
+    end
+  end
+defGroup('Request2', property.client2) do |node|
+  node.addApplication("Client2Req1") do |app|
+    end
+  end
+defGroup('Request3', property.client2) do |node|
+  node.addApplication("Client2Req2") do |app|
+    end
+  end
+defGroup('Request4', property.client1) do |node|
+  node.addApplication("Client1Req2") do |app|
+    end
+  end
+defGroup('Source3', property.server1) do |node|
+  node.addApplication("ping") do |app|
+    app.setProperty('target', property.sinkaddr11)
+    app.setProperty('count', 30)
+    #app.setProperty('interval', 1)
+    app.measure('ping', :samples => 1)
+  end
+end
+
+defEvent(:MY_EVENT, every: 0.5) do
+# Query for some measurements...
+  # returns an array where each element is a hash representing a row from the DB
+  query = ms('ip').select { [ :ip_src, :ip_dst ] }
+  data = defQuery(query)
+  # Alternatively the above line could also be:
+  # data = defQuery('select oml_ts_client, value from signalgen_sin')
+  #
+  # Also if you want to rename 'oml_ts_client' to 'ts'
+  # query = ms('sin').select { [ oml_ts_client.as(:ts), :value ] } 
+  # data = defQuery('select oml_ts_client as ts, value from signalgen_sin')
+
+  triggered = false
+  if !data.nil? && !(last_row = data.pop).nil? # Make sure we have some data
+    next if peak_list.include?(last_row[:ip_src]) # Do nothing if we have seen this sample before
+    if !peak_list.include?(last_row[:ip_src])
+      peak_list << last_row[:ip_src] # record that sample, so we don't trigger on it again
+    end
+    if peak_list.include?('192.168.1.8')||peak_list.include?('192.168.1.9')&&peak_list.include?('192.168.1.15')
+      
+      triggered = true
+    end
+  end
+  triggered
+end
+
+onEvent :MY_EVENT do
+  group('Source3').startApplications
+end
+
+onEvent(:ALL_UP_AND_INSTALLED) do |event|
+  info "Starting the collect"
+  info "Starting the collect"
+  after 10 do
+    group('Clienttrace').startApplications
+    group('Request1').startApplications
+  end
+  after 120 do
+    group('Request2').startApplications 
+  end
+  after 120 do
+    group('Request3').startApplications
+  end
+  after 120 do
+    group('Request4').startApplications
+  end
+  after 600 do
+    info "Stopping the collect"
+    allGroups.stopApplications
+    Experiment.done
+  end
+end
+
+defGraph 'RTT' do |g|
+  #g.ms('myping').select(:oml_seq, :dest_addr)#.where(:dest_addr => "192.168.5.12")
+  g.ms('ip').select(:ip_ts, :pktid, :ip_src)
+  g.caption "count of received packets."
+  g.type 'line_chart3'
+  g.mapping :x_axis => :ip_ts, :y_axis => :pktid, :group_by => :ip_src
+  g.xaxis :legend => 'time'
+  g.yaxis :legend => 'counter', :ticks => {:format => 's'}
+end
+
+

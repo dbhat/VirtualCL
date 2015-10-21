@@ -1,64 +1,86 @@
-class MultiCast < Controller
-$H = Hash[2 => "02:aa:d2:80:69:77", 3 => "02:d0:3c:1c:da:f8"]
-$H1 = Hash[]
-  def start
-    puts "Started"
+defProperty('resource1', "nodeb", "ID of a resource")
+defProperty('resource2', "nodec", "ID of a resource")
+defProperty('resource3', "noded", "ID of a resource")
+
+defProperty('sinkaddr11', '02:7e:4f:e9:9e:86', "Ping destination address")
+defProperty('eth11','eth1',"Output Eth interface")
+
+
+defApplication('pingl2') do |app|
+  app.description = 'Simple Definition for the pingl2 application'
+  # Define the path to the binary executable for this application
+  app.binary_path = '/usr/local/bin/pingl2'
+  # Define the configurable parameters for this application
+  # For example if target is set to foo.com and count is set to 2, then the 
+  # application will be started with the command line:
+  # /usr/bin/ping-oml2 -a macaddress -c 2
+  app.defProperty('target', 'Address to ping', '-a', {:type => :string})
+  app.defProperty('count', 'Number of times to ping', '-c', {:type => :integer})
+  app.defProperty('if_num', 'interface number', '-i', {:type => :integer})
+  app.defProperty('eth', 'Ethernet Type', '-e', {:type => :string})
+  # Define the OML2 measurement point that this application provides.
+  app.defMeasurement('pingrl') do |m|
+    m.defMetric('dest_hw_addr',:string)
   end
-def switch_ready(datapath_id)
-        info "Switch is Ready! Switch id: #{datapath_id}"
-        end
-  def packet_in datapath_id, message
-          if message.in_port == 4
-                File.open("hello1.txt", "r") do |f|
-                        f.each_line do |line|
-                                if line[3] == '1'
-                                        $H1[line[1].to_i] = $H[line[1].to_i]
-                                        puts "#{$H1}"
-                                end
-                        end
-                end
-                flow_mod datapath_id, $H1, message
-        packet_out datapath_id, $H1, message
-          end
-         if (message.in_port) == 2 || (message.in_port == 3)
-         flow_mod datapath_id, 4, message
-         packet_out datapath_id, 4, message
-         end
+    app.defMeasurement('pingrtt') do |m|
+    m.defMetric('rtt',:double)
   end
-  ##############################################################################
-  private
-  ##############################################################################
-  def flow_mod datapath_id, members, message
-   puts members
-   send_flow_mod_add(
-      datapath_id,
-      :match => ExactMatch.from( message ),
-      :actions => output_actions( members ),
-      :hard_timeout => 5
-    )
-  end
-  def packet_out datapath_id, members, message
-    puts members
-    send_packet_out(
-      datapath_id,
-      :packet_in => message,
-      :actions => output_actions( members )
-    )
-  end
-  def output_actions members
-   puts members
-      if members.is_a?(Hash)
-        members.collect do | key, value|
-        puts "Port #{key} MAC address #{value}\n"
-        ActionOutput.new( :port => key )
-            end
-      else
-        ActionOutput.new(:port =>members)
-      end
- end
 end
-### Local variables:
-### mode: Ruby
-### coding: utf-8
-### indent-tabs-mode: nil
-### End:
+
+defGroup('Source1', property.resource1) do |node|
+  node.addApplication("pingl2") do |app|
+    app.setProperty('target', property.sinkaddr11)
+    app.setProperty('count', 30)
+    app.setProperty('if_num', 10002)
+    app.setProperty('eth',property.eth11)
+    app.measure('pingrl', :samples => 1)
+    app.measure('pingrtt', :samples => 1)
+  end
+end
+
+
+defGroup('Source2', property.resource2) do |node|
+  node.addApplication("pingl2") do |app|
+    app.setProperty('target', property.sinkaddr11)
+    app.setProperty('count', 30)
+    app.setProperty('if_num', 10002)
+    app.setProperty('eth',property.eth11)
+    app.measure('pingrl', :samples => 1)
+    app.measure('pingrtt', :samples => 1)
+  end
+end
+
+defGroup('Source3', property.resource3) do |node|
+  node.addApplication("pingl2") do |app|
+    app.setProperty('target', property.sinkaddr11)
+    app.setProperty('count', 30)
+    app.setProperty('if_num', 10002)
+    app.setProperty('eth',property.eth11)
+    app.measure('pingrl', :samples => 1)
+    app.measure('pingrtt', :samples => 1)
+  end
+end
+
+
+onEvent(:ALL_UP_AND_INSTALLED) do |event|
+  info "Starting the ping"
+  after 5 do
+    allGroups.startApplications
+  end
+  after 70 do
+    info "Stopping the ping"
+    allGroups.stopApplications
+    Experiment.done
+  end
+end
+
+defGraph 'RTT' do |g|
+  g.ms('pingrtt').select(:rtt__oml_seq, :rtt__oml_sender_id, :rtt__rtt, :rl__dest_hw_addr)\
+     .from(:pingl2_pingrtt___rtt, :pingl2_pingrl___rl)\
+     .where(:rtt__oml_seq => :rl__oml_seq)
+  g.caption "RTT of received packets."
+  g.type 'line_chart3'
+  g.mapping :x_axis => :oml_seq, :y_axis => :rtt, :group_by => :oml_sender_id
+  g.xaxis :legend => 'oml_seq'
+  g.yaxis :legend => 'rtt', :ticks => {:format => 's'}
+end

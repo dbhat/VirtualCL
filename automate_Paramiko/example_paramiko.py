@@ -76,8 +76,6 @@ def cross_client(ipaddress,ports,exec_commands):
     ssh.close()
 def app_client(ipaddress,ports):
     global user
-    #with settings(host_string=ipaddress, port=ports, user = "dbhat", key_filename="/Users/dbhat/.ssh/id_geni_ssh_rsa"):
-     #   run('sudo apt-get -f install python-pip python-dev build-essential')
      
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())

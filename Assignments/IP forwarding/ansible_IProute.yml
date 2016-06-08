@@ -1,0 +1,88 @@
+#This is an Ansible Playbook for the IP routing exercise found at 
+#http://groups.geni.net/geni/wiki/GENIEducation/SampleAssignments/IPRouting 
+---
+
+- name: test NodeA
+  hosts: NodeA
+  sudo: True
+  tasks:
+   - name: ping seta1
+     shell:  "ping -c 5 192.168.1.11"
+     register: pingA1_test
+     failed_when: "'Timeout' in pingA1_test.stdout_lines"
+   - debug: var=pingA1_test.stdout_lines
+   - name: ping seta2
+     shell:  "ping -c 5 192.168.3.12"
+     register: pingA2_test
+     failed_when: "'Timeout' in pingA2_test.stdout_lines"
+   - debug: var=pingA2_test.stdout_lines
+  
+- name: test NodeB 
+  hosts: NodeB
+  sudo: True
+  tasks:
+   - name: ping setb1
+     shell:  "ping -c 5 192.168.1.10"
+     register: pingB1_test
+     failed_when: "'Timeout' in pingB1_test.stdout_lines"
+   - debug: var=pingB1_test.stdout_lines
+   - name: ping setb2
+     shell:  "ping -c 5 192.168.2.12"
+     register: pingB2_test
+     failed_when: "'Timeout' in pingB2_test.stdout_lines"
+   - debug: var=pingB2_test.stdout_lines
+   
+- name: test NodeC 
+  hosts: NodeC
+  sudo: True
+  tasks:
+   - name: ping setc1
+     shell:  "ping -c 5 192.168.3.10"
+     register: pingC1_test
+     failed_when: "'Timeout' in pingC1_test.stdout_lines"
+   - debug: var=pingC1_test.stdout_lines
+   - name: ping setc2
+     shell:  "ping -c 5 192.168.2.11"
+     register: pingC2_test
+     failed_when: "'Timeout' in pingC2_test.stdout_lines"
+   - debug: var=pingC2_test.stdout_lines
+#Enter static routing commands here
+- name: route NodeA 
+  hosts: NodeA
+  sudo: True
+  tasks:
+   - name: rout seta1
+     shell:  ""
+     register: routA1_test
+   - debug: var=routA1_test.stderr_lines
+  
+- name: route NodeB 
+  hosts: NodeB
+  sudo: True
+  tasks:
+   - name: rout setb1
+     shell:  ""
+     register: routB1_test
+   - debug: var=routB1_test.stderr_lines
+
+- name: route NodeC
+  hosts: NodeC
+  sudo: True
+  tasks:
+   - name: rout setc1
+     shell:  ""
+     register: routC1_test
+   - debug: var=routC1_test.stderr_lines
+
+#Test New route setup
+- name: testroute NodeA 
+  hosts: NodeA
+  sudo: True
+  tasks:
+   - name: ping seta1
+     shell:  "ping -c 5 192.168.2.12"
+     register: pingA1_test
+     failed_when: "'Timeout' in pingA1_test.stdout_lines"
+   - debug: var=pingA1_test.stdout_lines
+   
+

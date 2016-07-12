@@ -1,0 +1,36 @@
+#This is an Ansible Playbook for the Learning Switch found at 
+#http://groups.geni.net/geni/wiki/GEC22Agenda/LabWiki/ModuleA 
+---
+
+- name: ovs switch
+  hosts: switch
+  sudo: True
+  tasks:
+   - name: install ovs
+     shell: "sudo sh /root/ovs-setup2.sh"
+     async: 60
+     poll: 0
+     register: ovs_setup
+   - debug: var=ovs_setup.stdout_lines
+
+- name: test nodea 
+  hosts: nodea
+  sudo: True
+  tasks:
+   - pause: seconds=15
+   - name: ping setb
+     shell:  "ping -c 5 192.168.1.7"
+     register: pingB_test
+     failed_when: "'Timeout' in pingB_test.stdout_lines"
+   - debug: var=pingB_test.stdout_lines
+   - name: ping setc
+     shell:  "ping -c 5 192.168.1.8"
+     register: pingC_test
+     failed_when: "'Timeout' in pingC_test.stdout_lines"
+   - debug: var=pingC_test.stdout_lines
+   - name: ping setb2
+     shell:  "ping -c 5 192.168.1.9"
+     register: pingD_test
+     failed_when: "'Timeout' in pingD_test.stdout_lines"
+   - debug: var=pingD_test.stdout_lines
+   

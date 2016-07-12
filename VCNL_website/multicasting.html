@@ -97,14 +97,15 @@
 				<div class="row">
 					<div class="col-md-8 col-md-offset-2 animate-box">
 					<h2>Overview</h2>
-					<p>The purpose of this experiment is for students to learn the multi-casting protocol, packet duplication, layer-2 ping application.</p>
+					<p>The purpose of this experiment is for students to learn about the multicasting , packet duplication, layer-2 ping application.</p>
 				</div>
 				</div>
 				<div class="row">
 					<div class="col-md-8 col-md-offset-2 animate-box">
 					<h2>Preparation</h2>
-					<p>A 5-node topology figure, shown below, is used for this purpose. Three nodes are clients, one node is the server and the other node is the switch. In this assignment, to show the functionality of multi-casting, layer 2 ping application is used. Server will multicast only to the subscribed clients. Separate applications run on clients and servers for the purpose of sending and receiving join/leave messages. The server application initially creates a file called "hello1.txt". It writes the default values for all the available clients. '0' represents not being subscribed while '1' represents being subscribed. The default value is '0'. Each line in the file is in the format "(client_number, 0/1)". When a client send a join message(1) to the server, the server will modify the appropriate entry in "hello1.txt". This file is used by the controller to get the list of subscribed clients. When clients make a layer-2 ping request, server will make multiple copies depending on the number of subscribed clients and only those subscribed clients will receive the reply back from the server.</p>
-					<p>To realize this implementation of Multicasting, Trema based Openflow controller written in Ruby has to be designed and implemented. To know more about Trema, refer the following <a href="https://trema.github.io/trema/1"><i>link</i></a>.</p>
+					<p>A 5-node topology as shown in the figure below is used for this purpose. Three of the five nodes act as clients, one node is the server and the remaining node acts as the switch. In this assignment, the layer 2 ping application is used to show the functionality of multicasting. The goal of this assignment is to develop a mechanisms that duplicates packets at the switch and only forwards them to clients that have subscribed to the multicast group.
+Separate applications run on the clients and the server for the purpose of sending and receiving join/leave messages. The server application initially creates a file called "hello1.txt". It writes the default values for all the available clients. '0' represents not being subscribed while '1' represents being subscribed. The default value is '0'. Each line in the file is in the format "(client_number, 0/1)". When a client sends a join message(1) to the server, the server will modify the appropriate entry in "hello1.txt". This file is used by the controller to get the list of subscribed clients. When clients sends a layer-2 ping, the server will make multiple copies depending on the number of subscribed clients and only those subscribed clients will receive the reply back from the server.</p>
+					<p>To realize multicasting, a Trema-based Openflow controller written in Ruby has to be designed and implemented. More about Trema can be found <a href="https://trema.github.io/trema/1"><i>here</i></a>.</p>
 					<div class="col-md-12 animate-box">
 						<div class="service col-md-6">
 						    <div class="service-icon">

@@ -1,0 +1,271 @@
+
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+	<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>VCNL | Three Node Routing</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="keywords" content="free html5, free template, free bootstrap, html5, css3, mobile first, responsive" />
+	
+	<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+	<link rel="shortcut icon" href="favicon.ico">
+
+	<link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,300,700|Roboto:300,400' rel='stylesheet' type='text/css'>
+	
+	<!-- Animate.css -->
+	<link rel="stylesheet" href="css/animate.css">
+	<!-- Icomoon Icon Fonts-->
+	<link rel="stylesheet" href="css/icomoon.css">
+	<!-- Bootstrap  -->
+	<link rel="stylesheet" href="css/bootstrap.css">
+
+	<link rel="stylesheet" href="css/style.css">
+
+
+	<!-- Modernizr JS -->
+	<script src="js/modernizr-2.6.2.min.js"></script>
+	<!-- FOR IE9 below -->
+	<!--[if lt IE 9]>
+	<script src="js/respond.min.js"></script>
+	<![endif]-->
+
+	</head>
+	<body>
+	<div class="overlay">
+	  <div class="wrapper">
+		<div class="box"></div>
+		<div class="box"></div>
+		<div class="box"></div>
+		<div class="box"></div>
+	  </div>
+	</div>
+	<div class="box-wrap">
+		<header role="banner" id="fh5co-header">
+			<div class="container">
+				<nav class="navbar navbar-default">
+					<div class="row">
+						<div class="geni-logo col-md-3">
+							<div class="fh5co-navbar-brand">
+								<a class="fh5co-logo" href="index.html"><img src="images/geni_logo.png" alt="Closest Logo"></a>
+							</div>
+						</div>
+						<div class="col-md-7">
+							<ul class="nav text-center">
+								<li ><a href="index.html"><span>Home</span></a></li>
+								<li class="active"><a href="modules.html">Modules</a></li>
+								<li><a href="aboutUs.html">About Us</a></li>
+								<li><a href="faq.html">FAQ</a></li>
+								<li><a href="contact.html">Contact Us</a></li>
+							</ul>
+						</div>
+						<div class="col-md-2">
+							<ul class="social">
+								<li><a href="http://facebook.com/vcnl" target="_blank"><i class="icon-facebook"></i></a></li>
+								<li><a href="http://twitter.com/vcnl" target="_blank"><i class="icon-twitter"></i></a></li>
+								<li><a href="#"><i class="icon-linkedin"></i></a></li>
+							</ul>
+						</div>
+					</div>
+				</nav>
+		  </div>
+		</header>
+		<!-- END: header -->
+
+		<section id="product">
+			<div class="container">
+				<div class="row animate-box">
+					<div class="col-md-12 section-heading text-center">
+						<h2><u>E2: OpenFlow Learning Switch</u></h2>
+					</div>
+				</div>
+				<div class="row">
+					<div class="post-entry">
+						<div class="col-md-8 col-md-offset-2">
+							<div class="post animate-box">
+								<div class="col-md-12"><a href="#link1"><img class="vidFrame" width="300px" src="images/video-thumbnail.png"></a></div>
+							</div>
+						</div>
+					</div>
+					<a href="#_" class="lightbox" id="link1">
+					  <iframe id="autoplayvideoframe" class="vidFrame" width="700" height="500" src="https://www.youtube.com/embed/uLswSeFlAQo" frameborder="0" allowfullscreen></iframe>
+					</a>
+				</div>
+				<div class="row">
+					<div class="col-md-8 col-md-offset-2 animate-box">
+					<h2>Overview</h2>
+					<p>In this first module of the tutorial you will learn how to quikly design and execute a lab exercise on a GENI testbed using Ansible. In the second module, you will learn how to easily scale up the first experiment to include more hosts and switches. The working of the experiment is similar to that of the previous experiment.</p>
+				</div>
+				</div>
+				<div class="row">
+					<div class="col-md-8 col-md-offset-2 animate-box">
+					<h2>Preparation</h2>
+					<p>The goal of this assignment is to implement the learning switch capability that is used by Ethernet switches by using a software-based OpenFlow switch. In the topology shown in the figure (Simple Learning Switch), this software switch is to be implemented in the node “switch”. All the other nodes represent regular hosts. To realize this implementation of a learning switch, Trema based Openflow controller written in Ruby has to be designed and implemented.</p>
+					<p>The correct functionality of the learning switch can be verified by creating an experiment script in which a node A pings node B – node D in Ansible. In the topology shown in the figure, the switch node is the learning switch, which connects nodes A-D with each other. When any of these nodes ping each other for the first time, the switch does not know the destination address of the node. To populate it's route table, the switch node floods the packet to all the nodes it is connected to. When it receives a reply to the flood, this information is used to populate its switching table. Hereafter, when any node wants to ping any other nodes, the switch node does a lookup from the table. 
+					<br/>To know more about learning-switch, check out this <a href="https://www.opennetworking.org/images/stories/downloads/sdn-resources/white-papers/wp-sdn-newnorm.pdf"><i>link</i></a>.
+					<br/>To know more about the POX controller, check out this <a href="https://openflow.stanford.edu/display/ONL/POX+Wiki"><i>link</i></a>.<br/>To learn about Ansible, check out this <a href="https://www.ansible.com/"><i>link</i></a>. To know more about using Ansible with GENI check out <a href="http://groups.geni.net/geni/wiki/GENIExperimenter/Tutorials/AnsibleHelloGENI"><i>this tutorial</i></a></p>
+					<div class="col-md-12 animate-box">
+						<div class="service col-md-6">
+							<div class="service-icon">
+								<img style="width: 400px; margin-bottom: 5px;" src="http://groups.geni.net/geni/raw-attachment/wiki/GEC20Agenda/LabWiki/ModuleA/GEC20_simple_topo.png">
+							</div>
+							<h3>Simple Learning Switch</h3>
+						</div>
+						<div class="service col-md-6">
+							<div class="service-icon">
+								<img style="width: 400px; margin-bottom: 5px;" src="http://groups.geni.net/geni/raw-attachment/wiki/GEC20Agenda/LabWiki/ModuleC/GEC20_extended_topo.png">
+							</div>
+							<h3> Extended Learning Switch</h3>
+						</div>
+					</div>
+				</div>
+				</div>
+				<div class="row">
+					<div class="col-md-8 col-md-offset-2 animate-box">
+					<h2>Experiment</h2>
+					<p>For this experiment you can use the following RSpecs made available on the <a href="https://portal.geni.net"><i>GENI Portal</i></a>.<br/>
+					 
+							<br>- Simple Learning Switch - IG-learning-switch
+							<br>- Extended Learning Switch - IG-learning-switch-extended
+						 
+					</p>
+				</div>
+				</div>	
+				<div class="row">
+					<div class="col-md-8 col-md-offset-2 animate-box">
+					<h2>Verification</h2>
+					<p>In this exercise, we use Ansible to setup the OVS bridge, run the OpenFlow controller and then verify the working of the controller by running pings from node A to nodes B,C and D.</p><p>
+					<br>1. If you have Omni installed on your machine use the command "$readyToLogin MYSLICE --useSliceAggregates --ansible-inventory -o" to create an inventory for the Ansible playbook and proceed to Step 4.
+                                                <br>2. If you do not have Omni installed, click on the "Details" button on the Slice page in the GENI Portal
+                                                        <br>3. Scroll to the bottom of the screen and click on the link "Show Ansible Inventory" as shown in the following screenshot.
+
+                                        <br><div class="col-md-12 animate-box">
+                                                <div class="service">
+                                                        <div class="service-icon">
+                                                                <img class="vidFrame" style="width: 800px; margin-bottom: 5px;" src="images/ansible_inventory.png">
+                                                        </div>
+                                                </div><
+                                        </div></br>
+                                </p><p>                 <br>4. Using your favorite text editor, save the output to a file called inventory as explained in the <a href="http://groups.geni.net/geni/wiki/GENIExperimenter/Tutorials/AnsibleHelloGENI"><i>Ansible HelloGENI</i></a>.
+                                                        <br>5. Execute the ansible playbook using the following command:
+ansible-playbook Ansible_learnswitch.yml -i inventory <br>
+The following steps (4-6) are all part of a single Ansible playbook. The entire script can be found <a href="https://github.com/dbhat/VirtualCL/blob/master/Assignments/LearningSwitch/Ansible_learnswitch.yml"><i></i></a>at this link. Here, we provide an explanation for the relevant sections of the script.
+
+
+				<!---	<br><div class="col-md-12 animate-box">
+						<div class="service">
+							<div class="service-icon">
+								<img class="vidFrame" style="width: 800px; margin-bottom: 5px;" src="http://groups.geni.net/geni/raw-attachment/wiki/GEC22Agenda/LabWiki/ModuleA/Execute/LW-execute.png">
+							</div>
+						</div><br/>
+					</div> --->
+					</div>
+					</div>
+					<div class="row">
+                                        <div class="col-md-8 col-md-offset-2 animate-box">
+                                        <h2>Execute script to create OVS bridge and run the PoX controller</h2>
+                                        <p>This section executes a script which creates the OVS bridge and starts the PoX learning switch module as a daemon on the switch node.</p>
+					  <pre><code class="codeblock">
+- name: ovs switch
+  hosts: switch
+  sudo: True
+  tasks:
+   - name: install ovs
+     shell: "sudo sh /root/ovs-setup2.sh"
+     async: 60
+     poll: 0
+     register: ovs_setup
+   - debug: var=ovs_setup.stdout_lines
+					</code></pre>
+
+					</div>
+					</div>
+					<div class="row">
+                                        <div class="col-md-8 col-md-offset-2 animate-box">
+                                        <h2>Test the controller</h2>
+					<p>This section runs the pings from node A to nodes B,C and D.</p>
+					<pre><code class="codeblock">
+- name: test nodea 
+  hosts: nodea
+  sudo: True
+  tasks:
+   - pause: seconds=15
+   - name: ping setb
+     shell:  "ping -c 5 192.168.1.7"
+     register: pingB_test
+     failed_when: "'Timeout' in pingB_test.stdout_lines"
+   - debug: var=pingB_test.stdout_lines
+   - name: ping setc
+     shell:  "ping -c 5 192.168.1.8"
+     register: pingC_test
+     failed_when: "'Timeout' in pingC_test.stdout_lines"
+   - debug: var=pingC_test.stdout_lines
+   - name: ping setb2
+     shell:  "ping -c 5 192.168.1.9"
+     register: pingD_test
+     failed_when: "'Timeout' in pingD_test.stdout_lines"
+   - debug: var=pingD_test.stdout_lines
+   
+					</code></pre>
+</div>
+                                </div>
+	<h3><br>Note to Students</h3>
+					<p>
+						- Try to extend the above script to ping all nodes in the Extended learning switch experiment. Hint: You will need to start two instances of the PoX learning switch module; one on each switch. You will also need to add the lines to ping nodes e and f from node a. Verify that you are using the correct IP addresses.	
+						<br>- Once the experiment is complete, students have to create a new text file for submission. When you are ready to submit the file, you can save the output of the Ansible command to a text file and send it in for grading. Use two different text file submissions for the simple learning switch and the extended one.</br>
+						
+					</p>
+					<h3>Note to Instructors</h3>
+					<p>
+							- Students can be asked to implement a particular functionality of the OpenFlow controller. A template should be given to them.<br>
+						
+					</p>
+			</div>
+		</section>
+		
+
+		<footer id="footer" role="contentinfo">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="footer-widget border">
+							<div class="col-md-4">
+							<p class="pull-left" class="col-md-4"><small>Contact Us<br/>Email: geni-users@googlegroups.com</small></p>
+							<ul class="social social-footer">
+								<li><a href="http://facebook.com/vcnl" target="_blank"><i class="icon-facebook"></i></a></li>
+								<li><a href="http://twitter.com/vcnl" target="_blank"><i class="icon-twitter"></i></a></li>
+								<li><a href="#"><i class="icon-linkedin"></i></a></li>
+							</ul>
+							</div>
+							<div class="col-md-4">
+								<img class="col-md-4 col-md-offset-5" width="90" height="90" align="left" alt="Logo2" src="images/umass-logo400.png">
+							</div>
+							<div class="col-md-4">
+							<p class="pull-left" class="col-md-4"><small>Related Links<br/><a href="www.geni.net">www.geni.net</a></small></p></div>
+							
+						</div>
+					</div>
+				</div>
+			</div>
+		</footer>
+	</div>
+	<!-- END: box-wrap -->
+	
+	<!-- jQuery -->
+	<script src="js/jquery.min.js"></script>
+	<!-- jQuery Easing -->
+	<script src="js/jquery.easing.1.3.js"></script>
+	<!-- Bootstrap -->
+	<script src="js/bootstrap.min.js"></script>
+	<!-- Waypoints -->
+	<script src="js/jquery.waypoints.min.js"></script>
+
+	<!-- Main JS (Do not remove) -->
+	<script src="js/main.js"></script>
+	
+	</body>
+</html>
+

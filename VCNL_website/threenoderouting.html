@@ -1,118 +1,230 @@
+
 <!DOCTYPE html>
-<html>
-<head>
-	<meta charset="UTF-8" />
-	<title>Three Node Routing - VCNL Website Template</title>
-	<link rel="stylesheet" type="text/css" href="css/style.css" />
-	<!--[if IE 9]>
-		<link rel="stylesheet" type="text/css" href="css/ie9.css" />
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+	<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>VCNL | Three Node Routing</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="keywords" content="free html5, free template, free bootstrap, html5, css3, mobile first, responsive" />
+	
+	<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+	<link rel="shortcut icon" href="favicon.ico">
+
+	<link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,300,700|Roboto:300,400' rel='stylesheet' type='text/css'>
+	
+	<!-- Animate.css -->
+	<link rel="stylesheet" href="css/animate.css">
+	<!-- Icomoon Icon Fonts-->
+	<link rel="stylesheet" href="css/icomoon.css">
+	<!-- Bootstrap  -->
+	<link rel="stylesheet" href="css/bootstrap.css">
+
+	<link rel="stylesheet" href="css/style.css">
+
+
+	<!-- Modernizr JS -->
+	<script src="js/modernizr-2.6.2.min.js"></script>
+	<!-- FOR IE9 below -->
+	<!--[if lt IE 9]>
+	<script src="js/respond.min.js"></script>
 	<![endif]-->
-	<!--[if IE 8]>
-		<link rel="stylesheet" type="text/css" href="css/ie8.css" />
-	<![endif]-->
-	<!--[if IE 7]>
-		<link rel="stylesheet" type="text/css" href="css/ie7.css" />
-	<![endif]-->
-</head>
-<body>
-	<div id="header">
-		<div>
-			<div id="logo">
-                                <a href="index.html"><img src="images/geni_logo.png" width="250" height="90" alt="Logo" /></a>
-                        </div>
-			<div id="navigation">
-				<div>
-					<ul>
-						<li class="current"><a href="index.html">Home</a></li>
-                        <li><a href="modules.html">Modules</a></li>
-						<li><a href="about.html">About Us</a></li>
-                                                <li><a href="faq.html">FAQ</a></li>
-						<li><a href="contact.html">Contact Us</a></li>
-					</ul>
+
+	</head>
+	<body>
+	<div class="overlay">
+	  <div class="wrapper">
+		<div class="box"></div>
+		<div class="box"></div>
+		<div class="box"></div>
+		<div class="box"></div>
+	  </div>
+	</div>
+	<div class="box-wrap">
+		<header role="banner" id="fh5co-header">
+			<div class="container">
+				<nav class="navbar navbar-default">
+					<div class="row">
+						<div class="geni-logo col-md-3">
+							<div class="fh5co-navbar-brand">
+								<a class="fh5co-logo" href="index.html"><img src="images/geni_logo.png" alt="Closest Logo"></a>
+							</div>
+						</div>
+						<div class="col-md-7">
+							<ul class="nav text-center">
+								<li ><a href="index.html"><span>Home</span></a></li>
+								<li class="active"><a href="modules.html">Modules</a></li>
+								<li><a href="aboutUs.html">About Us</a></li>
+								<li><a href="faq.html">FAQ</a></li>
+								<li><a href="contact.html">Contact Us</a></li>
+							</ul>
+						</div>
+						<div class="col-md-2">
+							<ul class="social">
+								<li><a href="http://facebook.com/vcnl" target="_blank"><i class="icon-facebook"></i></a></li>
+								<li><a href="http://twitter.com/vcnl" target="_blank"><i class="icon-twitter"></i></a></li>
+								<li><a href="#"><i class="icon-linkedin"></i></a></li>
+							</ul>
+						</div>
+					</div>
+				</nav>
+		  </div>
+		</header>
+		<!-- END: header -->
+
+		<section id="product">
+			<div class="container">
+				<div class="row animate-box">
+					<div class="col-md-12 section-heading text-center">
+						<h2><u>E1: Three Node Routing</u></h2>
+					</div>
+				</div>
+				<div class="row">
+					<div class="post-entry">
+						<div class="col-md-8 col-md-offset-2">
+							<div class="post animate-box">
+								<div class="col-md-12"><a href="#link1"><img class="vidFrame" width="300px" src="images/video-thumbnail.png"></a></div>
+							</div>
+						</div>
+					</div>
+					<a href="#_" class="lightbox" id="link1">
+					  <iframe id="autoplayvideoframe" class="vidFrame" width="700" height="500" src="https://www.youtube.com/embed/uLswSeFlAQo" frameborder="0" allowfullscreen></iframe>
+					</a>
+				</div>
+				<div class="row">
+					<div class="col-md-8 col-md-offset-2 animate-box">
+					<h2>Overview</h2>
+					<p>In this assignmment you will learn about the fundamentals of IP routing by setting up static routing in a 3-node topology. The Ping and Route applications will both be explored with LabWiki experiment scripts</p>
+					<p>
+							1. Verify that a slice has been set up correctly
+							<br>2. Establish static routes using the route command and enable IP forwarding
+							<br>3. Verify the correctness of static routing and IP forwarding
+					   
+					</p>
+				</div>
+				</div>
+				<div class="row">
+					<div class="col-md-8 col-md-offset-2 animate-box">
+					<h2>Preparation</h2>
+					<p>Before starting this assignment you should have read and understood chapter 4 in Computer Networking: A Top Down Approach by Kurose-Ross For additional understanding check out the chapter 4 exercises <a href="http://wps.pearsoned.com/ecs_kurose_compnetw_6/216/55463/14198700.cw/index.html"><i>here</i></a>.</p>
+					<p>Also you should understand the topology you will be utilizing for this tutorial. It can be found <a href="http://groups.geni.net/geni/wiki/GENIEducation/SampleAssignments/IPRouting/Procedure"><i>here</i></a>.</p>
+				</div>
+				</div>
+				<div class="row">
+					<div class="col-md-8 col-md-offset-2 animate-box">
+					<h2>Experiment</h2>
+               				<p>To try the <a href="https://www.ansible.com/">Ansible</a> version of this tutorial, click <a href="http://emmy10.casa.umass.edu/threenoderouting_ansible.html">here.</a> To use the LabWiki version, continue here.</p>
+					<h3><i>Verification of Topology</i></h3>
+					<p>After establishing the slice on which the experiment will be executed, it should be verified for correctness. In this tutorial, we use an OMF experiment script that executes pings between neighbouring nodes. This tutorial uses a <a href="https://raw.githubusercontent.com/dbhat/VirtualCL/master/Assignments/IP%20forwarding/routetopology.png"><i>three-node topology</i></a>.</p>
+					<p>The same experiment script can also be found in LabWiki. To run the experiment perform the following steps: <br/>
+					
+							<br>1. Type  "step1_threenode.rb"  in the search box of the "Prepare widget" in LabWiki.   Select the the script from the list of scripts that pops up.
+							<br>2. Drag the "notepad" icon from "Prepare" widget to the "Execute" widget.
+							<br>3. Check if all the specified parameters are correct.
+							<br>4. Start the experiment.
+						
+					</p>
+					<h3><i>Set up Routing and IP forwarding in Experiment Topology</i></h3>
+					<p>In this step static routing is set up using route command and IP forwarding is enabled.The same experiment script can also be found in LabWiki.</p>
+					<p>To run the experiment perform the following steps:<br/>
+					
+							<br>1. Type "step2_threenode.rb" in the search box of the "Prepare widget" in LabWiki. Select the the script from the list of scripts that pops up.
+							<br>2. Use the template and set up routing and enable IP forwarding.
+							<br>3. After making necessary changes in the template drag the "notepad" icon from "Prepare" widget to the "Execute" widget.
+							<br>4. Check if all the specified parameters are correct.
+							<br>5. Start the experiment.
+						
+					</p>
+				</div>
+				</div>
+				<div class="row">
+					<div class="col-md-8 col-md-offset-2 animate-box">
+					<h2>Verification of Routing and IP forwarding</h2>
+					<p>After establishing the routing, we use an OMF experiment script that executes ping between node A and node C via node B, to verify the correctness of IP forwarding.</p>
+					<p>The same experiment script can also be found in LabWiki. To run the experiment perform the following steps:<br/>
+					
+							<br>1. Type "step3_threenode.rb" in the search box of the "Prepare widget" in LabWiki. Select the the script from the list of scripts that pops up.
+							<br>2. Drag the "notepad" icon from "Prepare" widget to the "Execute" widget.
+							<br>3. Check if all the specified parameters are correct.
+							<br>4. Start the experiment.
+						
+					</p>
+					<p>Select the correct 'project' and 'slice' - Then, start the actual experiment by clicking on the "Start Experiment" button.</p>
+					<br><div class="col-md-12 animate-box">
+						<div class="service">
+							<div class="service-icon">
+								<img class="vidFrame" style="width: 800px; margin-bottom: 5px;" src="images/3NR-1.png">
+							</div>
+						</div><br/>
+					</div>
+					<p>After pressing the "Start" button, the Execute window will change and start showing status information about your experiment. The figure below gives an example for the Execute window during experiment execution.</p>
+					<div class="col-md-12 animate-box">
+						<div class="service">
+							<div class="service-icon">
+								<img class="vidFrame" style="width: 800px; margin-bottom: 5px;" src="images/3NS.png"><br>
+							</div></br>
+						</div>
+					</div>
+					<br><p>Now the window lists experiment properties, one or several live graphs (if they have been specified in the OEDL script), and logging information. The latter would be a good starting point for troubleshooting, should your experiment not run as expected. Depending on the status of your resources and experiments, you will see one of the following statuses at the top of the Execute window: </br>
+					
+							<br>1. <u>Pending</u> - This is the first state of your experiment where the job scheduler adds it to the run queue. This status would remain for the first few seconds before it changes to Running or Failed 
+							<br>2. <u>Running</u> - This status appears when your experiment starts running. If it fails for one or more reasons, a Failed status will appear instead 
+							<br>3. <u>Aborted</u> - When you click on "Stop Experiment" at the top-left corner of the Execute window, the status changes to aborted
+							<br>4. <u>Finished</u> - When your experiment is done, you will see this status.
+					
+			                <br><br><b>What to hand in</b>
+					<br>1. Drag the graphs into your Markdown and include answers to the questions above in the same document.
+<br>2. When you are ready to submit your assignment, i.e, verified that the required routing is in place, Click on the Share Page button at the top left corner of the Plan column. This sends a link to your grader to evaluate your output.
+					</p>
+					
+				</div>
 				</div>
 			</div>
-		</div>
-	</div>
-	<div id="content">
-			<div>
-				<h2>Three Node Routing</h2>
-				 <a href="threenoderouting.html"><iframe width="260" height="215" src="https://www.youtube.com/embed/uLswSeFlAQo" frameborder="0" allowfullscreen></iframe></a>
-</div>
+		</section>
 		
-		<div>
-				<h3>Overview</h3>
-				<p>In this assignmment you will learn about the fundamentals of IP routing by setting up static routing in a 3-node topology. The Ping and Route applications will both be explored with LabWiki experiment scripts.<br>Overall we will do the following with three parts:<ul>
-<li>Verify that a slice has been set up correctly</li>
-<li>Establish static routes using the route command and enable IP forwarding</li>
-<li>Verify the correctness of static routing and IP forwarding</li>
-</ul>
-</p>
-		</div>
-		<div>
-		    <h3>Preparation</h3>
-			<p>Before starting this assignment you should have read and understood chapter 4 in Computer Networking: A Top Down Approach by Kurose-Ross<br>For additional understanding check out the chapter 4 exercises <a href="http://wps.pearsoned.com/ecs_kurose_compnetw_6/216/55463/14198700.cw/index.html">here</a>.<br> Also you should understand the topology you will be utilizing for this tutorial. It can be found <a href="http://groups.geni.net/geni/wiki/GENIEducation/SampleAssignments/IPRouting/Procedure">here</a>.</p>
-		</div>
-		<div>
-		    <h3>Experiment</h3>
-                        <h4> Verification of Topology </h4>
-			<p>After establishing the slice on which the experiment will be executed, it should be verified for correctness. In this tutorial, we use an OMF experiment script that executes pings between neighbouring nodes. This tutorial uses a <a href="https://raw.githubusercontent.com/dbhat/VirtualCL/master/Assignments/IP%20forwarding/routetopology.png"> three-node topology</a>. </p>
-                <p>The same experiment script can also be found in LabWiki. To run the experiment perform the following steps:
-<ol>
-<li>Type "step1_threenode.rb" in the search box of the "Prepare widget" in LabWiki. Select the the script from the list of scripts that pops up.</li>
-<li>Drag the "notepad" icon from "Prepare" widget to the "Execute" widget.</li>
-<li>Check if all the specified parameters are correct.</li>
-<li>Start the experiment.</li>
-</ol>
-</p>
-<h4>Set up Routing and IP forwarding in Experiment Topology</h4>
-<p>In this step static routing is set up using route command and IP forwarding is enabled.<br>The same experiment script can also be found in LabWiki. </p>
-<p>To run the experiment perform the following steps:<br>
-<ol>
-<li>Type "step2_threenode.rb" in the search box of the "Prepare widget" in LabWiki. Select the the script from the list of scripts that pops up.</li>
-<li>Use the template and set up routing and enable IP forwarding.</li>
-<li>After making necessary changes in the template drag the "notepad" icon from "Prepare" widget to the "Execute" widget.</li>
-<li>Check if all the specified parameters are correct.</li>
-<li>Start the experiment.</li>
-</ol></p>
-		</div>
-		<div>
-		    <h3>Verification of Routing and IP forwarding</h3>
-			<p>After establishing the routing, we use an OMF experiment script that executes ping between node A and node C via node B, to verify the correctness of IP forwarding.</p>
-                       <p>The same experiment script can also be found in LabWiki. To run the experiment perform the following steps:<br>
-<ol>
-<li>Type "step3_threenode.rb" in the search box of the "Prepare widget" in LabWiki. Select the the script from the list of scripts that pops up.</li>
-<li>Drag the "notepad" icon from "Prepare" widget to the "Execute" widget.</li>
-<li>Check if all the specified parameters are correct.</li>
-<li>Start the experiment.</li>
-<ol></p>
-		</div>
+
+		<footer id="footer" role="contentinfo">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="footer-widget border">
+							<div class="col-md-4">
+							<p class="pull-left" class="col-md-4"><small>Contact Us<br/>Email: geni-users@googlegroups.com</small></p>
+							<ul class="social social-footer">
+								<li><a href="http://facebook.com/vcnl" target="_blank"><i class="icon-facebook"></i></a></li>
+								<li><a href="http://twitter.com/vcnl" target="_blank"><i class="icon-twitter"></i></a></li>
+								<li><a href="#"><i class="icon-linkedin"></i></a></li>
+							</ul>
+							</div>
+							<div class="col-md-4">
+								<img class="col-md-4 col-md-offset-5" width="90" height="90" align="left" alt="Logo2" src="images/umass-logo400.png">
+							</div>
+							<div class="col-md-4">
+							<p class="pull-left" class="col-md-4"><small>Related Links<br/><a href="www.geni.net">www.geni.net</a></small></p></div>
+							
+						</div>
+					</div>
+				</div>
+			</div>
+		</footer>
 	</div>
-	<div id="footer">
-		<div>
-			<div class="first">
-				<h3>VCNL</h3>
-				<div>
-				    <p>Contact Us<p>
-					<p>Email : <span>geni-users@googlegroups.com</span></p>
-				</div>
-			</div>
-			<div>
-				<h3>Subscribe</h3>
-				<div>
-					<a href="http://facebook.com/vcnl" class="facebook" target="_blank"></a>
-					<a href="http://twitter.com/vcnl" class="twitter" target="_blank"></a>
-					<a href="#" class="linked-in"></a>
-				</div>
-			</div>
-			<div>
-				<h3>Related Links</h3>
-				<div>
-				<a href="www.geni.net">www.geni.net</a>
-				</div>
-				<!--<p>Copyright &copy; <br /> All rights reserved</p> -->
-			</div>
-		</div>
-	</div>
-</body>
+	<!-- END: box-wrap -->
+	
+	<!-- jQuery -->
+	<script src="js/jquery.min.js"></script>
+	<!-- jQuery Easing -->
+	<script src="js/jquery.easing.1.3.js"></script>
+	<!-- Bootstrap -->
+	<script src="js/bootstrap.min.js"></script>
+	<!-- Waypoints -->
+	<script src="js/jquery.waypoints.min.js"></script>
+
+	<!-- Main JS (Do not remove) -->
+	<script src="js/main.js"></script>
+	
+	</body>
 </html>
 

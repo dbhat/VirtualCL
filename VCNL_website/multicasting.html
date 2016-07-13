@@ -97,19 +97,20 @@
 				<div class="row">
 					<div class="col-md-8 col-md-offset-2 animate-box">
 					<h2>Overview</h2>
-					<p>The purpose of this experiment is for students to learn about the multicasting , packet duplication, layer-2 ping application.</p>
+					<p>The purpose of this experiment is for students to learn about the multicasting, packet duplication, layer-2 ping application.</p>
 				</div>
 				</div>
 				<div class="row">
 					<div class="col-md-8 col-md-offset-2 animate-box">
 					<h2>Preparation</h2>
-					<p>A 5-node topology as shown in the figure below is used for this purpose. Three of the five nodes act as clients, one node is the server and the remaining node acts as the switch. In this assignment, the layer 2 ping application is used to show the functionality of multicasting. The goal of this assignment is to develop a mechanisms that duplicates packets at the switch and only forwards them to clients that have subscribed to the multicast group.
+					<p>Before starting this assignment you should have read and understood chapter 4 (Sec 4.7) in Computer Networking: A Top Down Approach by Kurose-Ross For additional understanding check out the chapter 4 exercises <a href="http://wps.pearsoned.com/ecs_kurose_compnetw_6/216/55463/14198700.cw/index.html"><i>here</i></a>.</p>
+					<p>A 5-node topology as shown in the figure below is used for this purpose. Three of the five nodes act as clients, one node is the server and the remaining node acts as the switch. In this assignment, the layer 2 ping application is used to show the functionality of multicasting. The goal of this assignment is to develop a mechanism that duplicates packets at the switch and only forwards them to clients that have subscribed to the multicast group.
 Separate applications run on the clients and the server for the purpose of sending and receiving join/leave messages. The server application initially creates a file called "hello1.txt". It writes the default values for all the available clients. '0' represents not being subscribed while '1' represents being subscribed. The default value is '0'. Each line in the file is in the format "(client_number, 0/1)". When a client sends a join message(1) to the server, the server will modify the appropriate entry in "hello1.txt". This file is used by the controller to get the list of subscribed clients. When clients sends a layer-2 ping, the server will make multiple copies depending on the number of subscribed clients and only those subscribed clients will receive the reply back from the server.</p>
 					<p>To realize multicasting, a Trema-based Openflow controller written in Ruby has to be designed and implemented. More about Trema can be found <a href="https://trema.github.io/trema/1"><i>here</i></a>.</p>
 					<div class="col-md-12 animate-box">
 						<div class="service col-md-6">
 						    <div class="service-icon">
-								<img style="width: 400px; margin-bottom: 5px;" src="http://groups.geni.net/geni/raw-attachment/wiki/GEC20Agenda/LabWiki/ModuleA/GEC20_simple_topo.png">
+								<img style="width: 400px; margin-bottom: 5px;" src="images/multicast.png">
 							</div>
 							
 						</div>

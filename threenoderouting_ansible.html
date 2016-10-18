@@ -1,0 +1,318 @@
+
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+	<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>VCNL | Three Node Routing (Ansible version)</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="keywords" content="free html5, free template, free bootstrap, html5, css3, mobile first, responsive" />
+	
+	<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+	<link rel="shortcut icon" href="favicon.ico">
+
+	<link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,300,700|Roboto:300,400' rel='stylesheet' type='text/css'>
+	
+	<!-- Animate.css -->
+	<link rel="stylesheet" href="css/animate.css">
+	<!-- Icomoon Icon Fonts-->
+	<link rel="stylesheet" href="css/icomoon.css">
+	<!-- Bootstrap  -->
+	<link rel="stylesheet" href="css/bootstrap.css">
+
+	<link rel="stylesheet" href="css/style.css">
+
+
+	<!-- Modernizr JS -->
+	<script src="js/modernizr-2.6.2.min.js"></script>
+	<!-- FOR IE9 below -->
+	<!--[if lt IE 9]>
+	<script src="js/respond.min.js"></script>
+	<![endif]-->
+
+	</head>
+	<body>
+	<div class="overlay">
+	  <div class="wrapper">
+		<div class="box"></div>
+		<div class="box"></div>
+		<div class="box"></div>
+		<div class="box"></div>
+	  </div>
+	</div>
+	<div class="box-wrap">
+		<header role="banner" id="fh5co-header">
+			<div class="container">
+				<nav class="navbar navbar-default">
+					<div class="row">
+						<div class="geni-logo col-md-3">
+							<div class="fh5co-navbar-brand">
+								<a class="fh5co-logo" href="index.html"><img src="images/geni_logo.png" alt="Closest Logo"></a>
+							</div>
+						</div>
+						<div class="col-md-7">
+							<ul class="nav text-center">
+								<li ><a href="index.html"><span>Home</span></a></li>
+								<li class="active"><a href="modules.html">Modules</a></li>
+								<li><a href="aboutUs.html">About Us</a></li>
+								<li><a href="faq.html">FAQ</a></li>
+								<li><a href="contact.html">Contact Us</a></li>
+							</ul>
+						</div>
+						<div class="col-md-2">
+							<ul class="social">
+								<li><a href="http://facebook.com/vcnl" target="_blank"><i class="icon-facebook"></i></a></li>
+								<li><a href="http://twitter.com/vcnl" target="_blank"><i class="icon-twitter"></i></a></li>
+								<li><a href="#"><i class="icon-linkedin"></i></a></li>
+							</ul>
+						</div>
+					</div>
+				</nav>
+		  </div>
+		</header>
+		<!-- END: header -->
+
+		<section id="product">
+			<div class="container">
+				<div class="row animate-box">
+					<div class="col-md-12 section-heading text-center">
+						<h2><u>E1: Three Node Routing</u></h2>
+					</div>
+				</div>
+				<div class="row">
+					<div class="post-entry">
+						<div class="col-md-8 col-md-offset-2">
+							<div class="post animate-box">
+								<div class="col-md-12"><a href="#link1"><img class="vidFrame" width="300px" src="images/video-thumbnail.png"></a></div>
+							</div>
+						</div>
+					</div>
+					<a href="#_" class="lightbox" id="link1">
+					  <iframe id="autoplayvideoframe" class="vidFrame" width="700" height="500" src="https://www.youtube.com/embed/GzW-2oux6Mo" frameborder="0" allowfullscreen></iframe>
+					</a>
+				</div>
+				<div class="row">
+					<div class="col-md-8 col-md-offset-2 animate-box">
+					<h2>Overview</h2>
+					<p>In this assignmment you will learn about the fundamentals of IP routing by setting up static routing in a 3-node topology. The Ping and Route applications will both be explored with LabWiki experiment scripts</p>
+					<p>
+							1. Verify that a slice has been set up correctly
+							<br>2. Establish static routes using the route command and enable IP forwarding
+							<br>3. Verify the correctness of static routing and IP forwarding
+					   
+					</p>
+				</div>
+				</div>
+				<div class="row">
+					<div class="col-md-8 col-md-offset-2 animate-box">
+					<h2>Preparation</h2>
+					<p>Before starting this assignment you should have read and understood chapter 4 in Computer Networking: A Top Down Approach by Kurose-Ross For additional understanding check out the chapter 4 exercises <a href="http://wps.pearsoned.com/ecs_kurose_compnetw_6/216/55463/14198700.cw/index.html"><i>here</i></a>.</p>
+					<p>Also you should understand the topology you will be utilizing for this tutorial. It can be found <a href="http://groups.geni.net/geni/wiki/GENIEducation/SampleAssignments/IPRouting/Procedure"><i>here</i></a>.</p>
+				</div>
+				</div>
+				<div class="row">
+					<div class="col-md-8 col-md-offset-2 animate-box">
+					<h2>Experiment</h2>
+					<h3><i>Verification of Topology</i></h3>
+					<p>After establishing the slice on which the experiment will be executed, it should be verified for correctness. In this tutorial, we use <a href="http://https://www.ansible.com/"><i>Ansible</i></a> to execute pings between neighbouring nodes. This tutorial uses a <a href="https://raw.githubusercontent.com/dbhat/VirtualCL/master/Assignments/IP%20forwarding/routetopology.png"><i>three-node topology</i></a>. A single playbook is used to verify the topology, setup routing and verify the forwarding. For the purpose of clarity, the three parts of the playbook are explained separately below</p>
+					<p><br/>
+					
+					</p>
+					<h3><i>Set up Routing and IP forwarding in Experiment Topology</i></h3>
+					<p>In this step static routing is set up using route command and IP forwarding is enabled.The same experiment script can also be found in LabWiki.</p>
+					<p><br/>
+					
+					</p>
+				</div>
+				</div>
+				<div class="row">
+					<div class="col-md-8 col-md-offset-2 animate-box">
+					<h2>Verification of Routing and IP forwarding</h2>
+					<p>After establishing the routing, we use Ansible commands to execute ping between node A and node C via node B, to verify the correctness of IP forwarding.</p>
+					<p>
+					
+							<br>1. If you have Omni installed on your machine use the command "$readyToLogin MYSLICE --useSliceAggregates --ansible-inventory -o" to create an inventory for the Ansible playbook and proceed to Step 4.
+						<br>2. If you do not have Omni installed, click on the "Details" button on the Slice page in the GENI Portal
+							<br>3. Scroll to the bottom of the screen and click on the link "Show Ansible Inventory" as shown in the following screenshot.
+						
+   					<br><div class="col-md-12 animate-box">
+                                                <div class="service">
+                                                        <div class="service-icon">
+                                                                <img class="vidFrame" style="width: 800px; margin-bottom: 5px;" src="images/ansible_inventory.png">
+                                                        </div>
+                                                </div><
+                                        </div></br>
+				</p><p>			<br>4. Using your favorite text editor, save the output to a file called inventory as explained in the <a href="http://groups.geni.net/geni/wiki/GENIExperimenter/Tutorials/AnsibleHelloGENI"><i>Ansible HelloGENI</i></a>.
+                                                        <br>5. Once you have filled in the route commands, execute the ansible playbook using the following command:
+ansible-playbook \<myfile.yml\> -i inventory <br>
+The following steps (4-6) are all part of a single Ansible playbook. The entire script can be found <a href="https://github.com/dbhat/VirtualCL/blob/master/Assignments/IP%20forwarding/ansible_IProute.yml"><i></i></a>at this link. Here, we provide an explanation for the relevant sections of the script.
+						
+					</p>
+					
+				</div>
+				</div>
+			 <div class="row">
+                                        <div class="col-md-8 col-md-offset-2 animate-box">
+                                        <h2>Test connectivity using ping</h2>
+					<p>This sections checks the local connectivity of each node to its neighboring node.</p>
+					<pre><code class="codeblock">- name: test NodeA
+   hosts: NodeA
+   sudo: True
+   tasks:
+    - name: ping seta1
+       shell:  "ping -c 5 192.168.1.11"
+       register: pingA1_test
+       failed_when: "'Timeout' in pingA1_test.stdout_lines"
+    - debug: var=pingA1_test.stdout_lines
+    - name: ping seta2
+       shell:  "ping -c 5 192.168.3.12"
+       register: pingA2_test
+       failed_when: "'Timeout' in pingA2_test.stdout_lines"
+    - debug: var=pingA2_test.stdout_lines
+  
+- name: test NodeB 
+  hosts: NodeB
+  sudo: True
+  tasks:
+   - name: ping setb1
+      shell:  "ping -c 5 192.168.1.10"
+      register: pingB1_test
+      failed_when: "'Timeout' in pingB1_test.stdout_lines"
+   - debug: var=pingB1_test.stdout_lines
+   - name: ping setb2
+      shell:  "ping -c 5 192.168.2.12"
+      register: pingB2_test
+      failed_when: "'Timeout' in pingB2_test.stdout_lines"
+   - debug: var=pingB2_test.stdout_lines
+   
+- name: test NodeC 
+  hosts: NodeC
+  sudo: True
+  tasks:
+   - name: ping setc1
+      shell:  "ping -c 5 192.168.3.10"
+      register: pingC1_test
+      failed_when: "'Timeout' in pingC1_test.stdout_lines"
+   - debug: var=pingC1_test.stdout_lines
+   - name: ping setc2
+      shell:  "ping -c 5 192.168.2.11"
+      register: pingC2_test
+      failed_when: "'Timeout' in pingC2_test.stdout_lines"
+   - debug: var=pingC2_test.stdout_lines</code></pre>
+				</div>
+				</div>
+				 <div class="row">
+                                        <div class="col-md-8 col-md-offset-2 animate-box">
+                                        <h2>Setup the routing</h2>
+					<p>The goal of this exercise is to setup the routing as indicated in the following <a href="http://groups.geni.net/geni/wiki/GENIEducation/SampleAssignments/IPRouting/ProcedureWithAnsible#IPv4RoutingAssignment"><i>figure</i></a> i.e. packets from A sent to IP address 192.168.2.12 on node C should be routed via node B. In order to create this routing behavior you will need to modify the routing tables in your nodes using the linux <a href="https://www.hscripts.com/tutorials/linux-commands/route.html"><i>route command</i></a></p>
+			        <pre><code class="codeblock">#Enter static routing commands here
+- name: route NodeA 
+  hosts: NodeA
+  sudo: True
+  tasks:
+   - name: rout seta1
+      shell:  ""
+      register: routA1_test
+   - debug: var=routA1_test.stderr_lines
+  
+- name: route NodeB 
+  hosts: NodeB
+  sudo: True
+  tasks:
+   - name: rout setb1
+      shell:  ""
+      register: routB1_test
+   - debug: var=routB1_test.stderr_lines
+
+- name: route NodeC
+  hosts: NodeC
+  sudo: True
+  tasks:
+   - name: rout setc1
+      shell:  ""
+      register: routC1_test
+   - debug: var=routC1_test.stderr_lines
+
+</code></pre>	
+<h3>Questions:</h3>
+<p>
+1. Setup the routing from A to 192.68.2.12 so that it goes through B. Was it enough to just modify the routing tables? What else did you need to change in order for the traffic to flow?				
+</p>
+</div>
+				</div>
+				 <div class="row">
+                                        <div class="col-md-8 col-md-offset-2 animate-box">
+				<p>This part of the script is used to test the new route setup.</p>
+				<pre><code class="codeblock">#Test New route setup
+- name: testroute NodeA 
+  hosts: NodeA
+  sudo: True
+  tasks:
+   - name: ping seta1
+     shell:  "ping -c 5 192.168.2.12"
+     register: pingA1_test
+     failed_when: "'Timeout' in pingA1_test.stdout_lines"
+   - debug: var=pingA1_test.stdout_lines
+   </code></pre>
+  <p> Once you have filled in the route commands, execute the ansible playbook using the following command:</p>
+<pre><code class="inline">ansible-playbook <myfile.yml> -i inventory</code></pre>
+<h3>What to hand in:</h3>
+<p>When you are ready to submit your assignment, copy and paste the output of the above command into a text file.</p>
+				</div>
+				</div>
+				<!--- <h2>Tips</h2>
+				                <p>
+						- If you get a "Command not found " error when executing standard commands like ifconfig add sbin to your path:<pre><code class="inline">export PATH=$PATH:/sbin</code></pre></p>
+						<br>- Remember that you can use “ifconfig” to determine which Ethernet interface (e.g., eth0) is bound to what IP address at each of the nodes. 
+						<br>- In order to enable IP forwarding of packets on a node you have to execute the following command:<pre><code class="inline">sudo sh -c 'echo 1 /proc/sys/net/ipv4/ip_forward'</code></pre><br>- A new slice will always be in its initial state with NO routing set up!
+<br>A useful tool to debug the packet flow is <a href="http://www.tcpdump.org/"><i>tcpdump.</i></a> In order to install it run:<pre><code>sudo apt-get install tcpdump</code></pre>
+</p> -->
+			</div>
+		</section>
+		
+
+		<footer id="footer" role="contentinfo">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="footer-widget border">
+							<div class="col-md-4">
+							<p class="pull-left" class="col-md-4"><small>Contact Us<br/>Email: geni-users@googlegroups.com</small></p>
+							<ul class="social social-footer">
+								<li><a href="http://facebook.com/vcnl" target="_blank"><i class="icon-facebook"></i></a></li>
+								<li><a href="http://twitter.com/vcnl" target="_blank"><i class="icon-twitter"></i></a></li>
+								<li><a href="#"><i class="icon-linkedin"></i></a></li>
+							</ul>
+							</div>
+							<div class="col-md-4">
+								<img class="col-md-4 col-md-offset-5" width="90" height="90" align="left" alt="Logo2" src="images/umass-logo400.png">
+							</div>
+							<div class="col-md-4">
+							<p class="pull-left" class="col-md-4"><small>Related Links<br/><a href="www.geni.net">www.geni.net</a></small></p></div>
+							
+						</div>
+					</div>
+				</div>
+			</div>
+		</footer>
+	</div>
+	<!-- END: box-wrap -->
+	
+	<!-- jQuery -->
+	<script src="js/jquery.min.js"></script>
+	<!-- jQuery Easing -->
+	<script src="js/jquery.easing.1.3.js"></script>
+	<!-- Bootstrap -->
+	<script src="js/bootstrap.min.js"></script>
+	<!-- Waypoints -->
+	<script src="js/jquery.waypoints.min.js"></script>
+
+	<!-- Main JS (Do not remove) -->
+	<script src="js/main.js"></script>
+	
+	</body>
+</html>
+

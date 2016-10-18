@@ -1,0 +1,352 @@
+
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+	<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>VCNL | Network Address Translation</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="keywords" content="free html5, free template, free bootstrap, html5, css3, mobile first, responsive" />
+	
+	<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+	<link rel="shortcut icon" href="favicon.ico">
+
+	<link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,300,700|Roboto:300,400' rel='stylesheet' type='text/css'>
+	
+	<!-- Animate.css -->
+	<link rel="stylesheet" href="css/animate.css">
+	<!-- Icomoon Icon Fonts-->
+	<link rel="stylesheet" href="css/icomoon.css">
+	<!-- Bootstrap  -->
+	<link rel="stylesheet" href="css/bootstrap.css">
+
+	<link rel="stylesheet" href="css/style.css">
+
+
+	<!-- Modernizr JS -->
+	<script src="js/modernizr-2.6.2.min.js"></script>
+	<!-- FOR IE9 below -->
+	<!--[if lt IE 9]>
+	<script src="js/respond.min.js"></script>
+	<![endif]-->
+
+	</head>
+	<body>
+	<div class="overlay">
+	  <div class="wrapper">
+		<div class="box"></div>
+		<div class="box"></div>
+		<div class="box"></div>
+		<div class="box"></div>
+	  </div>
+	</div>
+	<div class="box-wrap">
+		<header role="banner" id="fh5co-header">
+			<div class="container">
+				<nav class="navbar navbar-default">
+					<div class="row">
+						<div class="geni-logo col-md-3">
+							<div class="fh5co-navbar-brand">
+								<a class="fh5co-logo" href="index.html"><img src="images/geni_logo.png" alt="Closest Logo"></a>
+							</div>
+						</div>
+						<div class="col-md-7">
+							<ul class="nav text-center">
+								<li ><a href="index.html"><span>Home</span></a></li>
+								<li class="active"><a href="modules.html">Modules</a></li>
+								<li><a href="aboutUs.html">About Us</a></li>
+								<li><a href="faq.html">FAQ</a></li>
+								<li><a href="contact.html">Contact Us</a></li>
+							</ul>
+						</div>
+						<div class="col-md-2">
+							<ul class="social">
+								<li><a href="http://facebook.com/vcnl" target="_blank"><i class="icon-facebook"></i></a></li>
+								<li><a href="http://twitter.com/vcnl" target="_blank"><i class="icon-twitter"></i></a></li>
+								<li><a href="#"><i class="icon-linkedin"></i></a></li>
+							</ul>
+						</div>
+					</div>
+				</nav>
+		  </div>
+		</header>
+		<!-- END: header -->
+
+		<section id="product">
+			<div class="container">
+				<div class="row animate-box">
+					<div class="col-md-12 section-heading text-center">
+						<h2><u>E5: Network Address Translation (NAT)</u></h2>
+					</div>
+				</div>
+				<div class="row">
+					<div class="post-entry">
+						<div class="col-md-8 col-md-offset-2">
+							<div class="post animate-box">
+								<div class="col-md-12"><a href="#link1"><img class="vidFrame" width="300px" src="images/video-thumbnail.png"></a></div>
+							</div>
+						</div>
+					</div>
+					<a href="#_" class="lightbox" id="link1">
+					  <iframe id="autoplayvideoframe" class="vidFrame" width="700" height="500" src="https://www.youtube.com/embed/4jv2VT7JH6A" frameborder="0" allowfullscreen></iframe>
+					</a>
+				</div>
+				<div class="row">
+					<div class="col-md-8 col-md-offset-2 animate-box">
+					<h2>Overview</h2>
+					<p>This lab assignment involves the implementation of a simple NAT that can handle ICMP and TCP. Network address translation (NAT) is a method of remapping one IP address space into another by modifying network address information in Internet Protocol (IP) datagram packet headers while they are in transit across a traffic routing device.</p>
+				</div>
+				</div>
+				<div class="row">
+					<div class="col-md-8 col-md-offset-2 animate-box">
+					<h2>Preparation</h2>
+					<p>The goal of this assignment is to simulate the working of a simple NAT. In the topology shown in the figure, we will create a NAT that sits in Mininet between the app servers and the client. The internal interface of the NAT faces the client, while the external interfaces are connected to app servers. The app servers are "outside" the NAT, while the client is "inside."</p>
+					<p>The topology of NAT is as follows, where the NAT's internal interface (eth1) faces the client and its external interface (eth2) has two application servers connected with a switch: 
+					<br/>To know more about learning-switch, check out this <a href="https://www.opennetworking.org/images/stories/downloads/sdn-resources/white-papers/wp-sdn-newnorm.pdf"><i>link</i></a>.
+					<br/>To know more about the POX controller, check out this <a href="https://openflow.stanford.edu/display/ONL/POX+Wiki"><i>link</i></a>.</p>
+					<div class="col-md-12 animate-box">
+						<div class="service col-md-6">
+							<div class="service-icon">
+								<img style="width: 400px; margin-bottom: 5px;" src="images/NAT_Diagram.png">
+							</div><br>
+							<h3>NAT Flow Diagram</h3>
+						</div>
+					</div>
+				</div>
+				</div>
+				<div class="row">
+					<div class="col-md-8 col-md-offset-2 animate-box">
+					<h2>Experiment</h2>
+					<p>For this experiment you can use the following RSpecs made available on the <a href="https://portal.geni.net"><i>GENI Portal</i></a>.<br/>
+					 
+							<br>- Extended Learning Switch - IG-learning-switch-extended
+						 
+			                </p>	
+					<h3>Testing with Mininet</h3>
+					<p>
+					To test the working of your controller before deploying it in GENI, you can use <a href="http://mininet.org/">Mininet</a>. The steps are as follows:
+					<br>1. Download and install the Mininet VM using the instructions <a href="http://mininet.org/download/#option-1-mininet-vm-installation-easy-recommended">here</a>.
+					<br>2. Download and install PoX inside the Mininet VM using the following <a href="https://openflow.stanford.edu/display/ONL/POX+Wiki#POXWiki-InstallingPOX">link</a>.
+					<br>3. Open up a terminal on your machine, download the skeleton code for "NAT" using git with the following commands:</i>
+					<pre> > cd ~
+                    <br> > git clone https://huangty@bitbucket.org/huangty/cs144_lab5.git
+					<br> > git clone https://huangty@bitbucket.org/huangty/cs144_lab3.git
+                    <br> > cd cs144_lab5
+                    <br> > git checkout --track remotes/origin/standalone</pre>	
+					</p><p>
+					<br>4. The skeleton code resides in router/. The router directory is the starter code for both "Simple Router" and "NAT". If you have implemented "Simple Router", you should make a copy of your "Simple Router" into the NAT directory as follows:
+					<pre> > pwd
+					<br> > /home/ubuntu/cs144_lab5
+					<br> > rm router
+					<br> > cp -r ~/cs144_lab3/router ./</pre>
+					</p><p>
+					<br>5. Now untar the file sr_nat_table.tar. Then you will find two files, sr_nat.c and sr_nat.h. You also need to copy the rtable into the directory.
+					<pre> > tar xf sr_nat_table.tar
+					<br> > mv sr_nat.c ./router/
+					<br> > mv sr_nat.h ./router/
+					<br> > cp ./rtable ./router/</pre>
+					</p>
+					<h3>Testing the Connectivity</h3>
+					<p> 
+					 <br>1. First, Configure the envirnoment by running the following command:</br>
+                     <pre> > ./config.sh </pre></p>
+					 <div class="col-md-12 animate-box">
+                                                <div class="service col-md-6">
+                                                        <div class="service-icon">
+                                                                <img style="width: 800px; margin-bottom: 5px;" src="images/run_config.png">
+                                                        </div>
+                                                </div>
+                                        </div>
+					
+					 <p><br>2. Next, Start the mininet:</br>
+					 <pre> > ./run_mininet.sh </pre></p>
+					 <p><div class="col-md-12 animate-box">
+                                                <div class="service col-md-6">
+                                                        <div class="service-icon">
+                                                                <img style="width: 800px; margin-bottom: 5px;" src="images/run_mininet.png">
+                                                        </div>
+                                                </div>
+                                        </div></p>
+					 <p><br>3. Further, Start NAT Reference Solution (Note that “-n” means NAT is enabled):
+					 <pre> >./sr_nat -n </pre><br>
+					 <div class="col-md-12 animate-box">
+                                                <div class="service col-md-6">
+                                                        <div class="service-icon">
+                                                                <img style="width: 800px; margin-bottom: 5px;" src="images/sr_NAT.png">
+                                                        </div>
+                                                </div>
+                                        </div>
+					 </p>
+					 <p>4. Next, To see whether the NAT is doing the translation, let’s do a tcpdump at server1 and observe the packet is going to be received at the server 1. To do so, go to the terminal where you run the Mininet, type the following command in the Mininet command line interface (CLI) to bring up the terminal of server1:
+					 <pre> > mininet> xterm server1 </pre>
+					 <p> Then in the server1 terminal:</br>
+					 <pre> > tcpdump -n -i server1-eth0 </pre></p>
+					 <p> Now, back to the Mininet CLI to send some ping packets from client to server1:</br>
+					 <pre> mininet> client ping -c 3 172.64.3.21 </pre></p>
+					 <p>On the Mininet CLI, you should be able to see the following output:<br>
+					 <div class="col-md-12 animate-box">
+                                                <div class="service col-md-6">
+                                                        <div class="service-icon">
+                                                                <img style="width: 800px; margin-bottom: 5px;" src="images/mininet_ping.png">
+                                                        </div>
+                                                </div>
+                                        </div>
+					 <p> Verify the output on the server1 terminal. You Should note that the packets received at server1 is from 172.64.3.1, which is the IP of NAT's external interface, instead of 10.0.1.100, the IP of the client host.</p>	
+					 <div class="col-md-12 animate-box">
+                                                <div class="service col-md-6">
+                                                        <div class="service-icon">
+                                                                <img style="width: 800px; margin-bottom: 5px;" src="images/NAT_Diagram1.png">
+                                                        </div>
+                                                </div>
+                                        </div>
+					 <p> Back to the terminal where you run “./sr_nat -n”, use control-c to stop the current “./sr_nat -n” process, and run the following command:
+					 <pre> > ./sr_nat </pre></p>
+					 <p> Also using tcpdump on server1's terminal to see the packets reaches server1:
+					 <pre> > server1 tcpdump -n -i server1-eth0 </pre></p>
+					 <p> On the server1 terminal, you should be able to see the following output:
+					 <div class="col-md-12 animate-box">
+                                                <div class="service col-md-6">
+                                                        <div class="service-icon">
+                                                                <img style="width: 800px; margin-bottom: 5px;" src="images/tcpdump.png">
+                                                        </div>
+                                                </div>
+                                        </div></p>
+					 
+				</p>
+				</div>
+				</div>	
+				<div class="row">
+					<div class="col-md-8 col-md-offset-2 animate-box">
+					<h2>Verification</h2>
+					<p>To get started with LabWiki point your browser <a href="http://labwiki.casa.umass.edu"><i>here</i></a></p>
+					<p>Labwiki has three main window panes.</p>
+					<h3><i>The "Plan" Window</i></h3>
+					<p>We will focus on the leftmost pane first. This is the "Plan" window in which you document your experiment. (This is somewhat the equivalent of an electronic lab journal.) Documents are written in <a href="http://daringfireball.net/projects/markdown/"><i>Markdown.</i></a><br/>
+					<p>At the top of that window is a text field which you can use to search for existing MD scripts. Type "GEC22-learningswitch" in the field and then select "GEC22-learningswitch.md" from the list of files that are offered. This document has some information on the experiment that will be performed in Module A of the tutorial.</p>
+					<p>To edit Markdown scripts use the Prepare window by selecting the option "Wiki" from the menu shown.</p>
+					<h3><i>The "Prepare" Window</i></h3>
+					<p>The "Prepare" (middle) window allows you to define your experiment through an OMF experiment script specified in OMF Experiment Description Language (OEDL). At the top of that window is a text field which you can use to search for existing OEDL scripts. Type "GEC22" in the field and then select "GEC22-learningswitch.oedl" (If you are running the extended learning switch, type "GEC22learningswitchextend.oedl") from the list of files that are offered. This shows the experiment script in the field below.<br/>
+					<h3><i>The "Execute" Window</i></h3>
+					<p>To start your experiment, simply drag the icon that is to the left of the file name (see figure below) from the middle (Prepare) to the right (Execute) window. That will automatically fill out the experiment relevant information in this window
+					Explanation of the fields in the Execute window: 
+			       <br> <div class="col-md-12 animate-box">
+                                                <div class="service">
+                                                        <div class="service-icon">
+                                                                <img class="vidFrame" style="width: 800px; margin-bottom: 5px;" src="http://groups.geni.net/geni/raw-attachment/wiki/GEC22Agenda/LabWiki/ModuleA/Execute/LW-execute.png">
+                                                        </div>
+                                                </div><br/>
+                                        </div><p>	
+						<br>1. <u>Name:</u> In this field you specify the name of your experiment.
+						<br>2. <u>Project:</u> This pull-down menu list all the projects you are currently a member of. Select the project that contains the slice you want to run your experiment on.
+						<br>3. <u>Experiment Context:</u> With the context you can specify a certain set of experiments. E.g., a series of experiments you run under a certain set of startup parameters. This field is not mandatory and only necessary if you would like to save your experiment data to view later.
+						<br>4. <u>Slice:</u> This pull down menu lists all slice that have been created under "project". Select the slice you would like to run your experiment on.</br>
+					</p>
+					<p>Change source1 and source2 fields to include your slice name similar to nodea- Then, start the actual experiment by clicking on the "Start Experiment" button.</p>
+				<!---	<br><div class="col-md-12 animate-box">
+						<div class="service">
+							<div class="service-icon">
+								<img class="vidFrame" style="width: 800px; margin-bottom: 5px;" src="http://groups.geni.net/geni/raw-attachment/wiki/GEC22Agenda/LabWiki/ModuleA/Execute/LW-execute.png">
+							</div>
+						</div><br/>
+					</div> --->
+					<p>After pressing the "Start" button, the Execute window will change and start showing status information about your experiment. The figure below gives an example for the Execute window during experiment execution.</p>
+					<div class="col-md-12 animate-box">
+						<div class="service">
+							<div class="service-icon">
+								<img class="vidFrame" style="width: 800px; margin-bottom: 5px;" src="http://groups.geni.net/geni/raw-attachment/wiki/GEC22Agenda/LabWiki/ModuleA/Execute/LW-executing.png"><br>
+							</div></br>
+						</div>
+					</div>
+					<br><p>Now the window lists experiment properties, one or several live graphs (if they have been specified in the OEDL script), and logging information. The latter would be a good starting point for trouble shooting, should your experiment not run as expected. Depending on the status of your resources and experiments, you will see one of the following statuses at the top of the Execute window: </br>
+					
+							<br>1. <u>Pending</u> - This is the first state of your experiment where the job scheduler adds it to the run queue. This status would remain for the first few seconds before it changes to Running or Failed 
+							<br>2. <u>Running</u> - This status appears when your experiment starts running. If it fails for one or more reasons, a Failed status will appear instead 
+							<br>3. <u>Aborted</u> - When you click on "Stop Experiment" at the top-left corner of the Execute window, the status changes to aborted
+							<br>4. <u>Finished</u> - When your experiment is done, you will see this status.</br>
+					
+					</p>
+					<h3><br>Note to Students</h3>
+					<p>
+							- Once the experiment is complete, students have to create a new Markdown file for submission. You can create your own Markdown from scratch or copy the contents of the sample Markdown created by the instructor. Then can drag the graphs of the experiment into the file and and include necessary details about the experiment. When you are ready to submit the file, you can click "share page" icon in the leftmost-corner of plan panel of Labwiki.</br>
+							<br>- The "Share Page" creates a submission file with the student's user name in the submission repository</br>
+						
+					</p>
+					<div class="col-md-12 animate-box">
+						<div class="service">
+							<div class="service-icon">
+								<img class="vidFrame" style="width: 800px; margin-bottom: 5px;" src="images/studentsubmit.png"><br>
+							</div></br>
+						</div>
+					</div>
+					<h3>Note to Instructors</h3>
+					<p>
+							- Students can be asked to implement a particular functionality of the OpenFlow controller. A template should be given to them.<br>
+							<br>- LabWiki has a new feature that enables the instructor to auto-grade the students' experiments. LabWiki allows graders to write a user-defined event, which is triggered when an experiment-generated measurement reaches a specific value. In the script below, MY_EVENT is the user-defined event. The function will be called every 0.5 seconds. It queries the specified stats and checks if Node A is able to ping all other nodes. The event will be triggered once that condition is satisfied. Then, ping application to itself is started on Node A. If a ping to the IP address of Node A is also seen on the graph, the experiment ran successfully.</br>
+							<br>- To view students' submissions open a Markdown called "submission.md" in the Plan window. This file contains links to all student submissions. Click on the link you wish to grade.</br>
+						
+					</p>
+					<div class="col-md-12 animate-box">
+						<div class="service col-md-6">
+							<div class="service-icon">
+								<img style="width: 400px; margin-bottom: 5px;" src="images/submission.png">
+							</div>
+							<h3>Select submission</h3>
+						</div>
+						<div class="service col-md-6">
+							<div class="service-icon">
+								<img style="width: 400px; margin-bottom: 5px;" src="images/studentsubmission.png">
+							</div>
+							<h3>View Submission</h3>
+						</div>
+					</div>
+				</div>
+				</div>
+			</div>
+		</section>
+		
+
+		<footer id="footer" role="contentinfo">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="footer-widget border">
+							<div class="col-md-4">
+							<p class="pull-left" class="col-md-4"><small>Contact Us<br/>Email: geni-users@googlegroups.com</small></p>
+							<ul class="social social-footer">
+								<li><a href="http://facebook.com/vcnl" target="_blank"><i class="icon-facebook"></i></a></li>
+								<li><a href="http://twitter.com/vcnl" target="_blank"><i class="icon-twitter"></i></a></li>
+								<li><a href="#"><i class="icon-linkedin"></i></a></li>
+							</ul>
+							</div>
+							<div class="col-md-4">
+								<img class="col-md-4 col-md-offset-5" width="90" height="90" align="left" alt="Logo2" src="images/umass-logo400.png">
+							</div>
+							<div class="col-md-4">
+							<p class="pull-left" class="col-md-4"><small>Related Links<br/><a href="www.geni.net">www.geni.net</a></small></p></div>
+							
+						</div>
+					</div>
+				</div>
+			</div>
+		</footer>
+	</div>
+	<!-- END: box-wrap -->
+	
+	<!-- jQuery -->
+	<script src="js/jquery.min.js"></script>
+	<!-- jQuery Easing -->
+	<script src="js/jquery.easing.1.3.js"></script>
+	<!-- Bootstrap -->
+	<script src="js/bootstrap.min.js"></script>
+	<!-- Waypoints -->
+	<script src="js/jquery.waypoints.min.js"></script>
+
+	<!-- Main JS (Do not remove) -->
+	<script src="js/main.js"></script>
+	
+	</body>
+</html>
+
